@@ -1,0 +1,22 @@
+.editor-wrap {
+    display: flex;
+    justify-content: flex-start;
+    height: 100%;
+
+    .button-bar-wrap {
+        width: 26px;
+        background-color: #f3f3f3;
+    }
+
+    .editor-edit-area {
+        padding: 10px 25px 648px;
+        flex: 1;
+        background-color: #ffffff;
+    }
+
+    .editor-preview-area {
+        padding: 10px 25px 648px;
+        flex: 1;
+        background-color: #f3f3f3;
+    }
+}

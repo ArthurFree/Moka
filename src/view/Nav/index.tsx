@@ -1,10 +1,11 @@
 import React from 'react';
+import './index.scss';
 
 export default class Nav extends React.Component {
     render() {
         return (
             <div className="nav-wrap">
-                这里是 Nav
+                Nav
             </div>
         );
     }
