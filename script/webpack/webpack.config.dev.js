@@ -54,7 +54,7 @@ module.exports = merge(common, {
                         loader: 'postcss-loader',
                         options: {
                             postcssOptions: {
-                                config: path.join('./postcss.js'),
+                                config: path.join(__dirname, './postcss.js'),
                             },
                             sourceMap: true,
                         },
@@ -97,7 +97,7 @@ module.exports = merge(common, {
                         loader: 'postcss-loader',
                         options: {
                             postcssOptions: {
-                                config: path.join('./postcss.js'),
+                                config: path.join(__dirname, './postcss.js'),
                             },
                             sourceMap: true,
                         },
@@ -141,7 +141,7 @@ module.exports = merge(common, {
                         loader: 'postcss-loader',
                         options: {
                             postcssOptions: {
-                                config: path.join('./postcss.js'),
+                                config: path.join(__dirname, './postcss.js'),
                             },
                             sourceMap: true,
                         },
