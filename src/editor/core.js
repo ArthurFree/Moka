@@ -24,10 +24,14 @@ const moka = function (contentElt) {
     let watcher;
     function checkContentChange (mutations) {
         console.log('--- check content change ---');
+
+        const newTextContent = getTextContent();
     }
 
     watcher = new moka.Watcher(editor, checkContentChange);
     watcher.startWatching();
+
+    editor.watcher = watcher;
 };
 
 export default moka;

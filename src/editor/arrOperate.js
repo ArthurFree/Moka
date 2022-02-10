@@ -1,7 +1,7 @@
-const arrProperties = {};
-const objectProperties = {};
+let arrayProperties = {};
+let objectProperties = {};
 
-arrProperties.m_each = (cb) => {
+arrayProperties.m_each = (cb) => {
     let i = 0;
     const { length } = this;
 
@@ -9,6 +9,29 @@ arrProperties.m_each = (cb) => {
         cb(this[i], i, this);
     }
 };
+
+arrayProperties.m_some = (cb) => {
+    let i = 0;
+    let { length } = this;
+
+    for (; i < length; i++) {
+        if (cb(this[i], i, this)) {
+            return true;
+        }
+    }
+};
+
+arrayProperties.m_map = (cb) => {
+    let i = 0;
+    const { length } = this;
+    const result = Array(length);
+
+    for (; i < length; i++) {
+        result[i] = cb(this[i], i, this);
+    }
+
+    return result;
+}
 
 objectProperties.m_each = function (cb) {
     let i = 0;
@@ -42,4 +65,24 @@ function build(properties) {
 
         return memo;
     }, {});
+}
+
+arrayProperties = build(arrayProperties);
+objectProperties = build(objectProperties);
+
+Object.defineProperties(Array.prototype, arrayProperties);
+Object.defineProperties(Int8Array.prototype, arrayProperties);
+Object.defineProperties(Uint8Array.prototype, arrayProperties);
+Object.defineProperties(Uint8ClampedArray.prototype, arrayProperties);
+Object.defineProperties(Int16Array.prototype, arrayProperties);
+Object.defineProperties(Uint16Array.prototype, arrayProperties);
+Object.defineProperties(Int32Array.prototype, arrayProperties);
+Object.defineProperties(Uint32Array.prototype, arrayProperties);
+Object.defineProperties(Float32Array.prototype, arrayProperties);
+Object.defineProperties(Float64Array.prototype, arrayProperties);
+Object.defineProperties(Object.prototype, objectProperties);
+
+if (typeof window !== 'undefined') {
+    // Object.defineProperties(HTMLCollection.prototype, liveCollectionProperties)
+    // Object.defineProperties(NodeList.prototype, liveCollectionProperties)
 }
