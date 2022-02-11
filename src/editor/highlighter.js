@@ -212,7 +212,7 @@ function Highlighter(editor) {
             newSectionEltList.appendChild(section.elt);
         });
 
-        editor.watcher.noWatcher(() => {
+        editor.watcher.noWatch(() => {
             if (isInit) {
                 contentElt.innerHTML = '';
                 contentElt.appendChild(newSectionEltList);
