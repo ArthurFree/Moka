@@ -5,7 +5,7 @@ export default class Editor extends React.Component {
     render() {
         return (
             <div className="editor-wrap">
-                <div className="editor-edit-area">
+                <div className="editor-edit-area" contentEditable="true">
                     这里是编辑区域
                 </div>
                 <div className="button-bar-wrap">

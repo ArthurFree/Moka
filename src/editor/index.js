@@ -12,12 +12,12 @@ export default {
 
         this.createEditor(editorElt);
 
-        this.editor.on('contentChanged', (content, diffs, sectionList) => {
+        /* this.editor.on('contentChanged', (content, diffs, sectionList) => {
             this.parsingCtx = {
                 ...this.parsingCtx,
                 sectionList,
             };
-        });
+        }); */
     },
 
     createEditor(editorElt) {
