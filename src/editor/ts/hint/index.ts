@@ -26,9 +26,9 @@ export class Hint {
         if (!window.getSelection().focusNode) {
             return;
         }
-        let currentLineValue: string;
+        // let currentLineValue: string;
         const range = getSelection().getRangeAt(0);
-        currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
+        const currentLineValue: string = range.startContainer.textContent.substring(0, range.startOffset) || "";
 
         const key = this.getKey(currentLineValue, vditor.options.hint.extend);
 

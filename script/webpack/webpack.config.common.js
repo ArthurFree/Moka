@@ -34,17 +34,18 @@ module.exports = {
             IS_PROD: isProd,
             IS_DEV: isDev,
             IS_DEV_SERVER: isDevServer,
+            VDITOR_VERSION: JSON.stringify('3.8.11'),
         }),
-        new ForTsCheckerWebpackPlugin({
-            async: isDev,
-            typescript: {
-                configFile: path.join(rootDir, '/tsconfig.json'),
-            },
-            eslint: {
-                enabled: true,
-                files: './src/**/*.{ts,tsx,js,jsx}'
-            },
-        }),
+        // new ForTsCheckerWebpackPlugin({
+        //     async: isDev,
+        //     typescript: {
+        //         configFile: path.join(rootDir, '/tsconfig.json'),
+        //     },
+        //     // eslint: {
+        //     //     enabled: true,
+        //     //     files: './src/**/*.{ts,tsx,js,jsx}'
+        //     // },
+        // }),
         new ESLintPlugin({
             context: src,
             extensions: ['js', 'jsx', 'ts', 'tsx'],
@@ -67,9 +68,9 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
-                options: {
-                    transpileOnly: true,
-                },
+                // options: {
+                //     transpileOnly: true,
+                // },
                 exclude: /node_modules/,
             },
             {
