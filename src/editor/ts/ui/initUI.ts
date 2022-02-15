@@ -5,11 +5,11 @@ import {accessLocalStorage} from "../util/compatibility";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
 
-declare global {
+/* declare global {
     interface Window {
         visualViewport: HTMLElement;
     }
-}
+} */
 
 export const initUI = (vditor: IVditor) => {
     vditor.element.innerHTML = "";

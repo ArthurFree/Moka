@@ -2,16 +2,16 @@
     "compilerOptions": {
         "outDir": "./dist",
         "module": "esnext",
-        "target": "es6",
-        "lib": ["es6", "dom"],
+        "target": "es5",
+        "lib": ["dom", "ESNext"],
         "sourceMap": true,
         "allowJs": true,
         "jsx": "react",
         "moduleResolution": "node",
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
+        // "noImplicitReturns": true,
+        // "noImplicitThis": true,
         "noImplicitAny": true,
-        "strictNullChecks": true,
+        // "strictNullChecks": true,
         "baseUrl": "./",
         "rootDir": "./",
         "typeRoots": ["./node_modules/@types", "./src/@types"],
@@ -22,10 +22,11 @@
             "@components/*": ["src/components/*"],
             "@view/*": ["src/view/*"]
         },
+        "declaration": true,
         "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "importsNotUsedAsValues": "preserve",
-        "incremental": true
+        // "esModuleInterop": true,
+        // "importsNotUsedAsValues": "preserve",
+        // "incremental": true
     },
     "include": ["src"],
     "exclude": ["**/node_modules", "**/.*/"]
