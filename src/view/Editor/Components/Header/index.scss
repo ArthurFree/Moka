@@ -1,0 +1,15 @@
+.header-wrap {
+    padding: 0 12px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    line-height: 1.5;
+    user-select: none;
+
+    .header-toggle-nav {
+        padding: 12px;
+        width: 24px;
+        height: 24px;
+    }
+}

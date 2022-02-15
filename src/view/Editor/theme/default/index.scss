@@ -1,0 +1,28 @@
+$fontFamily: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+
+$HeaderHeight: 37px;
+$HeaderFontSize: 14px;
+$HeaderFontColor: #37352f;
+$HeaderBgColor: #ffffff;
+
+$NavFontSize: 14px;
+$NavFontColor: #37352f;
+$NavBgColor: #ffffff;
+
+.editor-wrap.moka--default {
+
+    .header-wrap {
+        height: $HeaderHeight;
+        background-color: $HeaderBgColor;
+        color: $HeaderFontColor;
+        font-size: $HeaderFontSize;
+        font-family: $fontFamily;
+    }
+
+    .editor-nav-wrap {
+        background-color: $NavBgColor;
+        color: $NavFontColor;
+        font-size: $NavFontSize;
+        font-family: $fontFamily;
+    }
+}

@@ -1,11 +1,13 @@
 import React from 'react';
+import Header from './Components/Header/index';
+import Nav from './Components/Nav/index';
 import Vidtor from '../../editor/index';
 import './index.scss';
 
 export default class Editor extends React.Component {
     componentDidMount() {
         const vditor = new Vidtor('vditor', {
-            height: 360,
+            height: '100%',
             toolbarConfig: {
                 pin: true,
             },
@@ -33,7 +35,17 @@ export default class Editor extends React.Component {
     */
     render() {
         return (
-            <div id="vditor"></div>
+            <div className="editor-wrap">
+                <Header />
+                <div className="editor-content">
+                    <div className="editor-nav-wrap">
+                        <Nav />
+                    </div>
+                    <div className="editor">
+                        <div id="vditor"></div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

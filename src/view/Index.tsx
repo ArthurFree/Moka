@@ -8,8 +8,9 @@ const App = (): React.ReactElement => (
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Layout />}>
-                <Route path="/editor" element={<Editor />} />
+                <Route path="/edit" element={<Editor />} />
             </Route>
+            <Route path="/editor" element={<Editor />} />
         </Routes>
     </BrowserRouter>
 );

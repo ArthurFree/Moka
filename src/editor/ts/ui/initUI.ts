@@ -18,6 +18,9 @@ export const initUI = (vditor: IVditor) => {
     setContentTheme(vditor.options.preview.theme.current, vditor.options.preview.theme.path);
     if (typeof vditor.options.height === "number") {
         vditor.element.style.height = vditor.options.height + "px";
+    } else {
+        // height 支持 % / vw / vh 形式
+        vditor.element.style.height = vditor.options.height;
     }
     if (typeof vditor.options.minHeight === "number") {
         vditor.element.style.minHeight = vditor.options.minHeight + "px";
