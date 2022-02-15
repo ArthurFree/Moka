@@ -2,7 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const ForTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const { ProvidePlugin, DefinePlugin } = require('webpack');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const { ProvidePlugin, DefinePlugin, /* DllPlugin, */ DllReferencePlugin, webpack, } = require('webpack');
 
 const { rootDir, src, dist, config, public } = require('../const/paths');
 const { isDev, isDevServer, isProd, mode } = require('../const/env');
@@ -22,15 +23,15 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Editor',
-            inject: true,
+            inject: 'body',
             filename: 'index.html',
             template: path.join(rootDir, './script/webpack', './index.html'),
         }),
         new ProvidePlugin({}),
         new DefinePlugin({
-            'process.env': {
+            /* 'process.env': {
                 NODE_ENV: JSON.stringify(mode),
-            },
+            }, */
             IS_PROD: isProd,
             IS_DEV: isDev,
             IS_DEV_SERVER: isDevServer,
@@ -55,6 +56,25 @@ module.exports = {
             exclude: ['node_modules', path.join(rootDir, './src/editor')],
             extensions: ['js', 'jsx', 'ts', 'tsx'],
         }),
+        // new DllPlugin({
+        //     name: '[name].manifest.json',
+        //     path: path.resolve(rootDir, "./dll/[name].manifest.json"),
+        // }),
+        // new DllReferencePlugin({
+        //     context: rootDir,
+        //     manifest: path.resolve(rootDir, "./dll/main.manifest.json"),
+        // }),
+        new DllReferencePlugin({
+            context: rootDir,
+            manifest: path.resolve(rootDir, "./dll/react.manifest.json"),
+        }),
+        new AddAssetHtmlPlugin({
+            filepath: path.resolve(rootDir, './dll/react.dll.js'),
+        }),
+        // new DllReferencePlugin({
+        //     context: rootDir,
+        //     manifest: path.resolve(rootDir, "./dll/runtime.manifest.json"),
+        // }),
     ],
     module: {
         rules: [
@@ -68,6 +88,7 @@ module.exports = {
                         },
                     }
                 ],
+                include: src,
                 exclude: /node_modules/,
             },
             {
@@ -76,6 +97,7 @@ module.exports = {
                 options: {
                     transpileOnly: true,
                 },
+                include: src,
                 exclude: /node_modules/,
             },
             {
@@ -83,14 +105,17 @@ module.exports = {
                 use: {
                     loader: 'html-loader',
                 },
+                include: [src, path.join(__dirname, 'script')],
             },
             {
                 test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
                 type: 'asset/resource',
+                include: src,
             },
             {
                 test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
-                type: 'asset/inline'
+                type: 'asset/inline',
+                include: src,
             },
         ]
     },
@@ -101,6 +126,8 @@ module.exports = {
             '@components': path.join(rootDir, './src/components'),
             '@view': path.join(rootDir, './src/view'),
         },
+        // 如果你不使用 symlinks（例如 npm link 或者 yarn link），可以设置 false
+        symlinks: false,
         /* alias: {
             '@src': path.join(rootDir, '/src'),
             '@images': path.join(rootDir, '/src/images'),
@@ -108,19 +135,20 @@ module.exports = {
             '@components': path.join(rootDir, '/src/components'),
         } */
     },
-    /* optimization: {
+    optimization: {
+        moduleIds: 'deterministic',
         runtimeChunk: {
             name: 'runtime',
         },
-        splitChunk: {
-            cacheGroup: {
+        splitChunks: {
+            cacheGroups: {
                 commons: {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendor',
-                    chunks: 'initial',
+                    chunks: 'all',
                 }
             }
         }
     },
-    externals: {}, */
+    // externals: {},
 };
