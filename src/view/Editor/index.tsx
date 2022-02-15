@@ -35,7 +35,7 @@ export default class Editor extends React.Component {
     */
     render() {
         return (
-            <div className="editor-wrap">
+            <div className="editor-wrap moka--default">
                 <Header />
                 <div className="editor-content">
                     <div className="editor-nav-wrap">
