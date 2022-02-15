@@ -15,6 +15,8 @@ export const addScriptSync = (path: string, id: string) => {
 };
 
 export const addScript = (path: string, id: string) => {
+    // promise void
+    // https://stackoverflow.com/questions/65354965/error-ts2794-expected-1-arguments-but-got-0-did-you-forget-to-include-void
     return new Promise<void>((resolve, reject) => {
         if (document.getElementById(id)) {
             // 脚本加载后再次调用直接返回
