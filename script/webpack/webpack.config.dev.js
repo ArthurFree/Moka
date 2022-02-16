@@ -14,7 +14,7 @@ module.exports = merge(common, {
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
-        open: true,
+        // open: true,
         compress: true,
         port: 8080,
         client: {
