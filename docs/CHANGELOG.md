@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+### 2022-02-16
+
+* 增加: dll webpack config, 抽离了 react 相关依赖
+
 ### 2022-02-15
 
 * 增加: CHANGELOG
