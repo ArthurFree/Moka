@@ -1,10 +1,11 @@
-import { MdNodeType } from '@t/node';
+import { MdNodeType } from '@toast/node';
 import { Process, BlockHandler } from '../blockHandlers';
 
 export const table: BlockHandler = {
   continue() {
     return Process.Go;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain(t: MdNodeType) {
     return t === 'tableHead' || t === 'tableBody';

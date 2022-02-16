@@ -17,7 +17,7 @@ import {
   TableCellMdNode,
   TableColumn,
   TableMdNode,
-} from '@t/node';
+} from '@toast/node';
 import NodeWalker from './nodeWalker';
 
 export function isContainer(node: Node) {

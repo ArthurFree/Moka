@@ -1,4 +1,4 @@
-import { NodeWalker as BaseNodeWalker } from '@t/node';
+import { NodeWalker as BaseNodeWalker } from '@toast/node';
 import { Node, isContainer } from './node';
 
 export default class NodeWalker implements BaseNodeWalker {

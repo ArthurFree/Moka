@@ -9,7 +9,7 @@ import {
   OpenTagToken,
   Context,
   HTMLConvertor,
-} from '@t/toastmark';
+} from '@toast/index';
 import { LinkAttributes, CustomHTMLRenderer } from '@t/editor';
 import { HTMLMdNode } from '@t/markdown';
 import { getWidgetContent, widgetToDOM } from '@/widget/rules';

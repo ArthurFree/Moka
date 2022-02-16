@@ -1,5 +1,5 @@
-import { InlineNodeType, Sourcepos } from '@t/node';
-import { RefMap, RefLinkCandidateMap, RefDefCandidateMap, ParserOptions } from '@t/parser';
+import { InlineNodeType, Sourcepos } from '@toast/node';
+import { RefMap, RefLinkCandidateMap, RefDefCandidateMap, ParserOptions } from '@toast/index';
 import { Node, BlockNode, isHeading, LinkNode, createNode, text, CustomInlineNode } from './node';
 import { repeat, normalizeURI, unescapeString, ESCAPABLE, ENTITY } from './common';
 import { reHtmlTag } from './rawHtml';

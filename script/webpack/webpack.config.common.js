@@ -132,6 +132,7 @@ module.exports = {
         alias: {
             '@': path.join(rootDir, './src/editor'),
             '@t': path.join(rootDir, './src/@types'),
+            '@toast': path.join(rootDir, './src/toastmark/@types'),
             '@components': path.join(rootDir, './src/components'),
             '@view': path.join(rootDir, './src/view'),
             '@toast-ui': path.join(rootDir, './src'),

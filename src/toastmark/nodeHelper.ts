@@ -1,4 +1,4 @@
-import { Pos, Sourcepos } from '@t/node';
+import { Pos, Sourcepos } from '@toast/node';
 import { Node, getNodeById, removeNodeById } from './commonmark/node';
 
 export const enum Compare {

@@ -5,8 +5,8 @@ import {
   RemovedNodeRange,
   ToastMark as ToastMarkParser,
 } from '@t/toastMark';
-import { ParserOptions, RefDefCandidateMap, RefLinkCandidateMap, RefMap } from '@t/parser';
-import { Pos } from '@t/node';
+import { ParserOptions, RefDefCandidateMap, RefLinkCandidateMap, RefMap } from '@toast/index';
+import { Pos } from '@toast/node';
 import { Parser } from './commonmark/blocks';
 import {
   BlockNode,

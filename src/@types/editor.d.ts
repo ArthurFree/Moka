@@ -8,7 +8,7 @@ import {
   Context as MdContext,
   HTMLToken,
   HTMLConvertorMap,
-} from './toastmark';
+} from './toastMark';
 import { Emitter, Handler } from './event';
 import { Context, EditorAllCommandMap, EditorCommandFn, SpecManager } from './spec';
 import { ToMdConvertorMap } from './convertor';

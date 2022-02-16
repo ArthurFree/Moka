@@ -15,10 +15,11 @@
         // "strictNullChecks": true,
         "baseUrl": "./",
         "rootDir": "./",
-        "typeRoots": ["./node_modules/@types", "./src/@types"],
+        "typeRoots": ["./node_modules/@types", "./src/@types", "src/toastmark/@types"],
         "paths": {
             "@/*": ["src/editor/*"],
             "@t/*": ["src/@types/*"],
+            "@toast/*": ["src/toastmark/@types/*"],
             "@toast-ui/*": ["src/*"],
             "@src/*": ["src/*"],
             "@images/*": ["src/images/*"],
@@ -32,6 +33,6 @@
         // "importsNotUsedAsValues": "preserve",
         // "incremental": true
     },
-    "include": ["src"],
+    "include": ["src/**/*.ts", "src/**/*.tsx", "index.d.ts"],
     "exclude": ["**/node_modules", "**/.*/"]
 }

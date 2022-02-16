@@ -1,4 +1,4 @@
-import { Sourcepos, TableColumn } from '@t/node';
+import { Sourcepos, TableColumn } from '@toast/node';
 import { isEmpty } from '../common';
 import { BlockStart, Matched } from '../blockStarts';
 import { createNode, TableNode, TableCellNode } from '../node';

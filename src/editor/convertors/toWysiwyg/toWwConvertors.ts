@@ -1,17 +1,19 @@
 import {
-  MdNode,
-  HeadingMdNode,
-  CodeBlockMdNode,
-  ListItemMdNode,
-  LinkMdNode,
-  TableCellMdNode,
-  CustomBlockMdNode,
-  CustomInlineMdNode,
-  TableMdNode,
-  HTMLConvertorMap,
-  OpenTagToken,
   Renderer,
 } from '@toast-ui/toastmark';
+import {
+    MdNode,
+    HeadingMdNode,
+    CodeBlockMdNode,
+    ListItemMdNode,
+    LinkMdNode,
+    TableCellMdNode,
+    CustomBlockMdNode,
+    CustomInlineMdNode,
+    TableMdNode,
+    HTMLConvertorMap,
+    OpenTagToken,
+} from '@toast/index';
 import toArray from 'tui-code-snippet/collection/toArray';
 
 import { isElemNode } from '@/utils/dom';

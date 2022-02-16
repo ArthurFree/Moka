@@ -1,5 +1,5 @@
-import { Sourcepos } from '@t/node';
-import { AutolinkParser } from '@t/parser';
+import { Sourcepos } from '@toast/node';
+import { AutolinkParser } from '@toast/index';
 import { createNode, text } from '../node';
 import NodeWalker from '../nodeWalker';
 

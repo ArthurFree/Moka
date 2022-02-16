@@ -2,7 +2,7 @@ import { Plugin, EditorState } from 'prosemirror-state';
 import { EditorView, NodeView } from 'prosemirror-view';
 import { Node } from 'prosemirror-model';
 
-import { CustomParserMap } from './toastmark';
+import { CustomParserMap } from './toastMark';
 import { CustomHTMLRenderer } from './editor';
 import { Emitter } from './event';
 import { ToMdConvertorMap } from './convertor';

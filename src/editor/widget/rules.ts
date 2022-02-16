@@ -1,5 +1,5 @@
 import { Schema, ProsemirrorNode } from 'prosemirror-model';
-import { CustomInlineMdNode } from '@toast-ui/toastmark';
+import { CustomInlineMdNode } from '@toast/index';
 import { WidgetRule, WidgetRuleMap } from '@t/editor';
 import { getInlineMarkdownText } from '@/utils/markdown';
 
