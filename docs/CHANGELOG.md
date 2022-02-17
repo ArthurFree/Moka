@@ -9,6 +9,8 @@
     * markdown 的解析主要采用的是 go 编写，对于后续学习修改有一定成本
     * 编辑器文档不够健全，阅读不舒服
 * 为 tui.editor 引入 code-syntax-highlight 插件
+* 使用 esbuild-loader 替换 babel-loader / ts-loader, 速度略有提升
+* 尝试了使用 thread-loader 优化 esbuild-loader ，构建时间略有增加
 
 ### 2022-02-16
 
