@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dll": "webpack --config ./script/webpack/webpack.config.dll.js",
-    "start": "cross-env WEBPACK_IS_DEV_SERVER=true NODE_ENV=development webpack serve --config ./script/webpack/webpack.config.dev.js",
+    "start": "cross-env WEBPACK_IS_DEV_SERVER=true NODE_ENV=development webpack serve --config ./script/webpack/webpack.config.dev.js --progress --color",
     "build": "cross-env NODE_ENV=production webpack --config ./script/webpack/webpack.config.prod.js",
     "profile": "cross-env NODE_ENV=production webpack --profile --json --config ./script/webpack/webpack.config.prod.js > ./dist/profile.json && webpack-bundle-analyzer ./dist/profile.json",
     "lint": "eslint 'src/**/*.js' || true",
