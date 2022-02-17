@@ -20,6 +20,7 @@
             "@/*": ["src/editor/*"],
             "@t/*": ["src/@types/*"],
             "@toast/*": ["src/toastmark/@types/*"],
+            "@codeType/*": ["src/editorPlugins/code-syntax-highlight/@types/*"],
             "@toast-ui/*": ["src/*"],
             "@src/*": ["src/*"],
             "@images/*": ["src/images/*"],

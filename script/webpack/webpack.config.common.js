@@ -133,6 +133,8 @@ module.exports = {
             '@': path.join(rootDir, './src/editor'),
             '@t': path.join(rootDir, './src/@types'),
             '@toast': path.join(rootDir, './src/toastmark/@types'),
+            '@codeType': path.join(rootDir, './src/editorPlugins/code-syntax-highlight/@types'),
+            '@code': path.join(rootDir, './src/editorPlugins/code-syntax-highlight'),
             '@components': path.join(rootDir, './src/components'),
             '@view': path.join(rootDir, './src/view'),
             '@toast-ui': path.join(rootDir, './src'),
