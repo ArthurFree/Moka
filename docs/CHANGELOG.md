@@ -11,6 +11,7 @@
 * 为 tui.editor 引入 code-syntax-highlight 插件
 * 使用 esbuild-loader 替换 babel-loader / ts-loader, 速度略有提升
 * 尝试了使用 thread-loader 优化 esbuild-loader ，构建时间略有增加
+* 增加了构建速度检测插件(speed-measure-webpack-plugin)
 
 ### 2022-02-16
 
