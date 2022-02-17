@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dll": "webpack --config ./script/webpack/webpack.config.dll.js",
+    "speed:dev": "cross-env WEBPACK_IS_DEV_SERVER=true NODE_ENV=development webpack serve --config ./script/webpack/webpack.config.speed.dev.js --color",
     "start": "cross-env WEBPACK_IS_DEV_SERVER=true NODE_ENV=development webpack serve --config ./script/webpack/webpack.config.dev.js --color",
     "build": "cross-env NODE_ENV=production webpack --config ./script/webpack/webpack.config.prod.js",
     "profile": "cross-env NODE_ENV=production webpack --profile --json --config ./script/webpack/webpack.config.prod.js > ./dist/profile.json && webpack-bundle-analyzer ./dist/profile.json",
@@ -69,7 +70,9 @@
     "react-refresh": "^0.11.0",
     "sass": "^1.48.0",
     "sass-loader": "^12.4.0",
+    "speed-measure-webpack-plugin": "^1.5.0",
     "style-loader": "^3.3.1",
+    "thread-loader": "^3.0.4",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.5",
     "webpack": "^5.66.0",

@@ -120,6 +120,23 @@ module.exports = {
                 ],
             }, */
             {
+                test: /\.(html)$/,
+                use: {
+                    loader: 'html-loader',
+                },
+                include: [src, path.join(__dirname, 'script')],
+            },
+            {
+                test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+                type: 'asset/resource',
+                include: src,
+            },
+            {
+                test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+                type: 'asset/inline',
+                include: src,
+            },
+            {
                 test: /\.(js|jsx)$/,
                 loader: 'esbuild-loader',
                 options: {
@@ -128,6 +145,16 @@ module.exports = {
                 },
                 include: src,
             },
+            /* {
+                loader: 'thread-loader',
+                options: {
+                    workerParallelJobs: 2
+                },
+                include: src,
+                exclude: [
+                    /node_modules/,
+                ],
+            }, */
             {
                 test: /\.tsx?$/,
                 loader: 'esbuild-loader',
@@ -145,23 +172,6 @@ module.exports = {
                     path.join(src, './toastmark/__sample__'),
                     path.join(src, './toastmark/html/__test__'),
                 ],
-            },
-            {
-                test: /\.(html)$/,
-                use: {
-                    loader: 'html-loader',
-                },
-                include: [src, path.join(__dirname, 'script')],
-            },
-            {
-                test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-                type: 'asset/resource',
-                include: src,
-            },
-            {
-                test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
-                type: 'asset/inline',
-                include: src,
             },
         ]
     },
