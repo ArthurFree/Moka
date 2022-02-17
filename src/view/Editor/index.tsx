@@ -1,8 +1,11 @@
 import React from 'react';
+import Prism from 'prismjs';
+import codeSyntaxHighlightPlugin from '../../editorPlugins/code-syntax-highlight/indexAll';
 import Header from './Components/Header/index';
 import Nav from './Components/Nav/index';
 // import Vidtor from '../../editor/index';
 import Editor from '../../editor/index';
+import 'prismjs/themes/prism.css';
 import './index.scss';
 
 export default class EditorPage extends React.Component {
@@ -20,6 +23,7 @@ export default class EditorPage extends React.Component {
             previewStyle: 'vertical',
             height: '500px',
             initialValue: '',
+            plugins: [[codeSyntaxHighlightPlugin, { highlighter: Prism }]]
         });
     }
     /* componentDidMount() {

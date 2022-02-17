@@ -2,20 +2,24 @@ import type { PluginContext, PluginInfo } from '@t/editor';
 import Prism from 'prismjs';
 
 type PrismJs = typeof Prism & {
-  manual: boolean;
+    manual: boolean;
 };
 
 declare global {
-  interface Window {
+    interface Window {
+        Prism: PrismJs;
+    }
+}
+
+interface Window {
     Prism: PrismJs;
-  }
 }
 
 export type PluginOptions = {
-  highlighter?: PrismJs;
+    highlighter?: PrismJs;
 };
 
 export default function codeSyntaxHighlightPlugin(
-  context: PluginContext,
-  options: PluginOptions
+    context: PluginContext,
+    options: PluginOptions
 ): PluginInfo;

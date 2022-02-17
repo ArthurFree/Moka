@@ -15,7 +15,7 @@
         // "strictNullChecks": true,
         "baseUrl": "./",
         "rootDir": "./",
-        "typeRoots": ["./node_modules/@types", "./src/@types", "src/toastmark/@types"],
+        "typeRoots": ["./node_modules/@types", "./src/@types", "./src/toastmark/@types", "./src/editorPlugins/code-syntax-highlight/@types"],
         "paths": {
             "@/*": ["src/editor/*"],
             "@t/*": ["src/@types/*"],

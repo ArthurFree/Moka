@@ -13,8 +13,8 @@ if (typeof window !== undefined) {
     // before:
     // window.Prism = window.Prism || {};
     // after:
-    window.Prism = window.Prism;
-    window.Prism.manual = true;
+    // window.Prism = window.Prism;
+    // window.Prism.manual = true;
 }
 
 export default function plugin(context: PluginContext): PluginInfo {
