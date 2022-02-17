@@ -98,7 +98,14 @@ module.exports = {
                     transpileOnly: true,
                 },
                 include: src,
-                exclude: /node_modules/,
+                exclude: [
+                    /node_modules/,
+                    path.join(src, './editor/__test__'),
+                    // path.join(src, './editor/spec'),
+                    path.join(src, './toastmark/__test__'),
+                    path.join(src, './toastmark/__sample__'),
+                    path.join(src, './toastmark/html/__test__'),
+                ],
             },
             {
                 test: /\.(html)$/,
@@ -123,17 +130,15 @@ module.exports = {
         modules: [src, 'node_modules'],
         extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'],
         alias: {
+            '@': path.join(rootDir, './src/editor'),
+            '@t': path.join(rootDir, './src/@types'),
+            '@toast': path.join(rootDir, './src/toastmark/@types'),
             '@components': path.join(rootDir, './src/components'),
             '@view': path.join(rootDir, './src/view'),
+            '@toast-ui': path.join(rootDir, './src'),
         },
         // 如果你不使用 symlinks（例如 npm link 或者 yarn link），可以设置 false
-        symlinks: false,
-        /* alias: {
-            '@src': path.join(rootDir, '/src'),
-            '@images': path.join(rootDir, '/src/images'),
-            '@styles': path.join(rootDir, '/src/styles'),
-            '@components': path.join(rootDir, '/src/components'),
-        } */
+        // symlinks: false,
     },
     optimization: {
         moduleIds: 'deterministic',

@@ -1,11 +1,28 @@
 import React from 'react';
 import Header from './Components/Header/index';
 import Nav from './Components/Nav/index';
-import Vidtor from '../../editor/index';
+// import Vidtor from '../../editor/index';
+import Editor from '../../editor/index';
 import './index.scss';
 
-export default class Editor extends React.Component {
-    componentDidMount() {
+export default class EditorPage extends React.Component {
+    rootEl = React.createRef<HTMLDivElement>();
+
+    editorInst!: Editor;
+
+    getRootElement() {
+        return this.rootEl.current;
+    }
+
+    componentDidMount(): void {
+        this.editorInst = new Editor({
+            el: this.rootEl.current,
+            previewStyle: 'vertical',
+            height: '500px',
+            initialValue: '',
+        });
+    }
+    /* componentDidMount() {
         const vditor = new Vidtor('vditor', {
             height: '100%',
             toolbarConfig: {
@@ -18,7 +35,7 @@ export default class Editor extends React.Component {
                 vditor.setValue('Hello, Vditor + React!')
             },
         })
-    }
+    } */
 
     /*
     <div className="editor-wrap">
@@ -42,7 +59,7 @@ export default class Editor extends React.Component {
                         <Nav />
                     </div>
                     <div className="editor">
-                        <div id="vditor"></div>
+                        <div id="editor-inst" ref={this.rootEl}></div>
                     </div>
                 </div>
             </div>
