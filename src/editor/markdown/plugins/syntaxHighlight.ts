@@ -1,4 +1,4 @@
-import { ToastMark } from '@toast-ui/toastmark';
+import { ToastMark } from '@t/toastmark';
 import { MdNode, MdPos, EditResult, } from '@toast/index';
 import { Plugin, Transaction } from 'prosemirror-state';
 import { NodeType, ProsemirrorNode, Schema } from 'prosemirror-model';

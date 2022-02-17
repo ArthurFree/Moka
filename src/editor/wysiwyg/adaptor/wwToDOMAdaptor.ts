@@ -6,9 +6,9 @@ import {
   MdNodeType,
   OpenTagToken,
   RawHTMLToken,
-  Renderer,
   TextToken,
 } from '@toast/index';
+import { Renderer, } from '@toast-ui/toastmark'
 import { Node as ProsemirrorNode, Mark } from 'prosemirror-model';
 import isArray from 'tui-code-snippet/type/isArray';
 import { getHTMLRenderConvertors } from '@/markdown/htmlRenderConvertors';

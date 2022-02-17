@@ -17,6 +17,7 @@ export const tableBody: BlockHandler = {
   continue() {
     return Process.Go;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain(t: MdNodeType) {
     return t === 'tableRow';
@@ -28,6 +29,7 @@ export const tableHead: BlockHandler = {
   continue() {
     return Process.Stop;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain(t: MdNodeType) {
     return t === 'tableRow' || t === 'tableDelimRow';
@@ -39,6 +41,7 @@ export const tableDelimRow: BlockHandler = {
   continue() {
     return Process.Stop;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain(t: MdNodeType) {
     return t === 'tableDelimCell';
@@ -50,6 +53,7 @@ export const tableDelimCell: BlockHandler = {
   continue() {
     return Process.Stop;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain() {
     return false;
@@ -61,6 +65,7 @@ export const tableRow: BlockHandler = {
   continue() {
     return Process.Stop;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain(t: MdNodeType) {
     return t === 'tableCell';
@@ -72,6 +77,7 @@ export const tableCell: BlockHandler = {
   continue() {
     return Process.Stop;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain() {
     return false;

@@ -14,6 +14,7 @@ export interface EditResult {
 type EventName = 'change';
 
 type EventHandlerMap = {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   [key in EventName]: Function[];
 };
 

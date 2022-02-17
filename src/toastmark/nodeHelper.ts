@@ -214,6 +214,7 @@ export function findNodeById(id: number) {
   return getNodeById(id) || null;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function invokeNextUntil(callback: Function, start: Node | null, end: Node | null = null) {
   if (start) {
     const walker = start.walker();

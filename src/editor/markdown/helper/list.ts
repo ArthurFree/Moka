@@ -1,5 +1,5 @@
 import { ProsemirrorNode, Schema } from 'prosemirror-model';
-import { ToastMark } from '@toast-ui/toastmark';
+import { ToastMark } from '@t/toastmark';
 import { ListItemMdNode, MdNode, } from '@toast/index';
 import { findClosestNode, isListNode, isOrderedListNode } from '@/utils/markdown';
 import { createTextNode } from '@/helper/manipulation';

@@ -29,10 +29,11 @@
         },
         "declaration": true,
         "allowSyntheticDefaultImports": true,
-        // "esModuleInterop": true,
+        "esModuleInterop": true,
+        "importHelpers": true,
         // "importsNotUsedAsValues": "preserve",
         // "incremental": true
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx", "index.d.ts"],
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": ["**/node_modules", "**/.*/"]
 }

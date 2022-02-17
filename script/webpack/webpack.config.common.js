@@ -101,7 +101,7 @@ module.exports = {
                 exclude: [
                     /node_modules/,
                     path.join(src, './editor/__test__'),
-                    path.join(src, './editor/spec'),
+                    // path.join(src, './editor/spec'),
                     path.join(src, './toastmark/__test__'),
                     path.join(src, './toastmark/__sample__'),
                     path.join(src, './toastmark/html/__test__'),
@@ -138,7 +138,7 @@ module.exports = {
             '@toast-ui': path.join(rootDir, './src'),
         },
         // 如果你不使用 symlinks（例如 npm link 或者 yarn link），可以设置 false
-        symlinks: false,
+        // symlinks: false,
     },
     optimization: {
         moduleIds: 'deterministic',

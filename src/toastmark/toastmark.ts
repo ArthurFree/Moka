@@ -425,6 +425,7 @@ export class ToastMark implements ToastMarkParser {
     this.eventHandlerMap[eventName].push(callback);
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   off(eventName: EventName, callback: Function) {
     const handlers = this.eventHandlerMap[eventName];
     const idx = handlers.indexOf(callback);

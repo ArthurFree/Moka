@@ -18,12 +18,12 @@ const DISABLED_TASK_ATTR_NAME = 'data-task-disabled';
 const TASK_CHECKED_CLASS_NAME = 'checked';
 
 function registerHTMLTagToWhitelist(convertorMap: CustomHTMLRenderer) {
-  ['htmlBlock', 'htmlInline'].forEach((htmlType) => {
-    if (convertorMap[htmlType]) {
-      // register tag white list for preventing to remove the html in sanitizer
-      Object.keys(convertorMap[htmlType]!).forEach((type) => registerTagWhitelistIfPossible(type));
-    }
-  });
+    ['htmlBlock', 'htmlInline'].forEach((htmlType) => {
+        if (convertorMap[htmlType]) {
+            // register tag white list for preventing to remove the html in sanitizer
+            Object.keys(convertorMap[htmlType]!).forEach((type) => registerTagWhitelistIfPossible(type));
+        }
+    });
 }
 
 /**
@@ -47,182 +47,185 @@ function registerHTMLTagToWhitelist(convertorMap: CustomHTMLRenderer) {
  *     @param {string} [options.theme] - The theme to style the viewer with. The default is included in toastui-editor.css.
  */
 class ToastUIEditorViewer {
-  private options: Required<ViewerOptions>;
+    // before:
+    //   private options: Required<ViewerOptions>;
+    // after:
+    private options: ViewerOptions;
 
-  private toastMark: ToastMark;
+    private toastMark: ToastMark;
 
-  private eventEmitter: Emitter;
+    private eventEmitter: Emitter;
 
-  private preview: MarkdownPreview;
+    private preview: MarkdownPreview;
 
-  constructor(options: ViewerOptions) {
-    this.options = extend(
-      {
-        linkAttributes: null,
-        extendedAutolinks: false,
-        customHTMLRenderer: null,
-        referenceDefinition: false,
-        customHTMLSanitizer: null,
-        frontMatter: false,
-        usageStatistics: true,
-        theme: 'light',
-      },
-      options
-    );
-    this.eventEmitter = new EventEmitter();
+    constructor(options: ViewerOptions) {
+        this.options = extend(
+            {
+                linkAttributes: null,
+                extendedAutolinks: false,
+                customHTMLRenderer: null,
+                referenceDefinition: false,
+                customHTMLSanitizer: null,
+                frontMatter: false,
+                usageStatistics: true,
+                theme: 'light',
+            },
+            options
+        );
+        this.eventEmitter = new EventEmitter();
 
-    const linkAttributes = sanitizeLinkAttribute(this.options.linkAttributes);
-    const { toHTMLRenderers, markdownParsers } =
-      getPluginInfo(this.options.plugins, this.eventEmitter, this.options.usageStatistics) || {};
-    const {
-      customHTMLRenderer,
-      extendedAutolinks,
-      referenceDefinition,
-      frontMatter,
-      customHTMLSanitizer,
-    } = this.options;
+        const linkAttributes = sanitizeLinkAttribute(this.options.linkAttributes);
+        const { toHTMLRenderers, markdownParsers } =
+            getPluginInfo(this.options.plugins, this.eventEmitter, this.options.usageStatistics) || {};
+        const {
+            customHTMLRenderer,
+            extendedAutolinks,
+            referenceDefinition,
+            frontMatter,
+            customHTMLSanitizer,
+        } = this.options;
 
-    const rendererOptions = {
-      linkAttributes,
-      customHTMLRenderer: { ...toHTMLRenderers, ...customHTMLRenderer },
-      extendedAutolinks,
-      referenceDefinition,
-      frontMatter,
-      sanitizer: customHTMLSanitizer || sanitizeHTML,
-    };
+        const rendererOptions = {
+            linkAttributes,
+            customHTMLRenderer: { ...toHTMLRenderers, ...customHTMLRenderer },
+            extendedAutolinks,
+            referenceDefinition,
+            frontMatter,
+            sanitizer: customHTMLSanitizer || sanitizeHTML,
+        };
 
-    registerHTMLTagToWhitelist(rendererOptions.customHTMLRenderer);
+        registerHTMLTagToWhitelist(rendererOptions.customHTMLRenderer);
 
-    if (this.options.events) {
-      forEachOwnProperties(this.options.events, (fn, key) => {
-        this.on(key, fn);
-      });
+        if (this.options.events) {
+            forEachOwnProperties(this.options.events, (fn, key) => {
+                this.on(key, fn);
+            });
+        }
+
+        const { el, initialValue, theme } = this.options;
+        const existingHTML = el.innerHTML;
+
+        if (theme !== 'light') {
+            el.classList.add(cls(theme));
+        }
+        el.innerHTML = '';
+
+        this.toastMark = new ToastMark('', {
+            disallowedHtmlBlockTags: ['br', 'img'],
+            extendedAutolinks,
+            referenceDefinition,
+            disallowDeepHeading: true,
+            frontMatter,
+            customParser: markdownParsers,
+        });
+        this.preview = new MarkdownPreview(this.eventEmitter, {
+            ...rendererOptions,
+            isViewer: true,
+        });
+
+        on(this.preview.previewContent!, 'mousedown', this.toggleTask.bind(this));
+
+        if (initialValue) {
+            this.setMarkdown(initialValue);
+        } else if (existingHTML) {
+            this.preview.setHTML(existingHTML);
+        }
+
+        el.appendChild(this.preview.previewContent);
+        this.eventEmitter.emit('load', this);
     }
 
-    const { el, initialValue, theme } = this.options;
-    const existingHTML = el.innerHTML;
+    /**
+     * Toggle task by detecting mousedown event.
+     * @param {MouseEvent} ev - event
+     * @private
+     */
+    private toggleTask(ev: MouseEvent) {
+        const element = ev.target as HTMLElement;
+        const style = getComputedStyle(element, ':before');
 
-    if (theme !== 'light') {
-      el.classList.add(cls(theme));
-    }
-    el.innerHTML = '';
-
-    this.toastMark = new ToastMark('', {
-      disallowedHtmlBlockTags: ['br', 'img'],
-      extendedAutolinks,
-      referenceDefinition,
-      disallowDeepHeading: true,
-      frontMatter,
-      customParser: markdownParsers,
-    });
-    this.preview = new MarkdownPreview(this.eventEmitter, {
-      ...rendererOptions,
-      isViewer: true,
-    });
-
-    on(this.preview.previewContent!, 'mousedown', this.toggleTask.bind(this));
-
-    if (initialValue) {
-      this.setMarkdown(initialValue);
-    } else if (existingHTML) {
-      this.preview.setHTML(existingHTML);
+        if (
+            !element.hasAttribute(DISABLED_TASK_ATTR_NAME) &&
+            element.hasAttribute(TASK_ATTR_NAME) &&
+            isPositionInBox(style, ev.offsetX, ev.offsetY)
+        ) {
+            toggleClass(element, TASK_CHECKED_CLASS_NAME);
+        }
     }
 
-    el.appendChild(this.preview.previewContent);
-    this.eventEmitter.emit('load', this);
-  }
+    /**
+     * Set content for preview
+     * @param {string} markdown Markdown text
+     */
+    setMarkdown(markdown: string) {
+        const lineTexts: string[] = this.toastMark.getLineTexts();
+        const { length } = lineTexts;
+        const lastLine = last(lineTexts);
+        const endSourcepos: [number, number] = [length, lastLine.length + 1];
+        const editResult = this.toastMark.editMarkdown([1, 1], endSourcepos, markdown || '');
 
-  /**
-   * Toggle task by detecting mousedown event.
-   * @param {MouseEvent} ev - event
-   * @private
-   */
-  private toggleTask(ev: MouseEvent) {
-    const element = ev.target as HTMLElement;
-    const style = getComputedStyle(element, ':before');
-
-    if (
-      !element.hasAttribute(DISABLED_TASK_ATTR_NAME) &&
-      element.hasAttribute(TASK_ATTR_NAME) &&
-      isPositionInBox(style, ev.offsetX, ev.offsetY)
-    ) {
-      toggleClass(element, TASK_CHECKED_CLASS_NAME);
+        this.eventEmitter.emit('updatePreview', editResult);
     }
-  }
 
-  /**
-   * Set content for preview
-   * @param {string} markdown Markdown text
-   */
-  setMarkdown(markdown: string) {
-    const lineTexts: string[] = this.toastMark.getLineTexts();
-    const { length } = lineTexts;
-    const lastLine = last(lineTexts);
-    const endSourcepos: [number, number] = [length, lastLine.length + 1];
-    const editResult = this.toastMark.editMarkdown([1, 1], endSourcepos, markdown || '');
+    /**
+     * Bind eventHandler to event type
+     * @param {string} type Event type
+     * @param {function} handler Event handler
+     */
+    on(type: string, handler: Handler) {
+        this.eventEmitter.listen(type, handler);
+    }
 
-    this.eventEmitter.emit('updatePreview', editResult);
-  }
+    /**
+     * Unbind eventHandler from event type
+     * @param {string} type Event type
+     */
+    off(type: string) {
+        this.eventEmitter.removeEventHandler(type);
+    }
 
-  /**
-   * Bind eventHandler to event type
-   * @param {string} type Event type
-   * @param {function} handler Event handler
-   */
-  on(type: string, handler: Handler) {
-    this.eventEmitter.listen(type, handler);
-  }
+    /**
+     * Add hook to TUIEditor event
+     * @param {string} type Event type
+     * @param {function} handler Event handler
+     */
+    addHook(type: string, handler: Handler) {
+        this.eventEmitter.removeEventHandler(type);
+        this.eventEmitter.listen(type, handler);
+    }
 
-  /**
-   * Unbind eventHandler from event type
-   * @param {string} type Event type
-   */
-  off(type: string) {
-    this.eventEmitter.removeEventHandler(type);
-  }
+    /**
+     * Remove Viewer preview from document
+     */
+    destroy() {
+        off(this.preview.el!, 'mousedown', this.toggleTask.bind(this));
+        this.preview.destroy();
+        this.eventEmitter.emit('destroy');
+    }
 
-  /**
-   * Add hook to TUIEditor event
-   * @param {string} type Event type
-   * @param {function} handler Event handler
-   */
-  addHook(type: string, handler: Handler) {
-    this.eventEmitter.removeEventHandler(type);
-    this.eventEmitter.listen(type, handler);
-  }
+    /**
+     * Return true
+     * @returns {boolean}
+     */
+    isViewer() {
+        return true;
+    }
 
-  /**
-   * Remove Viewer preview from document
-   */
-  destroy() {
-    off(this.preview.el!, 'mousedown', this.toggleTask.bind(this));
-    this.preview.destroy();
-    this.eventEmitter.emit('destroy');
-  }
+    /**
+     * Return false
+     * @returns {boolean}
+     */
+    isMarkdownMode() {
+        return false;
+    }
 
-  /**
-   * Return true
-   * @returns {boolean}
-   */
-  isViewer() {
-    return true;
-  }
-
-  /**
-   * Return false
-   * @returns {boolean}
-   */
-  isMarkdownMode() {
-    return false;
-  }
-
-  /**
-   * Return false
-   * @returns {boolean}
-   */
-  isWysiwygMode() {
-    return false;
-  }
+    /**
+     * Return false
+     * @returns {boolean}
+     */
+    isWysiwygMode() {
+        return false;
+    }
 }
 
 export default ToastUIEditorViewer;

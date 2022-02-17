@@ -45,6 +45,7 @@ const noop: BlockHandler = {
   continue() {
     return Process.Stop;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain() {
     return false;
@@ -56,6 +57,7 @@ const document: BlockHandler = {
   continue() {
     return Process.Go;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain(t) {
     return t !== 'item';
@@ -108,6 +110,7 @@ const blockQuote: BlockHandler = {
     }
     return Process.Go;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain(t) {
     return t !== 'item';
@@ -142,6 +145,7 @@ const heading: BlockHandler = {
     // a heading can never container > 1 line, so fail to match:
     return Process.Stop;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain() {
     return false;
@@ -154,6 +158,7 @@ const thematicBreak: BlockHandler = {
     // a thematic break can never container > 1 line, so fail to match:
     return Process.Stop;
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   finalize() {},
   canContain() {
     return false;
