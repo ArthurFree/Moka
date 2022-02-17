@@ -1,8 +1,10 @@
 const path = require('path');
+// const chalk = require('chalk');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const ForTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const { ProvidePlugin, DefinePlugin, /* DllPlugin, */ DllReferencePlugin, webpack, } = require('webpack');
 
 const { rootDir, src, dist, config, public } = require('../const/paths');
@@ -19,6 +21,10 @@ module.exports = {
         filename: isDevServer
             ? '[name].[fullhash].js'
             : '[name].[contenthash].js',
+    },
+    cache: {
+        // 使用文件缓存
+        type: 'filesystem',
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -64,13 +70,19 @@ module.exports = {
         //     context: rootDir,
         //     manifest: path.resolve(rootDir, "./dll/main.manifest.json"),
         // }),
+        // 关联 dll 文件
         new DllReferencePlugin({
             context: rootDir,
             manifest: path.resolve(rootDir, "./dll/react.manifest.json"),
         }),
+        // 将 dll 文件插入到 html 中
         new AddAssetHtmlPlugin({
             filepath: path.resolve(rootDir, './dll/react.dll.js'),
         }),
+        // 进度条
+        new ProgressBarPlugin({
+            format: `  :msg [:bar] :percent (:elapsed s)`
+        })
         // new DllReferencePlugin({
         //     context: rootDir,
         //     manifest: path.resolve(rootDir, "./dll/runtime.manifest.json"),
@@ -78,7 +90,7 @@ module.exports = {
     ],
     module: {
         rules: [
-            {
+            /* {
                 test: /\.(js|jsx)$/,
                 use: [
                     {
@@ -96,6 +108,33 @@ module.exports = {
                 loader: 'ts-loader',
                 options: {
                     transpileOnly: true,
+                },
+                include: src,
+                exclude: [
+                    /node_modules/,
+                    path.join(src, './editor/__test__'),
+                    // path.join(src, './editor/spec'),
+                    path.join(src, './toastmark/__test__'),
+                    path.join(src, './toastmark/__sample__'),
+                    path.join(src, './toastmark/html/__test__'),
+                ],
+            }, */
+            {
+                test: /\.(js|jsx)$/,
+                loader: 'esbuild-loader',
+                options: {
+                    loader: 'jsx',
+                    target: 'es2015',
+                },
+                include: src,
+            },
+            {
+                test: /\.tsx?$/,
+                loader: 'esbuild-loader',
+                options: {
+                    loader: 'tsx',
+                    target: 'es2015',
+                    // tsconfigRaw: require('../../tsconfig.json'),
                 },
                 include: src,
                 exclude: [
