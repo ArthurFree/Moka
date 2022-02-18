@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+### 2022-02-18
+
+* 更新: 重新整理并合并了 @types，更好的管理项目中的类型声明文件
+
 ### 2022-02-17
 
 * 增加: 为 tui.editor 引入 code-syntax-highlight 插件
