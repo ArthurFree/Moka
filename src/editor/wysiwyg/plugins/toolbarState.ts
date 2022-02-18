@@ -3,8 +3,8 @@ import { Plugin, Selection } from 'prosemirror-state';
 
 import { includes } from '@/utils/common';
 
-import { ToolbarStateMap, ToolbarStateKeys } from '@t/ui';
-import { Emitter } from '@t/event';
+import { ToolbarStateMap, ToolbarStateKeys } from '@editorType/ui';
+import { Emitter } from '@editorType/event';
 
 type ListType = 'bulletList' | 'orderedList' | 'taskList';
 

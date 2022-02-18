@@ -1,5 +1,5 @@
-import { Emitter } from '@t/event';
-import { EditorType } from '@t/editor';
+import { Emitter } from '@editorType/event';
+import { EditorType } from '@editorType/editor';
 import i18n from '@/i18n/i18n';
 import { cls } from '@/utils/dom';
 import html from '../vdom/template';

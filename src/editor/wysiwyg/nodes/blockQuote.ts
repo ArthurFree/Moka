@@ -8,7 +8,7 @@ import {
   getDefaultCustomAttrs,
 } from '@/wysiwyg/helper/node';
 
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 
 export class BlockQuote extends NodeSchema {
   get name() {

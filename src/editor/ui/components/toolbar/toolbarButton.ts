@@ -6,8 +6,8 @@ import {
   HideTooltip,
   ShowTooltip,
   ToolbarButtonInfo,
-} from '@t/ui';
-import { Emitter } from '@t/event';
+} from '@editorType/ui';
+import { Emitter } from '@editorType/event';
 import html from '@/ui/vdom/template';
 import { Component } from '@/ui/vdom/component';
 import { createPopupInfo } from '@/ui/toolbarItemFactory';

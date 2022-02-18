@@ -4,7 +4,7 @@ import NodeSchema from '@/spec/node';
 import { getWwCommands } from '@/commands/wwCommands';
 import { changeList } from '@/wysiwyg/command/list';
 
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 import { getDefaultCustomAttrs, getCustomAttrs } from '@/wysiwyg/helper/node';
 
 export class OrderedList extends NodeSchema {

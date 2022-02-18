@@ -6,7 +6,7 @@ import { newlineInCode } from 'prosemirror-commands';
 import { redo, undo, undoDepth, history } from 'prosemirror-history';
 import { keymap } from 'prosemirror-keymap';
 import isFunction from 'tui-code-snippet/type/isFunction';
-import { ToDOMAdaptor } from '@t/convertor';
+import { ToDOMAdaptor } from '@editorType/convertor';
 import { createTextSelection } from '@/helper/manipulation';
 import { cls } from '@/utils/dom';
 

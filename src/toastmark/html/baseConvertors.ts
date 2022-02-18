@@ -1,4 +1,4 @@
-import { HTMLConvertorMap } from '@toast/renderer';
+import { HTMLConvertorMap } from '@toastmarkType/renderer';
 import {
   Node,
   HeadingNode,

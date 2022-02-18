@@ -7,7 +7,7 @@ import removeClass from 'tui-code-snippet/domUtil/removeClass';
 import isString from 'tui-code-snippet/type/isString';
 import isNumber from 'tui-code-snippet/type/isNumber';
 
-import { Emitter, Handler } from '@t/event';
+import { Emitter, Handler } from '@editorType/event';
 import {
     Base,
     EditorOptions,
@@ -16,8 +16,8 @@ import {
     PreviewStyle,
     ViewerOptions,
     WidgetStyle,
-} from '@t/editor';
-import { PluginCommandMap, PluginInfoResult, CommandFn } from '@t/plugin';
+} from '@editorType/editor';
+import { PluginCommandMap, PluginInfoResult, CommandFn } from '@editorType/plugin';
 
 import { sendHostName, sanitizeLinkAttribute, deepMergedCopy } from './utils/common';
 

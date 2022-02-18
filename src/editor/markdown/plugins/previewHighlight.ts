@@ -1,7 +1,7 @@
-import { MdNode, MdPos } from '@toast/index';
+import { MdNode, MdPos } from '@toastmarkType/index';
 import { Plugin } from 'prosemirror-state';
-import { MdContext } from '@t/spec';
-import { ToolbarStateMap, ToolbarStateKeys } from '@t/ui';
+import { MdContext } from '@editorType/spec';
+import { ToolbarStateMap, ToolbarStateKeys } from '@editorType/ui';
 import { traverseParentNodes, isListNode } from '@/utils/markdown';
 import { includes } from '@/utils/common';
 

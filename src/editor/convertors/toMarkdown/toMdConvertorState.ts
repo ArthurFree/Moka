@@ -2,14 +2,14 @@ import { Node, Mark } from 'prosemirror-model';
 
 import { includes, escape, last } from '@/utils/common';
 
-import { WwNodeType, WwMarkType } from '@t/wysiwyg';
+import { WwNodeType, WwMarkType } from '@editorType/wysiwyg';
 import {
   ToMdConvertors,
   ToMdNodeTypeConvertorMap,
   ToMdMarkTypeConvertorMap,
   FirstDelimFn,
   InfoForPosSync,
-} from '@t/convertor';
+} from '@editorType/convertor';
 
 export default class ToMdConvertorState {
   private readonly nodeTypeConvertors: ToMdNodeTypeConvertorMap;

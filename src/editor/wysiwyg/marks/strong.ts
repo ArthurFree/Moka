@@ -4,7 +4,7 @@ import { toggleMark } from 'prosemirror-commands';
 import Mark from '@/spec/mark';
 import { getCustomAttrs, getDefaultCustomAttrs } from '@/wysiwyg/helper/node';
 
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 
 export class Strong extends Mark {
   get name() {

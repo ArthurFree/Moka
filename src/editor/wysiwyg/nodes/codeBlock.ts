@@ -6,7 +6,7 @@ import { between, last } from '@/utils/common';
 import NodeSchema from '@/spec/node';
 import { getCustomAttrs, getDefaultCustomAttrs } from '@/wysiwyg/helper/node';
 
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 
 export class CodeBlock extends NodeSchema {
   get name() {

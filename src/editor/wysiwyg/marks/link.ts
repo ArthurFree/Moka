@@ -7,8 +7,8 @@ import { sanitizeHTML } from '@/sanitizer/htmlSanitizer';
 import { createTextNode } from '@/helper/manipulation';
 import { getCustomAttrs, getDefaultCustomAttrs } from '@/wysiwyg/helper/node';
 
-import { EditorCommand } from '@t/spec';
-import { LinkAttributes } from '@t/editor';
+import { EditorCommand } from '@editorType/spec';
+import { LinkAttributes } from '@editorType/editor';
 
 export class Link extends Mark {
   private linkAttributes: LinkAttributes;

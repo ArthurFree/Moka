@@ -7,14 +7,14 @@ import {
   OpenTagToken,
   RawHTMLToken,
   TextToken,
-} from '@toast/index';
+} from '@toastmarkType/index';
 import { Renderer, } from '@toast-ui/toastmark'
 import { Node as ProsemirrorNode, Mark } from 'prosemirror-model';
 import isArray from 'tui-code-snippet/type/isArray';
 import { getHTMLRenderConvertors } from '@/markdown/htmlRenderConvertors';
-import { ToDOMAdaptor } from '@t/convertor';
+import { ToDOMAdaptor } from '@editorType/convertor';
 import { includes, last } from '@/utils/common';
-import { CustomHTMLRenderer, LinkAttributes } from '@t/editor';
+import { CustomHTMLRenderer, LinkAttributes } from '@editorType/editor';
 import { setAttributes } from '@/utils/dom';
 import { createMdLikeNode, isContainer, isPmNode } from './mdLikeNode';
 

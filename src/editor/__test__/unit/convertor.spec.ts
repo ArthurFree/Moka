@@ -9,7 +9,7 @@ import Convertor from '@/convertors/convertor';
 import { WwToDOMAdaptor } from '@/wysiwyg/adaptor/wwToDOMAdaptor';
 import EventEmitter from '@/event/eventEmitter';
 
-import { ToMdConvertorMap, ToMdConvertorContext, NodeInfo, MarkInfo } from '@t/convertor';
+import { ToMdConvertorMap, ToMdConvertorContext, NodeInfo, MarkInfo } from '@editorType/convertor';
 import { createHTMLSchemaMap } from '@/wysiwyg/nodes/html';
 import { sanitizeHTML } from '@/sanitizer/htmlSanitizer';
 import { createHTMLrenderer } from './markdown/util';

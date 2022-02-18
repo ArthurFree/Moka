@@ -4,8 +4,8 @@ import { getHTMLRenderers } from './renderers/toHTMLRenderers';
 import { codeSyntaxHighlighting } from './plugins/codeSyntaxHighlighting';
 import { createCodeSyntaxHighlightView } from './nodeViews/codeSyntaxHighlightView';
 
-import type { PluginContext, PluginInfo } from '@t/index';
-import { PluginOptions } from '@codeType/index';
+import type { PluginContext, PluginInfo } from '@editorType/index';
+import { PluginOptions } from '@pluginHighlightType/index';
 
 export function codeSyntaxHighlightPlugin(
   context: PluginContext,

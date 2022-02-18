@@ -2,7 +2,7 @@ import { Node as ProsemirrorNode, DOMOutputSpecArray } from 'prosemirror-model';
 
 import Node from '@/spec/node';
 
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 import { getDefaultCustomAttrs, getCustomAttrs } from '@/wysiwyg/helper/node';
 
 const ROOT_BLOCK_DEPTH = 1;

@@ -2,8 +2,8 @@ import addClass from 'tui-code-snippet/domUtil/addClass';
 import removeClass from 'tui-code-snippet/domUtil/removeClass';
 import isUndefined from 'tui-code-snippet/type/isUndefined';
 
-import { Emitter } from '@t/event';
-import { ExecCommand, HidePopup, PopupInitialValues } from '@t/ui';
+import { Emitter } from '@editorType/event';
+import { ExecCommand, HidePopup, PopupInitialValues } from '@editorType/ui';
 import i18n from '@/i18n/i18n';
 import { cls } from '@/utils/dom';
 import html from '@/ui/vdom/template';

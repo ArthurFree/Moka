@@ -9,9 +9,9 @@ import {
   OpenTagToken,
   Context,
   HTMLConvertor,
-} from '@toast/index';
-import { LinkAttributes, CustomHTMLRenderer } from '@t/editor';
-import { HTMLMdNode } from '@t/markdown';
+} from '@toastmarkType/index';
+import { LinkAttributes, CustomHTMLRenderer } from '@editorType/editor';
+import { HTMLMdNode } from '@editorType/markdown';
 import { getWidgetContent, widgetToDOM } from '@/widget/rules';
 import { getChildrenHTML, getHTMLAttrsByHTMLString } from '@/wysiwyg/nodes/html';
 import { includes } from '@/utils/common';

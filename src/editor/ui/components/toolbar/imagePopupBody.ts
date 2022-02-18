@@ -1,8 +1,8 @@
 import removeClass from 'tui-code-snippet/domUtil/removeClass';
 import addClass from 'tui-code-snippet/domUtil/addClass';
-import { HookCallback } from '@t/editor';
-import { Emitter } from '@t/event';
-import { ExecCommand, HidePopup, TabInfo } from '@t/ui';
+import { HookCallback } from '@editorType/editor';
+import { Emitter } from '@editorType/event';
+import { ExecCommand, HidePopup, TabInfo } from '@editorType/ui';
 import i18n from '@/i18n/i18n';
 import { cls } from '@/utils/dom';
 import { Component } from '@/ui/vdom/component';

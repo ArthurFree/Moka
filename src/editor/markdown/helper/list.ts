@@ -1,6 +1,6 @@
 import { ProsemirrorNode, Schema } from 'prosemirror-model';
-import { ToastMark } from '@t/toastmark';
-import { ListItemMdNode, MdNode, } from '@toast/index';
+import { ToastMark } from '@editorType/toastmark';
+import { ListItemMdNode, MdNode, } from '@toastmarkType/index';
 import { findClosestNode, isListNode, isOrderedListNode } from '@/utils/markdown';
 import { createTextNode } from '@/helper/manipulation';
 import { getTextByMdLine } from './query';

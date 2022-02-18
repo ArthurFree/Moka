@@ -1,5 +1,5 @@
-import { ContextMenuItem, ExecCommand, Pos, VNode } from '@t/ui';
-import { Emitter } from '@t/event';
+import { ContextMenuItem, ExecCommand, Pos, VNode } from '@editorType/ui';
+import { Emitter } from '@editorType/event';
 import { closest, cls } from '@/utils/dom';
 import html from '../vdom/template';
 import { Component } from '../vdom/component';

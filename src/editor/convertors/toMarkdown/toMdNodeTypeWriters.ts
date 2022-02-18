@@ -9,8 +9,8 @@ import {
   ToMdConvertorState,
   NodeInfo,
   ToMdConvertorReturnValues,
-} from '@t/convertor';
-import { WwNodeType, ColumnAlign } from '@t/wysiwyg';
+} from '@editorType/convertor';
+import { WwNodeType, ColumnAlign } from '@editorType/wysiwyg';
 
 function convertToRawHTMLHavingInlines(
   state: ToMdConvertorState,

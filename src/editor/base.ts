@@ -5,11 +5,11 @@ import { keymap } from 'prosemirror-keymap';
 import { baseKeymap } from 'prosemirror-commands';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
 import { history } from 'prosemirror-history';
-import { Sourcepos } from '@toast/index';
+import { Sourcepos } from '@toastmarkType/index';
 import css from 'tui-code-snippet/domUtil/css';
-import { WidgetStyle, EditorType, EditorPos, Base, NodeRangeInfo } from '@t/editor';
-import { Emitter } from '@t/event';
-import { Context, EditorAllCommandMap } from '@t/spec';
+import { WidgetStyle, EditorType, EditorPos, Base, NodeRangeInfo } from '@editorType/editor';
+import { Emitter } from '@editorType/event';
+import { Context, EditorAllCommandMap } from '@editorType/spec';
 import SpecManager from './spec/specManager';
 import { createTextSelection } from './helper/manipulation';
 import { createNodesWithWidget, getWidgetRules } from './widget/rules';
@@ -19,7 +19,7 @@ import { addWidget } from './plugins/popupWidget';
 import { dropImage } from './plugins/dropImage';
 import { isWidgetNode } from './widget/widgetNode';
 import { last } from './utils/common';
-import { PluginProp } from '@t/plugin';
+import { PluginProp } from '@editorType/plugin';
 
 export default abstract class EditorBase implements Base {
   el: HTMLElement;

@@ -3,7 +3,7 @@ import isNull from 'tui-code-snippet/type/isNull';
 import sendHostname from 'tui-code-snippet/request/sendHostname';
 import forEachOwnProperties from 'tui-code-snippet/collection/forEachOwnProperties';
 
-import { LinkAttributeNames, LinkAttributes } from '@t/editor';
+import { LinkAttributeNames, LinkAttributes } from '@editorType/editor';
 
 export const isMac = /Mac/.test(navigator.platform);
 const reSpaceMoreThanOne = /[\u0020]+/g;

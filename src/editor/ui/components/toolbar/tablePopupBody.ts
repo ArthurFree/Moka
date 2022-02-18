@@ -1,5 +1,5 @@
-import { Emitter } from '@t/event';
-import { ExecCommand, Pos } from '@t/ui';
+import { Emitter } from '@editorType/event';
+import { ExecCommand, Pos } from '@editorType/ui';
 import { cls } from '@/utils/dom';
 import html from '@/ui/vdom/template';
 import { Component } from '@/ui/vdom/component';

@@ -1,6 +1,6 @@
 import { Schema, ProsemirrorNode } from 'prosemirror-model';
-import { CustomInlineMdNode } from '@toast/index';
-import { WidgetRule, WidgetRuleMap } from '@t/editor';
+import { CustomInlineMdNode } from '@toastmarkType/index';
+import { WidgetRule, WidgetRuleMap } from '@editorType/editor';
 import { getInlineMarkdownText } from '@/utils/markdown';
 
 let widgetRules: WidgetRule[] = [];

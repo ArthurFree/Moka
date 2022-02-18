@@ -4,8 +4,8 @@ import extend from 'tui-code-snippet/object/extend';
 import on from 'tui-code-snippet/domEvent/on';
 import off from 'tui-code-snippet/domEvent/off';
 
-import { CustomHTMLRenderer, ViewerOptions } from '@t/editor';
-import { Emitter, Handler } from '@t/event';
+import { CustomHTMLRenderer, ViewerOptions } from '@editorType/editor';
+import { Emitter, Handler } from '@editorType/event';
 import MarkdownPreview from './markdown/mdPreview';
 import { getPluginInfo } from './helper/plugin';
 import { last, sanitizeLinkAttribute } from './utils/common';

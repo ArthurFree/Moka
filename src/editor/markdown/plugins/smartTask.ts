@@ -1,7 +1,7 @@
 import { Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { MdPos } from '@toast/index';
-import { MdContext } from '@t/spec';
+import { MdPos } from '@toastmarkType/index';
+import { MdContext } from '@editorType/spec';
 import { findClosestNode } from '@/utils/markdown';
 import { getRangeInfo, getNodeContentOffsetRange } from '../helper/pos';
 

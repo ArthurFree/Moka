@@ -1,4 +1,4 @@
-import { Component as IComponent, VNode } from '@t/ui';
+import { Component as IComponent, VNode } from '@editorType/ui';
 import { shallowEqual } from '@/utils/common';
 import { rerender } from './renderer';
 

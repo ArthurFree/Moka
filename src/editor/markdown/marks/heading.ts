@@ -1,5 +1,5 @@
 import { DOMOutputSpecArray, Mark as ProsemirrorMark } from 'prosemirror-model';
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 import { clsWithMdPrefix } from '@/utils/dom';
 import Mark from '@/spec/mark';
 import { createTextSelection, replaceTextNode } from '@/helper/manipulation';

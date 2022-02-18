@@ -5,9 +5,9 @@ import { Fragment } from 'prosemirror-model';
 import i18n from '@/i18n/i18n';
 import { deepMergedCopy } from '@/utils/common';
 
-import { EditorPlugin } from '@t/editor';
-import { Emitter } from '@t/event';
-import { PluginInfoResult } from '@t/plugin';
+import { EditorPlugin } from '@editorType/editor';
+import { Emitter } from '@editorType/event';
+import { PluginInfoResult } from '@editorType/plugin';
 import { mixinTableOffsetMapPrototype } from '@/wysiwyg/helper/tableOffsetMap';
 
 function execPlugin(plugin: EditorPlugin, eventEmitter: Emitter, usageStatistics: boolean) {

@@ -1,8 +1,8 @@
 import { DOMOutputSpecArray, Mark as ProsemirrorMark } from 'prosemirror-model';
 import { Transaction } from 'prosemirror-state';
 import { Command } from 'prosemirror-commands';
-import { ListItemMdNode, MdNode } from '@toast/index';
-import { EditorCommand, MdSpecContext } from '@t/spec';
+import { ListItemMdNode, MdNode } from '@toastmarkType/index';
+import { EditorCommand, MdSpecContext } from '@editorType/spec';
 import { clsWithMdPrefix } from '@/utils/dom';
 import Mark from '@/spec/mark';
 import { isListNode } from '@/utils/markdown';

@@ -4,10 +4,10 @@ import removeClass from 'tui-code-snippet/domUtil/removeClass';
 import on from 'tui-code-snippet/domEvent/on';
 import css from 'tui-code-snippet/domUtil/css';
 import { Renderer } from '@toast-ui/toastmark';
-import { EditResult, MdNode, MdPos, } from '@toast/index'
+import { EditResult, MdNode, MdPos, } from '@toastmarkType/index'
 
-import { Emitter } from '@t/event';
-import { CustomHTMLRenderer, LinkAttributes } from '@t/editor';
+import { Emitter } from '@editorType/event';
+import { CustomHTMLRenderer, LinkAttributes } from '@editorType/editor';
 import { cls, createElementWith, removeNode, toggleClass } from '@/utils/dom';
 import { getHTMLRenderConvertors } from '@/markdown/htmlRenderConvertors';
 import { isInlineNode, findClosestNode, getMdStartCh } from '@/utils/markdown';

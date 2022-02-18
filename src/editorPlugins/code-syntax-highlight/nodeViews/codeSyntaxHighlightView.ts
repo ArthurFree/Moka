@@ -6,7 +6,7 @@ import addClass from 'tui-code-snippet/domUtil/addClass';
 
 import { cls } from '../utils/dom';
 import { LanguageSelectBox } from './languageSelectBox';
-import type { Emitter } from '@t/event';
+import type { Emitter } from '@editorType/event';
 
 type GetPos = (() => number) | boolean;
 

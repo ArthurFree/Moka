@@ -1,5 +1,5 @@
 import isFunction from 'tui-code-snippet/type/isFunction';
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 import { createTextSelection } from '@/helper/manipulation';
 import { resolveSelectionPos } from './pos';
 

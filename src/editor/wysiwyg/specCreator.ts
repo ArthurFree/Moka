@@ -25,7 +25,7 @@ import { Link } from './marks/link';
 import { Code } from './marks/code';
 import { CustomBlock } from './nodes/customBlock';
 import { FrontMatter } from './nodes/frontMatter';
-import { LinkAttributes } from '@t/editor';
+import { LinkAttributes } from '@editorType/editor';
 import { Widget } from '@/widget/widgetNode';
 import { HTMLComment } from './nodes/htmlComment';
 

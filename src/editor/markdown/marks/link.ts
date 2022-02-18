@@ -1,5 +1,5 @@
 import { DOMOutputSpecArray, Mark as ProsemirrorMark } from 'prosemirror-model';
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 import { clsWithMdPrefix } from '@/utils/dom';
 import { escapeTextForLink } from '@/utils/common';
 import Mark from '@/spec/mark';

@@ -1,6 +1,6 @@
 import isUndefined from 'tui-code-snippet/type/isUndefined';
 import isFalsy from 'tui-code-snippet/type/isFalsy';
-import { Emitter, EventTypes, Handler } from '@t/event';
+import { Emitter, EventTypes, Handler } from '@editorType/event';
 import Map from '@/utils/map';
 
 const eventTypeList: EventTypes[] = [

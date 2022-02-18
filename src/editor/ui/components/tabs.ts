@@ -1,4 +1,4 @@
-import { TabInfo } from '@t/ui';
+import { TabInfo } from '@editorType/ui';
 import i18n from '@/i18n/i18n';
 import { cls } from '@/utils/dom';
 import html from '../vdom/template';

@@ -1,6 +1,6 @@
 import { Keymap } from 'prosemirror-commands';
 import { MarkSpec } from 'prosemirror-model';
-import { SpecContext, EditorCommand, EditorCommandMap } from '@t/spec';
+import { SpecContext, EditorCommand, EditorCommandMap } from '@editorType/spec';
 
 export default abstract class Mark {
   context!: SpecContext;

@@ -4,8 +4,8 @@ import {
   RefDefCandidateMap,
   RefLinkCandidateMap,
   RefMap,
-} from '@toast/index';
-import { BlockNodeType } from '@toast/node';
+} from '@toastmarkType/index';
+import { BlockNodeType } from '@toastmarkType/node';
 import { repeat } from './common';
 import { Node, BlockNode, isCodeBlock, isHtmlBlock, createNode, TableCellNode } from './node';
 import { InlineParser, C_NEWLINE } from './inlines';

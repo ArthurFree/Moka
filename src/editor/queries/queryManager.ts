@@ -1,4 +1,4 @@
-import type { EditorCore as Editor } from '@t/editor';
+import type { EditorCore as Editor } from '@editorType/editor';
 
 type QueryFn = (editor: Editor, payload?: Record<string, any>) => any;
 

@@ -13,7 +13,7 @@ import {
   PopupInitialValues,
   ToolbarCustomOptions,
   ExecCommand,
-} from '@t/ui';
+} from '@editorType/ui';
 import i18n from '@/i18n/i18n';
 import { cls } from '@/utils/dom';
 import html from './vdom/template';

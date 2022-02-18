@@ -1,6 +1,6 @@
 import { Keymap } from 'prosemirror-commands';
 import { NodeSpec } from 'prosemirror-model';
-import { SpecContext, EditorCommand, EditorCommandMap } from '@t/spec';
+import { SpecContext, EditorCommand, EditorCommandMap } from '@editorType/spec';
 
 export default abstract class Node {
   context!: SpecContext;

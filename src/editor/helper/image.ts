@@ -1,7 +1,7 @@
 import toArray from 'tui-code-snippet/collection/toArray';
 
-import { HookCallback } from '@t/editor';
-import { Emitter } from '@t/event';
+import { HookCallback } from '@editorType/editor';
+import { Emitter } from '@editorType/event';
 
 export function addDefaultImageBlobHook(eventEmitter: Emitter) {
   eventEmitter.listen('addImageBlobHook', (blob: File, callback: HookCallback) => {

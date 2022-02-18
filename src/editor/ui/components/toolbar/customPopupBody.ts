@@ -1,5 +1,5 @@
-import { ExecCommand, HidePopup } from '@t/ui';
-import { Emitter } from '@t/event';
+import { ExecCommand, HidePopup } from '@editorType/ui';
+import { Emitter } from '@editorType/event';
 import html from '@/ui/vdom/template';
 import { Component } from '@/ui/vdom/component';
 

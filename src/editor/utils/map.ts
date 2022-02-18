@@ -1,5 +1,5 @@
 import inArray from 'tui-code-snippet/array/inArray';
-import { Mapable } from '@t/map';
+import { Mapable } from '@editorType/map';
 
 /**
  * @class

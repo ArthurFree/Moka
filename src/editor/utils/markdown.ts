@@ -7,7 +7,7 @@ import {
   MdNodeType,
   TableCellMdNode,
   MdPos,
-} from '@toast/index';
+} from '@toastmarkType/index';
 import { includes } from './common';
 
 export function hasSpecificTypeAncestor(mdNode: MdNode, ...types: MdNodeType[]) {

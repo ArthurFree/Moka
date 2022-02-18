@@ -1,6 +1,6 @@
-import { EditorType, PreviewStyle } from '@t/editor';
-import { Emitter } from '@t/event';
-import { IndexList, ToolbarItem, ToolbarItemOptions } from '@t/ui';
+import { EditorType, PreviewStyle } from '@editorType/editor';
+import { Emitter } from '@editorType/event';
+import { IndexList, ToolbarItem, ToolbarItemOptions } from '@editorType/ui';
 import { cls } from '@/utils/dom';
 import html from '../vdom/template';
 import { Component } from '../vdom/component';

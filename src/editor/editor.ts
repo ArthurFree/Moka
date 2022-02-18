@@ -1,5 +1,5 @@
-import { EditorOptions, ViewerOptions } from '@t/editor';
-import { DefaultUI, VNode, IndexList, ToolbarItemOptions } from '@t/ui';
+import { EditorOptions, ViewerOptions } from '@editorType/editor';
+import { DefaultUI, VNode, IndexList, ToolbarItemOptions } from '@editorType/ui';
 import EditorCore from './editorCore';
 import Viewer from './viewer';
 import html from './ui/vdom/template';

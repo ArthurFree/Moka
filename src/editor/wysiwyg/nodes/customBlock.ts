@@ -1,7 +1,7 @@
 import { DOMOutputSpecArray, ProsemirrorNode } from 'prosemirror-model';
 import { setBlockType } from 'prosemirror-commands';
 import NodeSchema from '@/spec/node';
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 
 export class CustomBlock extends NodeSchema {
   get name() {

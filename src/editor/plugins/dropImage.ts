@@ -1,6 +1,6 @@
 import { Plugin } from 'prosemirror-state';
 import forEachArray from 'tui-code-snippet/collection/forEachArray';
-import { Context } from '@t/spec';
+import { Context } from '@editorType/spec';
 import { emitImageBlobHook } from '@/helper/image';
 
 export function dropImage({ eventEmitter }: Context) {

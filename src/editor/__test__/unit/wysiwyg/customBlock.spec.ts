@@ -1,6 +1,6 @@
 import { oneLineTrim } from 'common-tags';
 import { HTMLConvertorMap } from '@toast-ui/toastmark';
-import { ToDOMAdaptor } from '@t/convertor';
+import { ToDOMAdaptor } from '@editorType/convertor';
 import { WwToDOMAdaptor } from '@/wysiwyg/adaptor/wwToDOMAdaptor';
 import WysiwygEditor from '@/wysiwyg/wwEditor';
 import EventEmitter from '@/event/eventEmitter';

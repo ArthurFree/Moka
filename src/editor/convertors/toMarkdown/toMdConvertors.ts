@@ -13,8 +13,8 @@ import {
   ToMdMarkTypeOptions,
   NodeInfo,
   MarkInfo,
-} from '@t/convertor';
-import { WwNodeType, WwMarkType } from '@t/wysiwyg';
+} from '@editorType/convertor';
+import { WwNodeType, WwMarkType } from '@editorType/wysiwyg';
 
 function addBackticks(node: ProsemirrorNode, side: number) {
   const { text } = node;

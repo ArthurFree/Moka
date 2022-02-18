@@ -4,7 +4,7 @@ import { EditorView } from 'prosemirror-view';
 import { findCellElement } from '@/wysiwyg/helper/table';
 import i18n from '@/i18n/i18n';
 
-import { Emitter } from '@t/event';
+import { Emitter } from '@editorType/event';
 
 interface ContextMenuInfo {
   action: string;

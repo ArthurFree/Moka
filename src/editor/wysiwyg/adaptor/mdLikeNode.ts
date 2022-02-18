@@ -1,6 +1,6 @@
-import { MdNodeType } from '@toast/index';
+import { MdNodeType } from '@toastmarkType/index';
 import { Mark, Node as ProsemirrorNode } from 'prosemirror-model';
-import { MdLikeNode } from '@t/markdown';
+import { MdLikeNode } from '@editorType/markdown';
 import { includes } from '@/utils/common';
 
 export function isPmNode(node: ProsemirrorNode | Mark): node is ProsemirrorNode {

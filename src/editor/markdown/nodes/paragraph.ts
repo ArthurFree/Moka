@@ -1,7 +1,7 @@
 import { DOMOutputSpecArray, ProsemirrorNode, Schema } from 'prosemirror-model';
 import { Transaction, Selection } from 'prosemirror-state';
 import { chainCommands, Command, joinForward } from 'prosemirror-commands';
-import { EditorCommand, MdSpecContext } from '@t/spec';
+import { EditorCommand, MdSpecContext } from '@editorType/spec';
 import { clsWithMdPrefix } from '@/utils/dom';
 import Node from '@/spec/node';
 import { isBulletListNode, isOrderedListNode } from '@/utils/markdown';

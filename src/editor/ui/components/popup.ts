@@ -1,5 +1,5 @@
-import { ExecCommand, HidePopup, PopupInfo, Pos } from '@t/ui';
-import { Emitter } from '@t/event';
+import { ExecCommand, HidePopup, PopupInfo, Pos } from '@editorType/ui';
+import { Emitter } from '@editorType/event';
 import { closest, cls } from '@/utils/dom';
 import { shallowEqual } from '@/utils/common';
 import html from '../vdom/template';

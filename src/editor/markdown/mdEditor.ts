@@ -3,13 +3,13 @@ import { EditorView } from 'prosemirror-view';
 import { Fragment, Slice } from 'prosemirror-model';
 import { ReplaceAroundStep } from 'prosemirror-transform';
 import { ToastMark } from '@toast-ui/toastmark';
-import { MdPos } from '@toast/index';
+import { MdPos } from '@toastmarkType/index';
 
 import toArray from 'tui-code-snippet/collection/toArray';
 
-import { MdContext } from '@t/spec';
-import { Emitter } from '@t/event';
-import { WidgetStyle } from '@t/editor';
+import { MdContext } from '@editorType/spec';
+import { Emitter } from '@editorType/event';
+import { WidgetStyle } from '@editorType/editor';
 import EditorBase from '@/base';
 import SpecManager from '@/spec/specManager';
 import { cls, toggleClass } from '@/utils/dom';
@@ -38,7 +38,7 @@ import { getEditorToMdPos, getMdToEditorPos } from './helper/pos';
 import { smartTask } from './plugins/smartTask';
 import { createNodesWithWidget, unwrapWidgetSyntax } from '@/widget/rules';
 import { Widget, widgetNodeView } from '@/widget/widgetNode';
-import { PluginProp } from '@t/plugin';
+import { PluginProp } from '@editorType/plugin';
 
 interface WindowWithClipboard extends Window {
   clipboardData?: DataTransfer | null;

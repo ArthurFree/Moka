@@ -1,6 +1,6 @@
-import type { MdNode, CodeBlockMdNode } from '@toast/index';
-import type { HTMLToken } from '@toast/index';
-import { PrismJs } from '@codeType/index';
+import type { MdNode, CodeBlockMdNode } from '@toastmarkType/index';
+import type { HTMLToken } from '@toastmarkType/index';
+import { PrismJs } from '@pluginHighlightType/index';
 
 const BACKTICK_COUNT = 3;
 

@@ -1,4 +1,4 @@
-import { Component, ComponentClass } from '@t/ui';
+import { Component, ComponentClass } from '@editorType/ui';
 
 class VNodeWalker {
   current: VNode | null;

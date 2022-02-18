@@ -1,5 +1,5 @@
 import isString from 'tui-code-snippet/type/isString';
-import { VNode } from '@t/ui';
+import { VNode } from '@editorType/ui';
 import EventEmitter from '@/event/eventEmitter';
 import html from '@/ui/vdom/template';
 import { render } from '@/ui/vdom/renderer';

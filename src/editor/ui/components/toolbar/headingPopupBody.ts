@@ -1,5 +1,5 @@
-import { Emitter } from '@t/event';
-import { ExecCommand } from '@t/ui';
+import { Emitter } from '@editorType/event';
+import { ExecCommand } from '@editorType/ui';
 import { closest } from '@/utils/dom';
 import i18n from '@/i18n/i18n';
 import html from '@/ui/vdom/template';

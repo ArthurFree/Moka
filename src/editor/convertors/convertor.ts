@@ -1,8 +1,8 @@
 import { Node as ProsemirrorNode, Schema } from 'prosemirror-model';
-import { HTMLConvertorMap, MdNode, MdPos } from '@toast/index';
+import { HTMLConvertorMap, MdNode, MdPos } from '@toastmarkType/index';
 
-import { ToWwConvertorMap, ToMdConvertors, ToMdConvertorMap } from '@t/convertor';
-import { Emitter } from '@t/event';
+import { ToWwConvertorMap, ToMdConvertors, ToMdConvertorMap } from '@editorType/convertor';
+import { Emitter } from '@editorType/event';
 
 import { createWwConvertors } from './toWysiwyg/toWwConvertors';
 import ToWwConvertorState from './toWysiwyg/toWwConvertorState';

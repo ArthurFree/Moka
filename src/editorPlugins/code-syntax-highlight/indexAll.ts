@@ -1,7 +1,7 @@
 import Prism from 'prismjs';
-import type { PluginContext, PluginInfo } from '@t/index';
+import type { PluginContext, PluginInfo } from '@editorType/index';
 import { codeSyntaxHighlightPlugin } from './plugin';
-import { PrismJs } from '@codeType/index';
+import { PrismJs } from '@pluginHighlightType/index';
 
 import './prismjs-langs';
 import './css/plugin.css';

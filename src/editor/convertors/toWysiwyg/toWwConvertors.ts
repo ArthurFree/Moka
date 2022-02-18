@@ -13,7 +13,7 @@ import {
     TableMdNode,
     HTMLConvertorMap,
     OpenTagToken,
-} from '@toast/index';
+} from '@toastmarkType/index';
 import toArray from 'tui-code-snippet/collection/toArray';
 
 import { isElemNode } from '@/utils/dom';
@@ -25,7 +25,7 @@ import {
   isCustomHTMLInlineNode,
 } from './htmlToWwConvertors';
 
-import { ToWwConvertorMap } from '@t/convertor';
+import { ToWwConvertorMap } from '@editorType/convertor';
 import { createWidgetContent, getWidgetContent } from '@/widget/rules';
 import { getChildrenHTML, getHTMLAttrsByHTMLString } from '@/wysiwyg/nodes/html';
 import { includes } from '@/utils/common';

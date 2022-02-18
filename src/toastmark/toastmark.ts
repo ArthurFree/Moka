@@ -4,9 +4,9 @@ import {
   EventName,
   RemovedNodeRange,
   ToastMark as ToastMarkParser,
-} from '@t/toastMark';
-import { ParserOptions, RefDefCandidateMap, RefLinkCandidateMap, RefMap } from '@toast/index';
-import { Pos } from '@toast/node';
+} from '@editorType/toastMark';
+import { ParserOptions, RefDefCandidateMap, RefLinkCandidateMap, RefMap } from '@toastmarkType/index';
+import { Pos } from '@toastmarkType/node';
 import { Parser } from './commonmark/blocks';
 import {
   BlockNode,

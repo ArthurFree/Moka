@@ -3,7 +3,7 @@ import { exitCode } from 'prosemirror-commands';
 
 import NodeSchema from '@/spec/node';
 
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 
 export class HTMLComment extends NodeSchema {
   get name() {

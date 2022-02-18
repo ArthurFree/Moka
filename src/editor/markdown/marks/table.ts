@@ -1,9 +1,9 @@
 import { DOMOutputSpecArray } from 'prosemirror-model';
 import { Command } from 'prosemirror-commands';
 import type { Transaction } from 'prosemirror-state';
-import { TableCellMdNode, MdNode, MdPos } from '@toast/index';
-import { EditorCommand, MdSpecContext } from '@t/spec';
-import { TableRowMdNode } from '@t/markdown';
+import { TableCellMdNode, MdNode, MdPos } from '@toastmarkType/index';
+import { EditorCommand, MdSpecContext } from '@editorType/spec';
+import { TableRowMdNode } from '@editorType/markdown';
 import { clsWithMdPrefix } from '@/utils/dom';
 import { findClosestNode, getMdEndCh, isTableCellNode } from '@/utils/markdown';
 import Mark from '@/spec/mark';

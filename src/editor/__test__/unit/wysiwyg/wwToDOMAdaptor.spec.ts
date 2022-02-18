@@ -1,7 +1,7 @@
 import { Fragment, ProsemirrorNode } from 'prosemirror-model';
 import { oneLineTrim } from 'common-tags';
 import { HeadingMdNode, CodeBlockMdNode, HTMLConvertorMap } from '@toast-ui/toastmark';
-import { ToDOMAdaptor } from '@t/convertor';
+import { ToDOMAdaptor } from '@editorType/convertor';
 import { WwToDOMAdaptor } from '@/wysiwyg/adaptor/wwToDOMAdaptor';
 import EventEmitter from '@/event/eventEmitter';
 import WysiwygEditor from '@/wysiwyg/wwEditor';

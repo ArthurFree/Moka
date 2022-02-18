@@ -5,8 +5,8 @@ import isString from 'tui-code-snippet/type/isString';
 
 import { flatten } from '../utils/common';
 
-import type { PluginContext } from '@t/index';
-import { PrismJs } from '@codeType/index';
+import type { PluginContext } from '@editorType/index';
+import { PrismJs } from '@pluginHighlightType/index';
 
 interface ChildNodeInfo {
   node: ProsemirrorNode;

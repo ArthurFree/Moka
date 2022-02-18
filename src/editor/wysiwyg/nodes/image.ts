@@ -4,7 +4,7 @@ import NodeSchema from '@/spec/node';
 import { escapeXml } from '@/utils/common';
 import { sanitizeHTML } from '@/sanitizer/htmlSanitizer';
 
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 import { getCustomAttrs, getDefaultCustomAttrs } from '../helper/node';
 
 export class Image extends NodeSchema {

@@ -1,7 +1,7 @@
 import { Schema, Node, NodeType, Mark, MarkType, DOMParser } from 'prosemirror-model';
-import { MdNode } from '@toast/index';
+import { MdNode } from '@toastmarkType/index';
 
-import { ToWwConvertorMap, StackItem, Attrs, InfoForPosSync } from '@t/convertor';
+import { ToWwConvertorMap, StackItem, Attrs, InfoForPosSync } from '@editorType/convertor';
 import { last } from '@/utils/common';
 import { isContainer, getChildrenText } from '@/utils/markdown';
 

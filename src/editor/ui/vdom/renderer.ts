@@ -1,4 +1,4 @@
-import { Component } from '@t/ui';
+import { Component } from '@editorType/ui';
 import { commit } from './commit';
 import { buildVNode } from './render';
 import { VNode } from './vnode';

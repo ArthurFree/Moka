@@ -8,7 +8,7 @@ import { isPositionInBox, setAttributes } from '@/utils/dom';
 import { createTextSelection } from '@/helper/manipulation';
 import { getCustomAttrs } from '@/wysiwyg/helper/node';
 
-import { Emitter } from '@t/event';
+import { Emitter } from '@editorType/event';
 
 type GetPos = (() => number) | boolean;
 

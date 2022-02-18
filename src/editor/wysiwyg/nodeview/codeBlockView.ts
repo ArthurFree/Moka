@@ -7,7 +7,7 @@ import css from 'tui-code-snippet/domUtil/css';
 import { removeNode, setAttributes } from '@/utils/dom';
 import { getCustomAttrs } from '@/wysiwyg/helper/node';
 
-import { Emitter } from '@t/event';
+import { Emitter } from '@editorType/event';
 
 type GetPos = (() => number) | boolean;
 

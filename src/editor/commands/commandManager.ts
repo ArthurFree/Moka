@@ -1,6 +1,6 @@
-import { EditorType } from '@t/editor';
-import { EditorAllCommandMap, EditorCommandFn } from '@t/spec';
-import { Emitter } from '@t/event';
+import { EditorType } from '@editorType/editor';
+import { EditorAllCommandMap, EditorCommandFn } from '@editorType/spec';
+import { Emitter } from '@editorType/event';
 
 type GetEditorType = () => EditorType;
 export default class CommandManager {

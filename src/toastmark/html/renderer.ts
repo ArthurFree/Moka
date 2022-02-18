@@ -9,8 +9,8 @@ import {
   RendererOptions,
   TagToken,
   TextToken,
-} from '@toast/renderer';
-import { MdNodeType } from '@toast/node';
+} from '@toastmarkType/renderer';
+import { MdNodeType } from '@toastmarkType/node';
 import { Node, isContainer, isCustomBlock, isCustomInline } from '../commonmark/node';
 import { escapeXml } from '../commonmark/common';
 import { last } from '../helper';

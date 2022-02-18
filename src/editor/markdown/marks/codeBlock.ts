@@ -1,6 +1,6 @@
 import { DOMOutputSpecArray } from 'prosemirror-model';
 import { Command } from 'prosemirror-commands';
-import { EditorCommand, MdSpecContext } from '@t/spec';
+import { EditorCommand, MdSpecContext } from '@editorType/spec';
 import { clsWithMdPrefix } from '@/utils/dom';
 import Mark from '@/spec/mark';
 import { createTextNode, createTextSelection, splitAndExtendBlock } from '@/helper/manipulation';

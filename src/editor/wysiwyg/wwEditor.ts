@@ -22,10 +22,10 @@ import { changePastedHTML, changePastedSlice } from './clipboard/paste';
 import { pasteToTable } from './clipboard/pasteToTable';
 import { createSpecs } from './specCreator';
 
-import { Emitter } from '@t/event';
-import { ToDOMAdaptor } from '@t/convertor';
-import { HTMLSchemaMap, LinkAttributes, WidgetStyle } from '@t/editor';
-import { NodeViewPropMap, PluginProp } from '@t/plugin';
+import { Emitter } from '@editorType/event';
+import { ToDOMAdaptor } from '@editorType/convertor';
+import { HTMLSchemaMap, LinkAttributes, WidgetStyle } from '@editorType/editor';
+import { NodeViewPropMap, PluginProp } from '@editorType/plugin';
 import { createNodesWithWidget } from '@/widget/rules';
 import { widgetNodeView } from '@/widget/widgetNode';
 import { cls } from '@/utils/dom';

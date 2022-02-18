@@ -1,4 +1,4 @@
-import { VNode } from '@t/ui';
+import { VNode } from '@editorType/ui';
 import html from '@/ui/vdom/template';
 import { Component } from '@/ui/vdom/component';
 

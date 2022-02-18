@@ -31,8 +31,8 @@ import {
 
 import { createTextSelection } from '@/helper/manipulation';
 
-import { EditorCommand } from '@t/spec';
-import { ColumnAlign } from '@t/wysiwyg';
+import { EditorCommand } from '@editorType/spec';
+import { ColumnAlign } from '@editorType/wysiwyg';
 import { SelectionInfo, TableOffsetMap } from '@/wysiwyg/helper/tableOffsetMap';
 
 interface AddTablePayload {

@@ -5,10 +5,10 @@ import {
   NodeSpec,
   MarkSpec,
 } from 'prosemirror-model';
-import { MdNode } from '@toast/index';
+import { MdNode } from '@toastmarkType/index';
 import toArray from 'tui-code-snippet/collection/toArray';
-import { Sanitizer, HTMLSchemaMap, CustomHTMLRenderer } from '@t/editor';
-import { ToDOMAdaptor } from '@t/convertor';
+import { Sanitizer, HTMLSchemaMap, CustomHTMLRenderer } from '@editorType/editor';
+import { ToDOMAdaptor } from '@editorType/convertor';
 import { registerTagWhitelistIfPossible } from '@/sanitizer/htmlSanitizer';
 import { reHTMLTag, ATTRIBUTE } from '@/utils/constants';
 

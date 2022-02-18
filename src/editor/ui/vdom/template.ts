@@ -2,7 +2,7 @@ import html from './htm';
 import isBoolean from 'tui-code-snippet/type/isBoolean';
 import isString from 'tui-code-snippet/type/isString';
 import isNumber from 'tui-code-snippet/type/isNumber';
-import { ComponentClass } from '@t/ui';
+import { ComponentClass } from '@editorType/ui';
 import { VNode } from './vnode';
 
 function createTextNode(text: string) {

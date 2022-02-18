@@ -2,8 +2,8 @@ import { EditorView } from 'prosemirror-view';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import css from 'tui-code-snippet/domUtil/css';
 import { closest, cls } from '@/utils/dom';
-import { WidgetStyle } from '@t/editor';
-import { Emitter } from '@t/event';
+import { WidgetStyle } from '@editorType/editor';
+import { Emitter } from '@editorType/event';
 interface Widget {
   node: HTMLElement;
   style: WidgetStyle;

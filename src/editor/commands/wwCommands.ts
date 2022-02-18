@@ -1,7 +1,7 @@
 import { isInListNode } from '@/wysiwyg/helper/node';
 import { sinkListItem, liftListItem } from '@/wysiwyg/command/list';
 
-import { EditorCommand } from '@t/spec';
+import { EditorCommand } from '@editorType/spec';
 
 function indent(): EditorCommand {
   return () => (state, dispatch) => {

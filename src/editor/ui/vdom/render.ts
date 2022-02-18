@@ -1,5 +1,5 @@
 import isFunction from 'tui-code-snippet/type/isFunction';
-import { ComponentClass } from '@t/ui';
+import { ComponentClass } from '@editorType/ui';
 import { VNode } from './vnode';
 import { createNode } from './dom';
 import { last } from '@/utils/common';

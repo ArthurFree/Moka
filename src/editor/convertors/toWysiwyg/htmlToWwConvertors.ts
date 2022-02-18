@@ -1,11 +1,11 @@
-import { MdNode } from '@toast/index';
+import { MdNode } from '@toastmarkType/index';
 import { sanitizeHTML } from '@/sanitizer/htmlSanitizer';
 
 import {
   HTMLToWwConvertorMap,
   FlattenHTMLToWwConvertorMap,
   ToWwConvertorState,
-} from '@t/convertor';
+} from '@editorType/convertor';
 import { includes } from '@/utils/common';
 import { reHTMLTag } from '@/utils/constants';
 

@@ -3,7 +3,7 @@ import { Selection, TextSelection } from 'prosemirror-state';
 
 import { findNodeBy } from '@/wysiwyg/helper/node';
 
-import { CellSelection } from '@t/wysiwyg';
+import { CellSelection } from '@editorType/wysiwyg';
 import type { SelectionInfo } from './tableOffsetMap';
 
 export function createTableHeadRow(columnCount: number, schema: Schema, data?: string[]) {

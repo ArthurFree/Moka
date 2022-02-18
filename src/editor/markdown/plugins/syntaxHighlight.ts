@@ -1,8 +1,8 @@
-import { ToastMark } from '@t/toastmark';
-import { MdNode, MdPos, EditResult, } from '@toast/index';
+import { ToastMark } from '@editorType/toastmark';
+import { MdNode, MdPos, EditResult, } from '@toastmarkType/index';
 import { Plugin, Transaction } from 'prosemirror-state';
 import { NodeType, ProsemirrorNode, Schema } from 'prosemirror-model';
-import { MdContext } from '@t/spec';
+import { MdContext } from '@editorType/spec';
 import { getMdStartLine, getMdEndLine, getMdStartCh, getMdEndCh } from '@/utils/markdown';
 import { includes, last } from '@/utils/common';
 import { getStartPosListPerLine, getWidgetNodePos } from '@/markdown/helper/pos';

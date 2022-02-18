@@ -1,8 +1,8 @@
 import throttle from 'tui-code-snippet/tricks/throttle';
 import forEachArray from 'tui-code-snippet/collection/forEachArray';
 import ResizeObserver from 'resize-observer-polyfill';
-import { EditorType, PreviewStyle } from '@t/editor';
-import { Emitter } from '@t/event';
+import { EditorType, PreviewStyle } from '@editorType/editor';
+import { Emitter } from '@editorType/event';
 import {
   IndexList,
   PopupInfo,
@@ -10,7 +10,7 @@ import {
   ToolbarGroupInfo,
   ToolbarItem,
   ToolbarItemOptions,
-} from '@t/ui';
+} from '@editorType/ui';
 import html from '@/ui/vdom/template';
 import { Component } from '@/ui/vdom/component';
 import {
