@@ -1,6 +1,9 @@
 import React from 'react';
 import Prism from 'prismjs';
 import codeSyntaxHighlightPlugin from '../../editorPlugins/code-syntax-highlight/indexAll';
+import chart from '../../editorPlugins/chart';
+import colorSyntax from '../../editorPlugins/color-syntax';
+import tableMergedCell from '../../editorPlugins/table-merged-cell';
 import Header from './Components/Header/index';
 import Nav from './Components/Nav/index';
 // import Vidtor from '../../editor/index';
@@ -23,7 +26,24 @@ export default class EditorPage extends React.Component {
             previewStyle: 'vertical',
             height: '500px',
             initialValue: '',
-            plugins: [[codeSyntaxHighlightPlugin, { highlighter: Prism }]]
+            plugins: [
+                [
+                    chart,
+                    {
+                        minWidth: 100,
+                        maxWidth: 600,
+                        minHeight: 100,
+                        maxHeight: 300
+                    }
+                ], [
+                    codeSyntaxHighlightPlugin,
+                    {
+                        highlighter: Prism
+                    }
+                ],
+                colorSyntax,
+                tableMergedCell
+            ]
         });
     }
     /* componentDidMount() {

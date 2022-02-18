@@ -176,6 +176,11 @@ module.exports = {
         ]
     },
     resolve: {
+        fallback: {
+            stream: require.resolve('stream-browserify'),
+            buffer: require.resolve('buffer'),
+            os: require.resolve('os-browserify'),
+        },
         modules: [src, 'node_modules'],
         extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'],
         alias: {
