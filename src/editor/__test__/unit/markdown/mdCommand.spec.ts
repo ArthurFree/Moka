@@ -1,6 +1,6 @@
 import { oneLineTrim, source, stripIndent } from 'common-tags';
 import { undo } from 'prosemirror-history';
-import { ToastMark } from '@toast-ui/toastmark';
+import { ToastMark } from '@toastmark/index';
 import MarkdownEditor from '@/markdown/mdEditor';
 import MarkdownPreview from '@/markdown/mdPreview';
 import EventEmitter from '@/event/eventEmitter';
@@ -999,13 +999,13 @@ describe('indent command', () => {
       const input = source`
         1. line1
         2. line2
-        3. 
+        3.
         4. line4
       `;
       const result = stripIndent`
         1. line1
         2. line2
-            1. 
+            1.
         3. line4
       `;
 
@@ -1158,13 +1158,13 @@ describe('outdent command', () => {
       const input = stripIndent`
         1. line1
         2. line2
-          1. 
+          1.
         3. line4
       `;
       const result = source`
         1. line1
         2. line2
-        3. 
+        3.
         4. line4
       `;
 

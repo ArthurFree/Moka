@@ -1,6 +1,6 @@
 import { source, oneLineTrim } from 'common-tags';
 
-import { Context, MdNode, Parser, HTMLConvertorMap } from '@toast-ui/toastmark';
+import { Context, MdNode, Parser, HTMLConvertorMap } from '@toastmark/index';
 
 import { Schema } from 'prosemirror-model';
 import { createSpecs } from '@/wysiwyg/specCreator';
@@ -67,15 +67,15 @@ describe('Convertor', () => {
       `;
       const expected = source`
         # heading1
-        
+
         ## heading2
-        
+
         ### heading3
-        
+
         #### heading4
-        
+
         ##### heading5
-        
+
         ###### heading6
       `;
 
@@ -141,11 +141,11 @@ describe('Convertor', () => {
     	`;
       const expected = source`
         ***
-        
+
         ***
-        
+
         ***
-        
+
         ***
       `;
 
@@ -313,7 +313,7 @@ describe('Convertor', () => {
         * [ ] foo
             * [x] baz
         * [x] bar
-        
+
         1. [x] foo
         2. [ ] bar
       `;
@@ -327,14 +327,14 @@ describe('Convertor', () => {
         >   * baz
         > * bar
         >> 1. qux
-        > > 2. quxx 
+        > > 2. quxx
       `;
       const expected = source`
         > * foo
         >     * baz
         > * bar
         > > 1. qux
-        > > 2. quxx 
+        > > 2. quxx
       `;
 
       assertConverting(markdown, expected);
@@ -347,7 +347,7 @@ describe('Convertor', () => {
             \`\`\`
             bar
             \`\`\`
-        
+
             > bam
       `;
       const expected = source`
@@ -356,7 +356,7 @@ describe('Convertor', () => {
             \`\`\`
             bar
             \`\`\`
-        
+
             > bam
       `;
 
@@ -402,7 +402,7 @@ describe('Convertor', () => {
       `;
       const expected = source`
         foo
-        
+
         bar
 
         <br>
@@ -422,11 +422,11 @@ describe('Convertor', () => {
 
         <br>
         bar
-        
+
         <br>
         <br>
         baz
-        
+
 
         <br>
         qux
@@ -440,7 +440,7 @@ describe('Convertor', () => {
       `;
       const expected = source`
         foo
-        
+
         <br>
         bar
 
@@ -487,9 +487,9 @@ describe('Convertor', () => {
       `;
       const expected = source`
         text1
-        
+
         text2
-        
+
         text3
       `;
 
@@ -506,10 +506,10 @@ describe('Convertor', () => {
       `;
       const expected = source`
         text1
-        
+
         te
         xt2
-        
+
         text3
       `;
 
@@ -538,7 +538,7 @@ describe('Convertor', () => {
 
         <i>foo</i>
         <em>foo</em>
-        
+
         <s>foo</s>
         <del>foo</del>
 

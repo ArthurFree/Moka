@@ -7,7 +7,7 @@ import {
   selectNodeBackward,
 } from 'prosemirror-commands';
 import * as keymaps from 'prosemirror-keymap';
-import { Sourcepos, ToastMark } from '@toast-ui/toastmark';
+import { Sourcepos, ToastMark } from '@toastmark/index';
 import MarkdownEditor from '@/markdown/mdEditor';
 import MarkdownPreview from '@/markdown/mdPreview';
 import EventEmitter from '@/event/eventEmitter';
@@ -278,7 +278,7 @@ describe('extend list keymap', () => {
       `;
       const result = `${source`
         * bullet
-        * 
+        *
       `} `;
 
       mde.setMarkdown(input);
@@ -322,7 +322,7 @@ describe('extend list keymap', () => {
       const result = `${source`
         * bullet
           * sub
-          * 
+          *
       `} `;
 
       mde.setMarkdown(input);
@@ -341,7 +341,7 @@ describe('extend list keymap', () => {
       const result = `${source`
         * bullet1
         * bullet2
-        * 
+        *
       `} \n\n`;
 
       mde.setMarkdown(input);
@@ -358,7 +358,7 @@ describe('extend list keymap', () => {
       `;
       const result = `${source`
         * [ ] bullet
-        * [ ] 
+        * [ ]
       `} `;
 
       mde.setMarkdown(input);
@@ -390,7 +390,7 @@ describe('extend list keymap', () => {
     it('should delete the row in case of empty bullet list content', () => {
       const input = `${stripIndent`
         * bullet1
-        * 
+        *
       `} `;
       const result = `${source`
         * bullet1
@@ -475,7 +475,7 @@ describe('extend list keymap', () => {
       `;
       const result = `${source`
         1. ordered
-        2. 
+        2.
       `} `;
 
       mde.setMarkdown(input);
@@ -519,7 +519,7 @@ describe('extend list keymap', () => {
       `;
       const result = source`
         1. ordered1
-        2. 
+        2.
         3. ordered2
         4. ordered3
       `;
@@ -543,7 +543,7 @@ describe('extend list keymap', () => {
       const result = stripIndent`
         1. ordered1
             1. sub1
-            2. 
+            2.
             3. sub2
         2. ordered2
         3. ordered3
@@ -568,7 +568,7 @@ describe('extend list keymap', () => {
       const result = stripIndent`
         1. ordered1
             2. sub1
-            3. 
+            3.
             4. sub2
         2. ordered2
         3. ordered3
@@ -625,7 +625,7 @@ describe('extend list keymap', () => {
       const result = `${source`
         1. ordered1
         2. ordered2
-        3.  
+        3.
       `} \n\n`;
 
       mde.setMarkdown(input);
@@ -639,10 +639,10 @@ describe('extend list keymap', () => {
     it('should delete the row in case of empty ordered list content', () => {
       const input = `${source`
         1. ordered1
-        2. 
+        2.
       `} `;
       const result = `${source`
-        1. ordered1 
+        1. ordered1
       `}\n\n`;
 
       mde.setMarkdown(input);
@@ -681,7 +681,7 @@ describe('extend list keymap', () => {
       const result = source`
         1. ordered1
         2. ordered2
-        3. 
+        3.
 
         * bullet1
         * bullet2
@@ -976,7 +976,7 @@ describe('keep indentation in code block', () => {
     \`\`\`js
     console.log('line1');
         console.log('line2');
-        
+
     \`\`\`
     `;
 

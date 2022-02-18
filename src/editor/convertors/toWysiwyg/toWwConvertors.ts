@@ -1,6 +1,6 @@
 import {
   Renderer,
-} from '@toast-ui/toastmark';
+} from '@toastmark/index';
 import {
     MdNode,
     HeadingMdNode,

@@ -180,6 +180,7 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'],
         alias: {
             '@': path.join(rootDir, './src/editor'),
+            '@toastmark': path.join(rootDir, './src/toastmark'),
             '@editorType': path.join(rootDir, './src/@types/editor'),
             '@toastmarkType': path.join(rootDir, './src/@types/toastmark'),
             '@pluginHighlightType': path.join(rootDir, './src/@types/code-syntax-highlight'),
@@ -187,10 +188,10 @@ module.exports = {
             '@t': path.join(rootDir, './src/@types/editor'),
             '@toast': path.join(rootDir, './src/@types/toastmark'),
             '@codeType': path.join(rootDir, './src/@types/code-syntax-highlight'),
+
             '@code': path.join(rootDir, './src/editorPlugins/code-syntax-highlight'),
             '@components': path.join(rootDir, './src/components'),
             '@view': path.join(rootDir, './src/view'),
-            '@toast-ui': path.join(rootDir, './src'),
         },
         // 如果你不使用 symlinks（例如 npm link 或者 yarn link），可以设置 false
         symlinks: false,

@@ -2,7 +2,7 @@ import '@/i18n/en-us';
 import { oneLineTrim, stripIndents, source } from 'common-tags';
 import { Emitter } from '@editorType/event';
 import { EditorOptions } from '@editorType/editor';
-import type { OpenTagToken } from '@toast-ui/toastmark';
+import type { OpenTagToken } from '@toastmark/index';
 import i18n from '@/i18n/i18n';
 import Editor from '@/editor';
 import Viewer from '@/viewer';
