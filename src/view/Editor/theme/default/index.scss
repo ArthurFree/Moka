@@ -20,9 +20,14 @@ $NavBgColor: #ffffff;
     }
 
     .editor-nav-wrap {
+        position: fixed;
+        top: 120px;
+        left: 0;
         background-color: $NavBgColor;
         color: $NavFontColor;
         font-size: $NavFontSize;
         font-family: $fontFamily;
+        z-index: 21;
+        cursor: initial;
     }
 }

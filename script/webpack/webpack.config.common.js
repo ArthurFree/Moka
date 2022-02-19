@@ -5,6 +5,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const ForTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
 const { ProvidePlugin, DefinePlugin, /* DllPlugin, */ DllReferencePlugin, webpack, } = require('webpack');
 
 const { rootDir, src, dist, config, public } = require('../const/paths');
@@ -82,11 +83,12 @@ module.exports = {
         // 进度条
         new ProgressBarPlugin({
             format: `  :msg [:bar] :percent (:elapsed s)`
-        })
+        }),
         // new DllReferencePlugin({
         //     context: rootDir,
         //     manifest: path.resolve(rootDir, "./dll/runtime.manifest.json"),
         // }),
+        new FriendlyErrorsWebpackPlugin(),
     ],
     module: {
         rules: [
@@ -185,18 +187,21 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'],
         alias: {
             '@': path.join(rootDir, './src/editor'),
-            '@toastmark': path.join(rootDir, './src/toastmark'),
-            '@editorType': path.join(rootDir, './src/@types/editor'),
-            '@toastmarkType': path.join(rootDir, './src/@types/toastmark'),
-            '@pluginHighlightType': path.join(rootDir, './src/@types/code-syntax-highlight'),
-            // 做一下临时兼容
-            '@t': path.join(rootDir, './src/@types/editor'),
-            '@toast': path.join(rootDir, './src/@types/toastmark'),
-            '@codeType': path.join(rootDir, './src/@types/code-syntax-highlight'),
 
-            '@code': path.join(rootDir, './src/editorPlugins/code-syntax-highlight'),
+            '@toastmark': path.join(rootDir, './src/toastmark'),
+            '@editorPlugins': path.join(rootDir, './src/editorPlugins'),
+            // '@editorType': path.join(rootDir, './src/@types/editor'),
+            // '@toastmarkType': path.join(rootDir, './src/@types/toastmark'),
+            // '@pluginHighlightType': path.join(rootDir, './src/@types/code-syntax-highlight'),
+            // 做一下临时兼容
+            // '@t': path.join(rootDir, './src/@types/editor'),
+            // '@toast': path.join(rootDir, './src/@types/toastmark'),
+            // '@codeType': path.join(rootDir, './src/@types/code-syntax-highlight'),
+
+            // '@code': path.join(rootDir, './src/editorPlugins/code-syntax-highlight'),
             '@components': path.join(rootDir, './src/components'),
             '@view': path.join(rootDir, './src/view'),
+            '@svg': path.join(rootDir, 'src/assets/svg'),
         },
         // 如果你不使用 symlinks（例如 npm link 或者 yarn link），可以设置 false
         symlinks: false,

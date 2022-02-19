@@ -22,6 +22,7 @@
             "@editorType/*": ["src/@types/editor/*"],
             "@toastmarkType/*": ["src/@types/toastmark/*"],
 
+            "@editorPlugins/*": ["src/editorPlugins/*"],
             "@pluginHighlightType/*": ["src/@types/code-syntax-highlight-plugin/*"],
             "@pluginChartType/*": ["src/@types/chart-plugin/*"],
             "@pluginColorSyntax/*": ["src/@types/color-syntax-plugin/*"],
@@ -31,6 +32,7 @@
             // "@codeType/*": ["src/@types/code-syntax-highlight-plugin/*"],
             "@src/*": ["src/*"],
             "@images/*": ["src/images/*"],
+            "@svg/*": ["src/assets/svg/*"],
             "@styles/*": ["src/styles/*"],
             "@components/*": ["src/components/*"],
             "@view/*": ["src/view/*"]
