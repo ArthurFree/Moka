@@ -10,19 +10,30 @@ interface getNavMode {
     (mode: string): void
 }
 interface NavProps {
+    mode: string,
     getNavStatus?: getNavStatus;
     getNavMode?: getNavMode;
 };
 
-export default class Nav extends React.Component<NavProps> {
+export default class Nav extends React.Component<NavProps, any> {
     constructor(props) {
         super(props);
         this.state = {
             // 侧边栏展示模式 'float' or 'fixed'
-            mode: 'float',
+            mode: props.mode || 'float',
             // 浮窗模式(float)下，当前侧边栏展开(expand)或者收缩(close)的状态
             status: 'expand'
         };
+    }
+
+    componentDidUpdate(): void {
+        const { mode } = this.state;
+        console.log('--- this.props.mode ---', this.props.mode);
+        if (mode !== this.props.mode) {
+            this.setState({
+                mode: this.props.mode,
+            });
+        }
     }
 
     navWrapEl = React.createRef<HTMLDivElement>();
@@ -54,7 +65,10 @@ export default class Nav extends React.Component<NavProps> {
     }
 
     render(): React.ReactNode {
-        return (
+        const { mode } = this.state;
+        return mode === 'fixed' ? (
+            <div className="nav-fixed-wrap">fixed nav</div>
+        ) : (
             <div className="nav-wrap" ref={this.navWrapEl}>
                 <div className="nav-menu-float nav-emnu-float-show" ref ={this.navFloatEl}>123123</div>
             </div>

@@ -12,14 +12,58 @@ import Editor from '../../editor/index';
 import 'prismjs/themes/prism.css';
 import './index.scss';
 
-export default class EditorPage extends React.Component {
+interface EditorPageState {
+    [propName: string]: string
+}
+
+export default class EditorPage extends React.Component<any, EditorPageState> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            navMode: 'float',
+            navStatus: 'close',
+        };
+    }
+
+    getNavStatus = (status: string) => {
+        console.log('---- status ---', status);
+
+        this.setState({
+            navStatus: status,
+        });
+    }
+
+    getNavMode = (mode: string) => {
+        console.log('--- mode ---', mode);
+
+        this.setState({
+            navMode: mode,
+        });
+    }
+
+    getNavModeChange = (mode) => {
+        this.setState({
+            navMode: mode,
+        });
+    }
+
     render() {
+        const { navMode, navStatus } = this.state;
+        console.log('----- page navStatus ---', navStatus);
         return (
             <div className="editor-wrap moka--default">
-                <Header />
+                <Header
+                    navStatus={navStatus}
+                    navMode={navMode}
+                    getNavModeChange={this.getNavModeChange}
+                />
                 <div className="editor-content">
                     <div className="editor-nav-wrap">
-                        <Nav />
+                        <Nav
+                            mode={navMode}
+                            getNavStatus={this.getNavStatus}
+                            getNavMode={this.getNavMode}
+                        />
                     </div>
                     <div className="editor-opreate-content">
                         <EditorComp />

@@ -1,11 +1,25 @@
+@keyframes iconBtnShow {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .header-wrap {
     padding: 0 12px;
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     box-sizing: border-box;
     line-height: 1.5;
     user-select: none;
+
+    .header-doc-path {
+        flex: 1;
+    }
 
     .header-toggle-nav {
         padding: 12px;
@@ -13,12 +27,53 @@
         height: 24px;
     }
 
-    .header-float-nav > i.icon-menu {
+    .icon-wrap {
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .icon {
         display: inline-block;
         width: 100%;
         height: 100%;
-        background-image: url(../../../../assets/icon_menu.png);
         background-size: 100% 100%;
         background-repeat: no-repeat;
+    }
+
+    .icon-animate {
+        animation: iconBtnShow 300ms ease-in;
+    }
+
+    .header-float-nav > i.icon-menu {
+        background-image: url(../../../../assets/icon_menu.png);
+        cursor: pointer;
+    }
+
+    .header-float-nav > i.icon-expand-menu {
+        background-image: url(../../../../assets/icon_double_right_arrow.png);
+        cursor: pointer;
+    }
+
+    .icon-left-arrow {
+        background-image: url(../../../../assets/icon_double_right_arrow_grey.png);
+        transform: rotate(180deg);
+        cursor: pointer;
+    }
+
+    .header-more-btn {
+        padding: 12px;
+        width: 24px;
+        height: 24px;
+
+        i.icon-more {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            background-image: url(../../../../assets/icon_header_more.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
     }
 }

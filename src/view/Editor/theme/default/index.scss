@@ -20,9 +20,7 @@ $NavBgColor: #ffffff;
     }
 
     .editor-nav-wrap {
-        position: fixed;
-        top: 120px;
-        left: 0;
+        position: relative;
         background-color: $NavBgColor;
         color: $NavFontColor;
         font-size: $NavFontSize;

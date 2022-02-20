@@ -1,6 +1,8 @@
 .nav-wrap {
-    position: relative;
-    width: 100%;
+    position: fixed;
+    top: 120px;
+    left: 0;
+    width: 36px;
     height: 100%;
 
     .nav-menu-float {
@@ -27,4 +29,10 @@
             opacity: 1;
         }
     }
+}
+
+.nav-fixed-wrap {
+    width: 260px;
+    height: 100%;
+    background-color: rgb(247, 246, 243);
 }
