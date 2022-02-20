@@ -9,7 +9,8 @@
   font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', '나눔바른고딕',
     'Nanum Barun Gothic', '맑은고딕', 'Malgun Gothic', sans-serif;
   color: #222;
-  font-size: 13px;
+  /* 13px -> 16px */
+  font-size: 16px;
   overflow-y: auto;
   overflow-X: hidden;
   height: calc(100% - 36px);

@@ -164,8 +164,16 @@
 }
 
 /* default UI Styles */
-.toastui-editor-defaultUI .ProseMirror {
+/* .toastui-editor-defaultUI .ProseMirror {
   padding: 18px 280px;
+} */
+
+.toastui-editor-defaultUI .toastui-editor-md-mode .ProseMirror {
+    padding: 18px 40px;
+}
+
+.toastui-editor-defaultUI .toastui-editor-ww-mode .ProseMirror {
+    padding: 18px 280px;
 }
 
 .toastui-editor-defaultUI {

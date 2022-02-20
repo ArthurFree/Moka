@@ -1,6 +1,11 @@
 .editor {
     height: 100%;
 
+    /* 重置 prism 样式 */
+    .token.operator {
+        background: transparent !important;
+    }
+
     .editor-inst {
         height: 100%;
     }
