@@ -55,8 +55,11 @@ export default class Nav extends React.Component<NavProps, any> {
         this.navWrapEl.current.addEventListener(
             'mouseenter',
             () => {
+                const { mode } = this.state;
                 console.log('--- mouseenter ---');
-                this.handleChangeNavStatus('expand');
+                if (mode === 'float') {
+                    this.handleChangeNavStatus('expand');
+                }
             },
             false
         );
@@ -64,8 +67,11 @@ export default class Nav extends React.Component<NavProps, any> {
         this.navWrapEl.current.addEventListener(
             'mouseleave',
             () => {
+                const { mode } = this.state;
                 console.log('--- mouseleave ---');
-                this.handleChangeNavStatus('close');
+                if (mode === 'float') {
+                    this.handleChangeNavStatus('close');
+                }
             },
             false
         );
@@ -81,8 +87,22 @@ export default class Nav extends React.Component<NavProps, any> {
 
     render(): React.ReactNode {
         const { mode } = this.state;
-        return mode === 'fixed' ? (
-            <div className="nav-fixed-wrap">
+        return (
+            <>
+                <div className={`nav-fixed-wrap ${mode === 'fixed' ? '' : 'nav-hidden'}`}>
+                    <div className="nav-fixed-pickup">
+                        <i className="icon icon-emnu-pickup" onClick={this.handleClickPickUp} />
+                    </div>
+                </div>
+                <div className={`nav-wrap ${mode === 'float' ? '' : 'nav-hidden'}`} ref={this.navWrapEl}>
+                    <div className="nav-menu-float nav-emnu-float-show" ref={this.navFloatEl}>
+                        123123
+                    </div>
+                </div>
+            </>
+        );
+        /* return mode === 'fixed' ? (
+            <div className="nav-fixed-wrap ${mode === 'fixed' ? '' : 'nav-hidden'}">
                 <div className="nav-fixed-pickup">
                     <i className="icon icon-emnu-pickup" onClick={this.handleClickPickUp} />
                 </div>
@@ -93,6 +113,6 @@ export default class Nav extends React.Component<NavProps, any> {
                     123123
                 </div>
             </div>
-        );
+        ); */
     }
 }
