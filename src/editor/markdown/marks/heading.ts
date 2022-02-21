@@ -8,64 +8,66 @@ import { getRangeInfo } from '../helper/pos';
 const reHeading = /^#{1,6}\s/;
 
 interface Payload {
-  level: number;
+    level: number;
 }
 
 export class Heading extends Mark {
-  get name() {
-    return 'heading';
-  }
-
-  get schema() {
-    return {
-      attrs: {
-        level: { default: 1 },
-        seText: { default: false },
-      },
-      toDOM({ attrs }: ProsemirrorMark): DOMOutputSpecArray {
-        const { level, seText } = attrs;
-        let classNames = `heading|heading${level}`;
-
-        if (seText) {
-          classNames += '|delimiter|setext';
-        }
-        return ['span', { class: clsWithMdPrefix(...classNames.split('|')) }, 0];
-      },
-    };
-  }
-
-  private createHeadingText(level: number, text: string, curHeadingSyntax: string) {
-    const textContent = text.replace(curHeadingSyntax, '').trim();
-    let headingText = '';
-
-    while (level > 0) {
-      headingText += '#';
-      level -= 1;
+    get name() {
+        return 'heading';
     }
 
-    return `${headingText} ${textContent}`;
-  }
+    get schema() {
+        return {
+            attrs: {
+                level: { default: 1 },
+                seText: { default: false }
+            },
+            toDOM({ attrs }: ProsemirrorMark): DOMOutputSpecArray {
+                const { level, seText } = attrs;
+                let classNames = `heading|heading${level}`;
 
-  commands(): EditorCommand<Payload> {
-    return (payload) => (state, dispatch) => {
-      const { level } = payload!;
-      const { startFromOffset, endToOffset, startIndex, endIndex } = getRangeInfo(state.selection);
+                if (seText) {
+                    classNames += '|delimiter|setext';
+                }
+                return ['span', { class: clsWithMdPrefix(...classNames.split('|')) }, 0];
+            }
+        };
+    }
 
-      const tr = replaceTextNode({
-        state,
-        from: startFromOffset,
-        startIndex,
-        endIndex,
-        createText: (textContent) => {
-          const matchedHeading = textContent.match(reHeading);
-          const curHeadingSyntax = matchedHeading ? matchedHeading[0] : '';
+    private createHeadingText(level: number, text: string, curHeadingSyntax: string) {
+        const textContent = text.replace(curHeadingSyntax, '').trim();
+        let headingText = '';
 
-          return this.createHeadingText(level, textContent, curHeadingSyntax);
-        },
-      });
+        while (level > 0) {
+            headingText += '#';
+            level -= 1;
+        }
 
-      dispatch!(tr.setSelection(createTextSelection(tr, tr.mapping.map(endToOffset))));
-      return true;
-    };
-  }
+        return `${headingText} ${textContent}`;
+    }
+
+    commands(): EditorCommand<Payload> {
+        return (payload) => (state, dispatch) => {
+            const { level } = payload!;
+            const { startFromOffset, endToOffset, startIndex, endIndex } = getRangeInfo(
+                state.selection
+            );
+
+            const tr = replaceTextNode({
+                state,
+                from: startFromOffset,
+                startIndex,
+                endIndex,
+                createText: (textContent) => {
+                    const matchedHeading = textContent.match(reHeading);
+                    const curHeadingSyntax = matchedHeading ? matchedHeading[0] : '';
+
+                    return this.createHeadingText(level, textContent, curHeadingSyntax);
+                }
+            });
+
+            dispatch!(tr.setSelection(createTextSelection(tr, tr.mapping.map(endToOffset))));
+            return true;
+        };
+    }
 }

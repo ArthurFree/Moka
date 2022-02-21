@@ -11,95 +11,98 @@ import { PluginInfoResult } from '@editorType/plugin';
 import { mixinTableOffsetMapPrototype } from '@/wysiwyg/helper/tableOffsetMap';
 
 function execPlugin(plugin: EditorPlugin, eventEmitter: Emitter, usageStatistics: boolean) {
-  const pmState = { Plugin, Selection, TextSelection };
-  const pmView = { Decoration, DecorationSet };
-  const pmModel = { Fragment };
-  const context = { eventEmitter, usageStatistics, pmState, pmView, pmModel, i18n };
+    const pmState = { Plugin, Selection, TextSelection };
+    const pmView = { Decoration, DecorationSet };
+    const pmModel = { Fragment };
+    const context = { eventEmitter, usageStatistics, pmState, pmView, pmModel, i18n };
 
-  if (isArray(plugin)) {
-    const [pluginFn, options = {}] = plugin;
+    if (isArray(plugin)) {
+        const [pluginFn, options = {}] = plugin;
 
-    return pluginFn(context, options);
-  }
+        return pluginFn(context, options);
+    }
 
-  return plugin(context);
+    return plugin(context);
 }
 
 export function getPluginInfo(
-  plugins: EditorPlugin[],
-  eventEmitter: Emitter,
-  usageStatistics: boolean
+    plugins: EditorPlugin[],
+    eventEmitter: Emitter,
+    usageStatistics: boolean
 ) {
-  eventEmitter.listen('mixinTableOffsetMapPrototype', mixinTableOffsetMapPrototype);
+    eventEmitter.listen('mixinTableOffsetMapPrototype', mixinTableOffsetMapPrototype);
 
-  return (plugins ?? []).reduce<PluginInfoResult>(
-    (acc, plugin) => {
-      const pluginInfoResult = execPlugin(plugin, eventEmitter, usageStatistics);
+    return (plugins ?? []).reduce<PluginInfoResult>(
+        (acc, plugin) => {
+            const pluginInfoResult = execPlugin(plugin, eventEmitter, usageStatistics);
 
-      if (!pluginInfoResult) {
-        throw new Error('The return value of the executed plugin is empty.');
-      }
+            if (!pluginInfoResult) {
+                throw new Error('The return value of the executed plugin is empty.');
+            }
 
-      const {
-        markdownParsers,
-        toHTMLRenderers,
-        toMarkdownRenderers,
-        markdownPlugins,
-        wysiwygPlugins,
-        wysiwygNodeViews,
-        markdownCommands,
-        wysiwygCommands,
-        toolbarItems,
-      } = pluginInfoResult;
+            const {
+                markdownParsers,
+                toHTMLRenderers,
+                toMarkdownRenderers,
+                markdownPlugins,
+                wysiwygPlugins,
+                wysiwygNodeViews,
+                markdownCommands,
+                wysiwygCommands,
+                toolbarItems
+            } = pluginInfoResult;
 
-      if (toHTMLRenderers) {
-        acc.toHTMLRenderers = deepMergedCopy(acc.toHTMLRenderers, toHTMLRenderers);
-      }
+            if (toHTMLRenderers) {
+                acc.toHTMLRenderers = deepMergedCopy(acc.toHTMLRenderers, toHTMLRenderers);
+            }
 
-      if (toMarkdownRenderers) {
-        acc.toMarkdownRenderers = deepMergedCopy(acc.toMarkdownRenderers, toMarkdownRenderers);
-      }
+            if (toMarkdownRenderers) {
+                acc.toMarkdownRenderers = deepMergedCopy(
+                    acc.toMarkdownRenderers,
+                    toMarkdownRenderers
+                );
+            }
 
-      if (markdownPlugins) {
-        acc.mdPlugins = acc.mdPlugins!.concat(markdownPlugins);
-      }
+            if (markdownPlugins) {
+                acc.mdPlugins = acc.mdPlugins!.concat(markdownPlugins);
+            }
 
-      if (wysiwygPlugins) {
-        acc.wwPlugins = acc.wwPlugins!.concat(wysiwygPlugins);
-      }
+            if (wysiwygPlugins) {
+                acc.wwPlugins = acc.wwPlugins!.concat(wysiwygPlugins);
+            }
 
-      if (wysiwygNodeViews) {
-        acc.wwNodeViews = { ...acc.wwNodeViews, ...wysiwygNodeViews };
-      }
+            if (wysiwygNodeViews) {
+                acc.wwNodeViews = { ...acc.wwNodeViews, ...wysiwygNodeViews };
+            }
 
-      if (markdownCommands) {
-        acc.mdCommands = { ...acc.mdCommands, ...markdownCommands };
-      }
+            if (markdownCommands) {
+                acc.mdCommands = { ...acc.mdCommands, ...markdownCommands };
+            }
 
-      if (wysiwygCommands) {
-        acc.wwCommands = { ...acc.wwCommands, ...wysiwygCommands };
-      }
+            if (wysiwygCommands) {
+                acc.wwCommands = { ...acc.wwCommands, ...wysiwygCommands };
+            }
 
-      if (toolbarItems) {
-        acc.toolbarItems = acc.toolbarItems!.concat(toolbarItems);
-      }
+            if (toolbarItems) {
+                acc.toolbarItems = acc.toolbarItems!.concat(toolbarItems);
+            }
 
-      if (markdownParsers) {
-        acc.markdownParsers = { ...acc.markdownParsers, ...markdownParsers };
-      }
+            if (markdownParsers) {
+                acc.markdownParsers = { ...acc.markdownParsers, ...markdownParsers };
+            }
 
-      return acc;
-    },
-    {
-      toHTMLRenderers: {},
-      toMarkdownRenderers: {},
-      mdPlugins: [],
-      wwPlugins: [],
-      wwNodeViews: {},
-      mdCommands: {},
-      wwCommands: {},
-      toolbarItems: [],
-      markdownParsers: {},
-    }
-  );
+            return acc;
+        },
+        {
+            toHTMLRenderers: {},
+            toMarkdownRenderers: {},
+            mdPlugins: [],
+            wwPlugins: [],
+            wwNodeViews: {},
+            mdCommands: {},
+            wwCommands: {},
+            toolbarItems: [],
+            markdownParsers: {}
+        }
+    );
 }

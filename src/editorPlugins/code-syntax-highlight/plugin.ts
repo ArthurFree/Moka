@@ -8,29 +8,29 @@ import type { PluginContext, PluginInfo } from '@editorType/index';
 import { PluginOptions } from '@pluginHighlightType/index';
 
 export function codeSyntaxHighlightPlugin(
-  context: PluginContext,
-  options?: PluginOptions
+    context: PluginContext,
+    options?: PluginOptions
 ): PluginInfo {
-  if (options) {
-    const { eventEmitter } = context;
-    const { highlighter: prism } = options;
+    if (options) {
+        const { eventEmitter } = context;
+        const { highlighter: prism } = options;
 
-    eventEmitter.addEventType('showCodeBlockLanguages');
-    eventEmitter.addEventType('selectLanguage');
-    eventEmitter.addEventType('finishLanguageEditing');
+        eventEmitter.addEventType('showCodeBlockLanguages');
+        eventEmitter.addEventType('selectLanguage');
+        eventEmitter.addEventType('finishLanguageEditing');
 
-    const { languages } = prism!;
-    const registerdlanguages = Object.keys(languages).filter(
-      (language) => !isFunction(languages[language])
-    );
+        const { languages } = prism!;
+        const registerdlanguages = Object.keys(languages).filter(
+            (language) => !isFunction(languages[language])
+        );
 
-    return {
-      toHTMLRenderers: getHTMLRenderers(prism!),
-      wysiwygPlugins: [() => codeSyntaxHighlighting(context, prism!)],
-      wysiwygNodeViews: {
-        codeBlock: createCodeSyntaxHighlightView(registerdlanguages),
-      },
-    };
-  }
-  return {};
+        return {
+            toHTMLRenderers: getHTMLRenderers(prism!),
+            wysiwygPlugins: [() => codeSyntaxHighlighting(context, prism!)],
+            wysiwygNodeViews: {
+                codeBlock: createCodeSyntaxHighlightView(registerdlanguages)
+            }
+        };
+    }
+    return {};
 }

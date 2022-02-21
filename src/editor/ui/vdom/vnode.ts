@@ -1,92 +1,92 @@
 import { Component, ComponentClass } from '@editorType/ui';
 
 class VNodeWalker {
-  current: VNode | null;
+    current: VNode | null;
 
-  root: VNode | null;
+    root: VNode | null;
 
-  entering: boolean;
+    entering: boolean;
 
-  constructor(current: VNode | null) {
-    this.current = current;
-    this.root = current;
-    this.entering = true;
-  }
-
-  walk() {
-    const { entering, current: cur } = this;
-
-    if (!cur) {
-      return null;
-    }
-
-    if (entering) {
-      if (cur.firstChild) {
-        this.current = cur.firstChild;
+    constructor(current: VNode | null) {
+        this.current = current;
+        this.root = current;
         this.entering = true;
-      } else {
-        this.entering = false;
-      }
-    } else if (cur === this.root) {
-      this.current = null;
-    } else if (cur.next) {
-      this.current = cur.next;
-      this.entering = true;
-    } else {
-      this.current = cur.parent;
-      this.entering = false;
     }
 
-    return { vnode: cur, entering };
-  }
+    walk() {
+        const { entering, current: cur } = this;
+
+        if (!cur) {
+            return null;
+        }
+
+        if (entering) {
+            if (cur.firstChild) {
+                this.current = cur.firstChild;
+                this.entering = true;
+            } else {
+                this.entering = false;
+            }
+        } else if (cur === this.root) {
+            this.current = null;
+        } else if (cur.next) {
+            this.current = cur.next;
+            this.entering = true;
+        } else {
+            this.current = cur.parent;
+            this.entering = false;
+        }
+
+        return { vnode: cur, entering };
+    }
 }
 
 export class VNode {
-  static removalNodes: VNode[] = [];
+    static removalNodes: VNode[] = [];
 
-  type: string | ComponentClass;
+    type: string | ComponentClass;
 
-  props: Record<string, any>;
+    props: Record<string, any>;
 
-  children: VNode[];
+    children: VNode[];
 
-  parent: VNode | null = null;
+    parent: VNode | null = null;
 
-  old: VNode | null = null;
+    old: VNode | null = null;
 
-  firstChild: VNode | null = null;
+    firstChild: VNode | null = null;
 
-  next: VNode | null = null;
+    next: VNode | null = null;
 
-  ref?: (node: Node | Component) => void | Node | Component;
+    ref?: (node: Node | Component) => void | Node | Component;
 
-  node!: Node | null;
+    node!: Node | null;
 
-  // A: append, U: update, D: delete
-  effect!: 'A' | 'U' | 'D';
+    // A: append, U: update, D: delete
+    effect!: 'A' | 'U' | 'D';
 
-  component?: Component;
+    component?: Component;
 
-  key?: string;
+    key?: string;
 
-  skip = false;
+    skip = false;
 
-  constructor(type: string | ComponentClass, props: Record<string, any>, children: VNode[]) {
-    this.type = type;
-    this.props = props;
-    this.children = children;
-    this.props.children = children;
-    if (props.ref) {
-      this.ref = props.ref;
-      delete props.ref;
+    constructor(type: string | ComponentClass, props: Record<string, any>, children: VNode[]) {
+        this.type = type;
+        this.props = props;
+        this.children = children;
+        this.props.children = children;
+        if (props.ref) {
+            this.ref = props.ref;
+            delete props.ref;
+        }
+        if (props.key) {
+            this.key = props.key;
+            delete props.key;
+        }
     }
-    if (props.key) {
-      this.key = props.key;
-      delete props.key;
-    }
-  }
 
-  walker() {
-    return new VNodeWalker(this);
-  }
+    walker() {
+        return new VNodeWalker(this);
+    }
 }

@@ -4,27 +4,27 @@ import { Context } from '@editorType/spec';
 import { emitImageBlobHook } from '@/helper/image';
 
 export function dropImage({ eventEmitter }: Context) {
-  return new Plugin({
-    props: {
-      handleDOMEvents: {
-        drop: (_, ev) => {
-          const items = (ev as DragEvent).dataTransfer?.files;
+    return new Plugin({
+        props: {
+            handleDOMEvents: {
+                drop: (_, ev) => {
+                    const items = (ev as DragEvent).dataTransfer?.files;
 
-          if (items) {
-            forEachArray(items, (item) => {
-              if (item.type.indexOf('image') !== -1) {
-                ev.preventDefault();
-                ev.stopPropagation();
-                emitImageBlobHook(eventEmitter, item, ev.type);
+                    if (items) {
+                        forEachArray(items, (item) => {
+                            if (item.type.indexOf('image') !== -1) {
+                                ev.preventDefault();
+                                ev.stopPropagation();
+                                emitImageBlobHook(eventEmitter, item, ev.type);
 
-                return false;
-              }
-              return true;
-            });
-          }
-          return true;
-        },
-      },
-    },
-  });
+                                return false;
+                            }
+                            return true;
+                        });
+                    }
+                    return true;
+                }
+            }
+        }
+    });
 }

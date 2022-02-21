@@ -3,71 +3,71 @@ import { clsWithMdPrefix } from '@/utils/dom';
 import Mark from '@/spec/mark';
 
 export class TaskDelimiter extends Mark {
-  get name() {
-    return 'taskDelimiter';
-  }
+    get name() {
+        return 'taskDelimiter';
+    }
 
-  get schema() {
-    return {
-      toDOM(): DOMOutputSpecArray {
-        return ['span', { class: clsWithMdPrefix('delimiter', 'list-item') }, 0];
-      },
-    };
-  }
+    get schema() {
+        return {
+            toDOM(): DOMOutputSpecArray {
+                return ['span', { class: clsWithMdPrefix('delimiter', 'list-item') }, 0];
+            }
+        };
+    }
 }
 
 export class Delimiter extends Mark {
-  get name() {
-    return 'delimiter';
-  }
+    get name() {
+        return 'delimiter';
+    }
 
-  get schema() {
-    return {
-      toDOM(): DOMOutputSpecArray {
-        return ['span', { class: clsWithMdPrefix('delimiter') }, 0];
-      },
-    };
-  }
+    get schema() {
+        return {
+            toDOM(): DOMOutputSpecArray {
+                return ['span', { class: clsWithMdPrefix('delimiter') }, 0];
+            }
+        };
+    }
 }
 
 export class Meta extends Mark {
-  get name() {
-    return 'meta';
-  }
+    get name() {
+        return 'meta';
+    }
 
-  get schema() {
-    return {
-      toDOM(): DOMOutputSpecArray {
-        return ['span', { class: clsWithMdPrefix('meta') }, 0];
-      },
-    };
-  }
+    get schema() {
+        return {
+            toDOM(): DOMOutputSpecArray {
+                return ['span', { class: clsWithMdPrefix('meta') }, 0];
+            }
+        };
+    }
 }
 
 export class MarkedText extends Mark {
-  get name() {
-    return 'markedText';
-  }
+    get name() {
+        return 'markedText';
+    }
 
-  get schema() {
-    return {
-      toDOM(): DOMOutputSpecArray {
-        return ['span', { class: clsWithMdPrefix('marked-text') }, 0];
-      },
-    };
-  }
+    get schema() {
+        return {
+            toDOM(): DOMOutputSpecArray {
+                return ['span', { class: clsWithMdPrefix('marked-text') }, 0];
+            }
+        };
+    }
 }
 
 export class TableCell extends Mark {
-  get name() {
-    return 'tableCell';
-  }
+    get name() {
+        return 'tableCell';
+    }
 
-  get schema() {
-    return {
-      toDOM(): DOMOutputSpecArray {
-        return ['span', { class: clsWithMdPrefix('table-cell') }, 0];
-      },
-    };
-  }
+    get schema() {
+        return {
+            toDOM(): DOMOutputSpecArray {
+                return ['span', { class: clsWithMdPrefix('table-cell') }, 0];
+            }
+        };
+    }
 }

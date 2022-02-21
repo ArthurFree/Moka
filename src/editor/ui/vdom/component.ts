@@ -3,28 +3,28 @@ import { shallowEqual } from '@/utils/common';
 import { rerender } from './renderer';
 
 export abstract class Component<T = {}, R = {}> implements IComponent<T, R> {
-  props: T;
+    props: T;
 
-  state: R;
+    state: R;
 
-  refs: Record<string, HTMLElement>;
+    refs: Record<string, HTMLElement>;
 
-  vnode!: VNode;
+    vnode!: VNode;
 
-  constructor(props: T) {
-    this.props = props;
-    this.state = {} as R;
-    this.refs = {};
-  }
-
-  setState(state: Partial<R>) {
-    const newState = { ...this.state, ...state };
-
-    if (!shallowEqual(this.state, newState)) {
-      this.state = newState;
-      rerender(this);
+    constructor(props: T) {
+        this.props = props;
+        this.state = {} as R;
+        this.refs = {};
     }
-  }
 
-  abstract render(): VNode;
+    setState(state: Partial<R>) {
+        const newState = { ...this.state, ...state };
+
+        if (!shallowEqual(this.state, newState)) {
+            this.state = newState;
+            rerender(this);
+        }
+    }
+
+    abstract render(): VNode;
 }

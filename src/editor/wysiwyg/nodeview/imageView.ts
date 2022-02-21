@@ -15,97 +15,97 @@ type GetPos = (() => number) | boolean;
 const IMAGE_LINK_CLASS_NAME = 'image-link';
 
 export class ImageView implements NodeView {
-  dom: HTMLElement;
+    dom: HTMLElement;
 
-  private node: ProsemirrorNode;
+    private node: ProsemirrorNode;
 
-  private view: EditorView;
+    private view: EditorView;
 
-  private getPos: GetPos;
+    private getPos: GetPos;
 
-  private eventEmitter: Emitter;
+    private eventEmitter: Emitter;
 
-  private imageLink: Mark | null;
+    private imageLink: Mark | null;
 
-  constructor(node: ProsemirrorNode, view: EditorView, getPos: GetPos, eventEmitter: Emitter) {
-    this.node = node;
-    this.view = view;
-    this.getPos = getPos;
-    this.eventEmitter = eventEmitter;
-    this.imageLink = node.marks.filter(({ type }) => type.name === 'link')[0] ?? null;
-    this.dom = this.createElement();
+    constructor(node: ProsemirrorNode, view: EditorView, getPos: GetPos, eventEmitter: Emitter) {
+        this.node = node;
+        this.view = view;
+        this.getPos = getPos;
+        this.eventEmitter = eventEmitter;
+        this.imageLink = node.marks.filter(({ type }) => type.name === 'link')[0] ?? null;
+        this.dom = this.createElement();
 
-    this.bindEvent();
-  }
-
-  private createElement() {
-    const image = this.createImageElement(this.node);
-
-    if (this.imageLink) {
-      const wrapper = document.createElement('span');
-
-      wrapper.className = IMAGE_LINK_CLASS_NAME;
-      wrapper.appendChild(image);
-
-      return wrapper;
+        this.bindEvent();
     }
 
-    return image;
-  }
+    private createElement() {
+        const image = this.createImageElement(this.node);
 
-  private createImageElement(node: ProsemirrorNode) {
-    const image = document.createElement('img');
-    const { imageUrl, altText } = node.attrs;
-    const attrs = getCustomAttrs(node.attrs);
+        if (this.imageLink) {
+            const wrapper = document.createElement('span');
 
-    image.src = imageUrl;
+            wrapper.className = IMAGE_LINK_CLASS_NAME;
+            wrapper.appendChild(image);
 
-    if (altText) {
-      image.alt = altText;
+            return wrapper;
+        }
+
+        return image;
     }
-    setAttributes(attrs, image);
 
-    return image;
-  }
+    private createImageElement(node: ProsemirrorNode) {
+        const image = document.createElement('img');
+        const { imageUrl, altText } = node.attrs;
+        const attrs = getCustomAttrs(node.attrs);
 
-  private bindEvent() {
-    if (this.imageLink) {
-      this.dom.addEventListener('mousedown', this.handleMousedown);
+        image.src = imageUrl;
+
+        if (altText) {
+            image.alt = altText;
+        }
+        setAttributes(attrs, image);
+
+        return image;
     }
-  }
 
-  private handleMousedown = (ev: MouseEvent) => {
-    ev.preventDefault();
-
-    const { target, offsetX, offsetY } = ev;
-
-    if (
-      this.imageLink &&
-      isFunction(this.getPos) &&
-      hasClass(target as HTMLElement, IMAGE_LINK_CLASS_NAME)
-    ) {
-      const style = getComputedStyle(target as HTMLElement, ':before');
-
-      ev.stopPropagation();
-
-      if (isPositionInBox(style, offsetX, offsetY)) {
-        const { tr } = this.view.state;
-        const pos = this.getPos();
-
-        tr.setSelection(createTextSelection(tr, pos, pos + 1));
-        this.view.dispatch(tr);
-        this.eventEmitter.emit('openPopup', 'link', this.imageLink.attrs);
-      }
+    private bindEvent() {
+        if (this.imageLink) {
+            this.dom.addEventListener('mousedown', this.handleMousedown);
+        }
     }
-  };
 
-  stopEvent() {
-    return true;
-  }
+    private handleMousedown = (ev: MouseEvent) => {
+        ev.preventDefault();
 
-  destroy() {
-    if (this.imageLink) {
-      this.dom.removeEventListener('mousedown', this.handleMousedown);
+        const { target, offsetX, offsetY } = ev;
+
+        if (
+            this.imageLink &&
+            isFunction(this.getPos) &&
+            hasClass(target as HTMLElement, IMAGE_LINK_CLASS_NAME)
+        ) {
+            const style = getComputedStyle(target as HTMLElement, ':before');
+
+            ev.stopPropagation();
+
+            if (isPositionInBox(style, offsetX, offsetY)) {
+                const { tr } = this.view.state;
+                const pos = this.getPos();
+
+                tr.setSelection(createTextSelection(tr, pos, pos + 1));
+                this.view.dispatch(tr);
+                this.eventEmitter.emit('openPopup', 'link', this.imageLink.attrs);
+            }
+        }
+    };
+
+    stopEvent() {
+        return true;
     }
-  }
+
+    destroy() {
+        if (this.imageLink) {
+            this.dom.removeEventListener('mousedown', this.handleMousedown);
+        }
+    }
 }

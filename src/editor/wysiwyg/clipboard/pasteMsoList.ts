@@ -4,7 +4,7 @@ import {
     removeNode,
     unwrapNode,
     insertBeforeNode,
-    appendNodes,
+    appendNodes
 } from '@/utils/dom';
 
 const reMSOListClassName = /MsoListParagraph/;
@@ -37,7 +37,6 @@ function getListItemContents(para: HTMLElement) {
     // https://developer.mozilla.org/zh-CN/docs/Web/API/Document/createTreeWalker
     const walker = document.createTreeWalker(para, 1, null);
 
-
     while (walker.nextNode()) {
         const node = walker.currentNode;
 
@@ -48,7 +47,11 @@ function getListItemContents(para: HTMLElement) {
 
             if (msoSpan && !bulletSpan && textContent) {
                 removedNodes.push([node, true]);
-            } else if (reMSOTagName.test(node.nodeName) || (msoSpan && !textContent) || bulletSpan) {
+            } else if (
+                reMSOTagName.test(node.nodeName) ||
+                (msoSpan && !textContent) ||
+                bulletSpan
+            ) {
                 removedNodes.push([node, false]);
             }
         }
@@ -81,7 +84,7 @@ function createListItemDataFromParagraph(para: HTMLElement, index: number) {
             parent: null,
             children: [],
             unordered,
-            contents: getListItemContents(para),
+            contents: getListItemContents(para)
         };
     }
 

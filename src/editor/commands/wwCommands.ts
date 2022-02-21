@@ -4,36 +4,36 @@ import { sinkListItem, liftListItem } from '@/wysiwyg/command/list';
 import { EditorCommand } from '@editorType/spec';
 
 function indent(): EditorCommand {
-  return () => (state, dispatch) => {
-    const { selection, schema } = state;
-    const { $from, $to } = selection;
-    const range = $from.blockRange($to);
+    return () => (state, dispatch) => {
+        const { selection, schema } = state;
+        const { $from, $to } = selection;
+        const range = $from.blockRange($to);
 
-    if (range && isInListNode($from)) {
-      return sinkListItem(schema.nodes.listItem)(state, dispatch);
-    }
+        if (range && isInListNode($from)) {
+            return sinkListItem(schema.nodes.listItem)(state, dispatch);
+        }
 
-    return false;
-  };
+        return false;
+    };
 }
 
 function outdent(): EditorCommand {
-  return () => (state, dispatch) => {
-    const { selection, schema } = state;
-    const { $from, $to } = selection;
-    const range = $from.blockRange($to);
+    return () => (state, dispatch) => {
+        const { selection, schema } = state;
+        const { $from, $to } = selection;
+        const range = $from.blockRange($to);
 
-    if (range && isInListNode($from)) {
-      return liftListItem(schema.nodes.listItem)(state, dispatch);
-    }
+        if (range && isInListNode($from)) {
+            return liftListItem(schema.nodes.listItem)(state, dispatch);
+        }
 
-    return false;
-  };
+        return false;
+    };
 }
 
 export function getWwCommands(): Record<string, EditorCommand> {
-  return {
-    indent: indent(),
-    outdent: outdent(),
-  };
+    return {
+        indent: indent(),
+        outdent: outdent()
+    };
 }

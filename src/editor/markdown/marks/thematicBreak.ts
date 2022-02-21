@@ -9,43 +9,43 @@ import { getRangeInfo } from '../helper/pos';
 const thematicBreakSyntax = '***';
 
 export class ThematicBreak extends Mark {
-  get name() {
-    return 'thematicBreak';
-  }
+    get name() {
+        return 'thematicBreak';
+    }
 
-  get schema() {
-    return {
-      toDOM(): DOMOutputSpecArray {
-        return ['span', { class: clsWithMdPrefix('thematic-break') }, 0];
-      },
-    };
-  }
+    get schema() {
+        return {
+            toDOM(): DOMOutputSpecArray {
+                return ['span', { class: clsWithMdPrefix('thematic-break') }, 0];
+            }
+        };
+    }
 
-  private hr(): EditorCommand {
-    return () => (state, dispatch) => {
-      const { selection, schema, tr } = state;
-      const { from, to, endToOffset } = getRangeInfo(selection);
-      const node = createTextNode(schema, thematicBreakSyntax);
+    private hr(): EditorCommand {
+        return () => (state, dispatch) => {
+            const { selection, schema, tr } = state;
+            const { from, to, endToOffset } = getRangeInfo(selection);
+            const node = createTextNode(schema, thematicBreakSyntax);
 
-      (tr
-        .split(from)
-        .replaceWith(tr.mapping.map(from), tr.mapping.map(to), node)
-        .split(tr.mapping.map(to)) as Transaction).setSelection(
-        createTextSelection(tr, tr.mapping.map(endToOffset))
-      );
+            (
+                tr
+                    .split(from)
+                    .replaceWith(tr.mapping.map(from), tr.mapping.map(to), node)
+                    .split(tr.mapping.map(to)) as Transaction
+            ).setSelection(createTextSelection(tr, tr.mapping.map(endToOffset)));
 
-      dispatch!(tr);
-      return true;
-    };
-  }
+            dispatch!(tr);
+            return true;
+        };
+    }
 
-  commands() {
-    return { hr: this.hr() };
-  }
+    commands() {
+        return { hr: this.hr() };
+    }
 
-  keymaps() {
-    const lineCommand = this.hr()();
+    keymaps() {
+        const lineCommand = this.hr()();
 
-    return { 'Mod-l': lineCommand, 'Mod-L': lineCommand };
-  }
+        return { 'Mod-l': lineCommand, 'Mod-L': lineCommand };
+    }
 }

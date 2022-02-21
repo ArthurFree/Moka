@@ -11,91 +11,92 @@ import { EditorCommand } from '@editorType/spec';
 import { LinkAttributes } from '@editorType/editor';
 
 export class Link extends Mark {
-  private linkAttributes: LinkAttributes;
+    private linkAttributes: LinkAttributes;
 
-  constructor(linkAttributes: LinkAttributes) {
-    super();
-    this.linkAttributes = linkAttributes;
-  }
+    constructor(linkAttributes: LinkAttributes) {
+        super();
+        this.linkAttributes = linkAttributes;
+    }
 
-  get name() {
-    return 'link';
-  }
+    get name() {
+        return 'link';
+    }
 
-  get schema() {
-    return {
-      attrs: {
-        linkUrl: { default: '' },
-        title: { default: null },
-        rawHTML: { default: null },
-        ...getDefaultCustomAttrs(),
-      },
-      inclusive: false,
-      parseDOM: [
-        {
-          tag: 'a[href]',
-          getAttrs(dom: Node | string) {
-            const sanitizedDOM = sanitizeHTML<DocumentFragment>(dom, { RETURN_DOM_FRAGMENT: true })
-              .firstChild as HTMLElement;
-            const href = sanitizedDOM.getAttribute('href') || '';
-            const title = sanitizedDOM.getAttribute('title') || '';
-            const rawHTML = sanitizedDOM.getAttribute('data-raw-html');
+    get schema() {
+        return {
+            attrs: {
+                linkUrl: { default: '' },
+                title: { default: null },
+                rawHTML: { default: null },
+                ...getDefaultCustomAttrs()
+            },
+            inclusive: false,
+            parseDOM: [
+                {
+                    tag: 'a[href]',
+                    getAttrs(dom: Node | string) {
+                        const sanitizedDOM = sanitizeHTML<DocumentFragment>(dom, {
+                            RETURN_DOM_FRAGMENT: true
+                        }).firstChild as HTMLElement;
+                        const href = sanitizedDOM.getAttribute('href') || '';
+                        const title = sanitizedDOM.getAttribute('title') || '';
+                        const rawHTML = sanitizedDOM.getAttribute('data-raw-html');
 
-            return {
-              linkUrl: href,
-              title,
-              ...(rawHTML && { rawHTML }),
-            };
-          },
-        },
-      ],
-      toDOM: ({ attrs }: ProsemirrorMark): DOMOutputSpecArray => [
-        attrs.rawHTML || 'a',
-        {
-          href: escapeXml(attrs.linkUrl),
-          ...(this.linkAttributes as DOMOutputSpecArray),
-          ...getCustomAttrs(attrs),
-        },
-      ],
-    };
-  }
+                        return {
+                            linkUrl: href,
+                            title,
+                            ...(rawHTML && { rawHTML })
+                        };
+                    }
+                }
+            ],
+            toDOM: ({ attrs }: ProsemirrorMark): DOMOutputSpecArray => [
+                attrs.rawHTML || 'a',
+                {
+                    href: escapeXml(attrs.linkUrl),
+                    ...(this.linkAttributes as DOMOutputSpecArray),
+                    ...getCustomAttrs(attrs)
+                }
+            ]
+        };
+    }
 
-  private addLink(): EditorCommand {
-    return (payload) => (state, dispatch) => {
-      const { linkUrl, linkText = '' } = payload!;
-      const { schema, tr, selection } = state;
-      const { empty, from, to } = selection;
+    private addLink(): EditorCommand {
+        return (payload) => (state, dispatch) => {
+            const { linkUrl, linkText = '' } = payload!;
+            const { schema, tr, selection } = state;
+            const { empty, from, to } = selection;
 
-      if (from && to && linkUrl) {
-        const attrs = { linkUrl };
-        const mark = schema.mark('link', attrs);
+            if (from && to && linkUrl) {
+                const attrs = { linkUrl };
+                const mark = schema.mark('link', attrs);
 
-        if (empty && linkText) {
-          const node = createTextNode(schema, linkText, mark);
+                if (empty && linkText) {
+                    const node = createTextNode(schema, linkText, mark);
 
-          tr.replaceRangeWith(from, to, node);
-        } else {
-          tr.addMark(from, to, mark);
-        }
+                    tr.replaceRangeWith(from, to, node);
+                } else {
+                    tr.addMark(from, to, mark);
+                }
 
-        dispatch!(tr.scrollIntoView());
+                dispatch!(tr.scrollIntoView());
 
-        return true;
-      }
+                return true;
+            }
 
-      return false;
-    };
-  }
+            return false;
+        };
+    }
 
-  private toggleLink(): EditorCommand {
-    return (payload) => (state, dispatch) =>
-      toggleMark(state.schema.marks.link, payload)(state, dispatch);
-  }
+    private toggleLink(): EditorCommand {
+        return (payload) => (state, dispatch) =>
+            toggleMark(state.schema.marks.link, payload)(state, dispatch);
+    }
 
-  commands() {
-    return {
-      addLink: this.addLink(),
-      toggleLink: this.toggleLink(),
-    };
-  }
+    commands() {
+        return {
+            addLink: this.addLink(),
+            toggleLink: this.toggleLink()
+        };
+    }
 }

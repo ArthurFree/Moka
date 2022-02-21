@@ -2,42 +2,42 @@ import { MdNode, Pos } from './node';
 import { ParserOptions } from './parser';
 
 export interface RemovedNodeRange {
-  id: [number, number];
-  line: [number, number];
+    id: [number, number];
+    line: [number, number];
 }
 
 export interface EditResult {
-  nodes: MdNode[];
-  removedNodeRange: RemovedNodeRange | null;
+    nodes: MdNode[];
+    removedNodeRange: RemovedNodeRange | null;
 }
 
 type EventName = 'change';
 
 type EventHandlerMap = {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  [key in EventName]: Function[];
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    [key in EventName]: Function[];
 };
 
 export class ToastMark {
-  constructor(contents?: string, options?: Partial<ParserOptions>);
+    constructor(contents?: string, options?: Partial<ParserOptions>);
 
-  lineTexts: string[];
+    lineTexts: string[];
 
-  editMarkdown(startPos: Pos, endPos: Pos, newText: string): EditResult[];
+    editMarkdown(startPos: Pos, endPos: Pos, newText: string): EditResult[];
 
-  getLineTexts(): string[];
+    getLineTexts(): string[];
 
-  getRootNode(): MdNode;
+    getRootNode(): MdNode;
 
-  findNodeAtPosition(pos: Pos): MdNode | null;
+    findNodeAtPosition(pos: Pos): MdNode | null;
 
-  findFirstNodeAtLine(line: number): MdNode | null;
+    findFirstNodeAtLine(line: number): MdNode | null;
 
-  on(eventName: EventName, callback: () => void): void;
+    on(eventName: EventName, callback: () => void): void;
 
-  off(eventName: EventName, callback: () => void): void;
+    off(eventName: EventName, callback: () => void): void;
 
-  findNodeById(id: number): MdNode | null;
+    findNodeById(id: number): MdNode | null;
 
-  removeAllNode(): void;
+    removeAllNode(): void;
 }

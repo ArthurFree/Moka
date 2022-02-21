@@ -10,20 +10,20 @@ import { createCommands } from './wysiwyg/commandFactory';
 import './css/plugin.css';
 
 export default function tableMergedCellPlugin(context: PluginContext): PluginInfo {
-  const { i18n, eventEmitter } = context;
-  const TableOffsetMap = eventEmitter.emitReduce(
-    'mixinTableOffsetMapPrototype',
-    offsetMapMixin,
-    createOffsetMapMixin
-  );
+    const { i18n, eventEmitter } = context;
+    const TableOffsetMap = eventEmitter.emitReduce(
+        'mixinTableOffsetMapPrototype',
+        offsetMapMixin,
+        createOffsetMapMixin
+    );
 
-  addLangs(i18n);
-  addMergedTableContextMenu(context);
+    addLangs(i18n);
+    addMergedTableContextMenu(context);
 
-  return {
-    toHTMLRenderers,
-    markdownParsers,
-    toMarkdownRenderers,
-    wysiwygCommands: createCommands(context, TableOffsetMap),
-  };
+    return {
+        toHTMLRenderers,
+        markdownParsers,
+        toMarkdownRenderers,
+        wysiwygCommands: createCommands(context, TableOffsetMap)
+    };
 }

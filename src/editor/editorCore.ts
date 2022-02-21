@@ -15,7 +15,7 @@ import {
     EditorType,
     PreviewStyle,
     ViewerOptions,
-    WidgetStyle,
+    WidgetStyle
 } from '@editorType/editor';
 import { PluginCommandMap, PluginInfoResult, CommandFn } from '@editorType/plugin';
 
@@ -141,7 +141,7 @@ class ToastUIEditorCore {
                     ['ul', 'ol', 'task', 'indent', 'outdent'],
                     ['table', 'image', 'link'],
                     ['code', 'codeblock'],
-                    ['scrollSync'],
+                    ['scrollSync']
                 ],
                 hideModeSwitch: false,
                 linkAttributes: null,
@@ -153,7 +153,7 @@ class ToastUIEditorCore {
                 frontMatter: false,
                 widgetRules: [],
                 theme: 'light',
-                autofocus: true,
+                autofocus: true
             },
             options
         );
@@ -167,7 +167,7 @@ class ToastUIEditorCore {
             useCommandShortcut,
             initialEditType,
             widgetRules,
-            customHTMLSanitizer,
+            customHTMLSanitizer
         } = this.options;
 
         this.mode = initialEditType || 'markdown';
@@ -195,7 +195,7 @@ class ToastUIEditorCore {
             wwNodeViews,
             mdCommands,
             wwCommands,
-            markdownParsers,
+            markdownParsers
         } = this.pluginInfo;
         const rendererOptions = {
             linkAttributes,
@@ -203,9 +203,12 @@ class ToastUIEditorCore {
             extendedAutolinks,
             referenceDefinition,
             frontMatter,
-            sanitizer: customHTMLSanitizer || sanitizeHTML,
+            sanitizer: customHTMLSanitizer || sanitizeHTML
         };
-        const wwToDOMAdaptor = new WwToDOMAdaptor(linkAttributes, rendererOptions.customHTMLRenderer);
+        const wwToDOMAdaptor = new WwToDOMAdaptor(
+            linkAttributes,
+            rendererOptions.customHTMLRenderer
+        );
         const htmlSchemaMap = createHTMLSchemaMap(
             rendererOptions.customHTMLRenderer,
             rendererOptions.sanitizer,
@@ -218,19 +221,19 @@ class ToastUIEditorCore {
             referenceDefinition,
             disallowDeepHeading: true,
             frontMatter,
-            customParser: markdownParsers,
+            customParser: markdownParsers
         });
 
         this.mdEditor = new MarkdownEditor(this.eventEmitter, {
             toastMark: this.toastMark,
             useCommandShortcut,
-            mdPlugins,
+            mdPlugins
         });
 
         this.preview = new MarkdownPreview(this.eventEmitter, {
             ...rendererOptions,
             isViewer: false,
-            highlight: this.options.previewHighlight,
+            highlight: this.options.previewHighlight
         });
 
         this.wwEditor = new WysiwygEditor(this.eventEmitter, {
@@ -239,7 +242,7 @@ class ToastUIEditorCore {
             htmlSchemaMap,
             linkAttributes,
             wwPlugins,
-            wwNodeViews,
+            wwNodeViews
         });
 
         this.convertor = new Convertor(
@@ -332,7 +335,9 @@ class ToastUIEditorCore {
      * @returns {object} ToastUIEditorCore or ToastUIEditorViewer
      */
     static factory(options: (EditorOptions | ViewerOptions) & { viewer?: boolean }) {
-        return options.viewer ? new Viewer(options) : new ToastUIEditorCore(options as EditorOptions);
+        return options.viewer
+            ? new Viewer(options)
+            : new ToastUIEditorCore(options as EditorOptions);
     }
 
     /**
@@ -807,7 +812,7 @@ class ToastUIEditorCore {
         return {
             mdEditor: this.mdEditor.getElement(),
             mdPreview: this.preview.getElement(),
-            wwEditor: this.wwEditor.getElement(),
+            wwEditor: this.wwEditor.getElement()
         };
     }
 }

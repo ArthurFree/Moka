@@ -5,81 +5,81 @@ import { closest, cls } from '@/utils/dom';
 import { WidgetStyle } from '@editorType/editor';
 import { Emitter } from '@editorType/event';
 interface Widget {
-  node: HTMLElement;
-  style: WidgetStyle;
-  pos: number;
+    node: HTMLElement;
+    style: WidgetStyle;
+    pos: number;
 }
 
 const pluginKey = new PluginKey('widget');
 const MARGIN = 5;
 
 class PopupWidget {
-  private popup: HTMLElement | null = null;
+    private popup: HTMLElement | null = null;
 
-  private eventEmitter: Emitter;
+    private eventEmitter: Emitter;
 
-  private rootEl!: HTMLElement;
+    private rootEl!: HTMLElement;
 
-  constructor(view: EditorView, eventEmitter: Emitter) {
-    this.rootEl = view.dom.parentElement!;
-    this.eventEmitter = eventEmitter;
-    this.eventEmitter.listen('blur', this.removeWidget);
-    this.eventEmitter.listen('loadUI', () => {
-      this.rootEl = closest(view.dom.parentElement!, `.${cls('defaultUI')}`) as HTMLElement;
-    });
-    this.eventEmitter.listen('removePopupWidget', this.removeWidget);
-  }
-
-  private removeWidget = () => {
-    if (this.popup) {
-      this.rootEl.removeChild(this.popup);
-      this.popup = null;
+    constructor(view: EditorView, eventEmitter: Emitter) {
+        this.rootEl = view.dom.parentElement!;
+        this.eventEmitter = eventEmitter;
+        this.eventEmitter.listen('blur', this.removeWidget);
+        this.eventEmitter.listen('loadUI', () => {
+            this.rootEl = closest(view.dom.parentElement!, `.${cls('defaultUI')}`) as HTMLElement;
+        });
+        this.eventEmitter.listen('removePopupWidget', this.removeWidget);
     }
-  };
 
-  update(view: EditorView) {
-    const widget: Widget | null = pluginKey.getState(view.state);
+    private removeWidget = () => {
+        if (this.popup) {
+            this.rootEl.removeChild(this.popup);
+            this.popup = null;
+        }
+    };
 
-    this.removeWidget();
+    update(view: EditorView) {
+        const widget: Widget | null = pluginKey.getState(view.state);
 
-    if (widget) {
-      const { node, style } = widget;
-      const { top, left, bottom } = view.coordsAtPos(widget.pos);
-      const height = bottom - top;
-      const rect = this.rootEl.getBoundingClientRect();
-      const relTopPos = top - rect.top;
+        this.removeWidget();
 
-      css(node, { opacity: '0' });
-      this.rootEl.appendChild(node);
-      css(node, {
-        position: 'absolute',
-        left: `${left - rect.left + MARGIN}px`,
-        top: `${style === 'bottom' ? relTopPos + height - MARGIN : relTopPos - height}px`,
-        opacity: '1',
-      });
-      this.popup = node;
-      view.focus();
+        if (widget) {
+            const { node, style } = widget;
+            const { top, left, bottom } = view.coordsAtPos(widget.pos);
+            const height = bottom - top;
+            const rect = this.rootEl.getBoundingClientRect();
+            const relTopPos = top - rect.top;
+
+            css(node, { opacity: '0' });
+            this.rootEl.appendChild(node);
+            css(node, {
+                position: 'absolute',
+                left: `${left - rect.left + MARGIN}px`,
+                top: `${style === 'bottom' ? relTopPos + height - MARGIN : relTopPos - height}px`,
+                opacity: '1'
+            });
+            this.popup = node;
+            view.focus();
+        }
     }
-  }
 
-  destroy() {
-    this.eventEmitter.removeEventHandler('blur', this.removeWidget);
-  }
+    destroy() {
+        this.eventEmitter.removeEventHandler('blur', this.removeWidget);
+    }
 }
 
 export function addWidget(eventEmitter: Emitter) {
-  return new Plugin({
-    key: pluginKey,
-    state: {
-      init() {
-        return null;
-      },
-      apply(tr) {
-        return tr.getMeta('widget');
-      },
-    },
-    view(editorView) {
-      return new PopupWidget(editorView, eventEmitter);
-    },
-  });
+    return new Plugin({
+        key: pluginKey,
+        state: {
+            init() {
+                return null;
+            },
+            apply(tr) {
+                return tr.getMeta('widget');
+            }
+        },
+        view(editorView) {
+            return new PopupWidget(editorView, eventEmitter);
+        }
+    });
 }

@@ -8,29 +8,29 @@ const reEmph = /^(\*|_).*([\s\S]*)\1$/m;
 const emphSyntax = '*';
 
 export class Emph extends Mark {
-  get name() {
-    return 'emph';
-  }
+    get name() {
+        return 'emph';
+    }
 
-  get schema() {
-    return {
-      toDOM(): DOMOutputSpecArray {
-        return ['span', { class: clsWithMdPrefix('emph') }, 0];
-      },
-    };
-  }
+    get schema() {
+        return {
+            toDOM(): DOMOutputSpecArray {
+                return ['span', { class: clsWithMdPrefix('emph') }, 0];
+            }
+        };
+    }
 
-  private italic(): EditorCommand {
-    return toggleMark(reEmph, emphSyntax);
-  }
+    private italic(): EditorCommand {
+        return toggleMark(reEmph, emphSyntax);
+    }
 
-  commands() {
-    return { italic: this.italic() };
-  }
+    commands() {
+        return { italic: this.italic() };
+    }
 
-  keymaps() {
-    const italicCommand = this.italic()();
+    keymaps() {
+        const italicCommand = this.italic()();
 
-    return { 'Mod-i': italicCommand, 'Mod-I': italicCommand };
-  }
+        return { 'Mod-i': italicCommand, 'Mod-I': italicCommand };
+    }
 }

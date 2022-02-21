@@ -33,293 +33,299 @@ import { includes } from '@/utils/common';
 import { isInTableNode } from '@/wysiwyg/helper/node';
 
 interface WindowWithClipboard extends Window {
-  clipboardData?: DataTransfer | null;
+    clipboardData?: DataTransfer | null;
 }
 
 interface WysiwygOptions {
-  toDOMAdaptor: ToDOMAdaptor;
-  useCommandShortcut?: boolean;
-  htmlSchemaMap?: HTMLSchemaMap;
-  linkAttributes?: LinkAttributes | null;
-  wwPlugins?: PluginProp[];
-  wwNodeViews?: NodeViewPropMap;
+    toDOMAdaptor: ToDOMAdaptor;
+    useCommandShortcut?: boolean;
+    htmlSchemaMap?: HTMLSchemaMap;
+    linkAttributes?: LinkAttributes | null;
+    wwPlugins?: PluginProp[];
+    wwNodeViews?: NodeViewPropMap;
 }
 
 type PluginNodeVeiwFn = (node: ProsemirrorNode, view: EditorView, getPos: () => number) => NodeView;
 
 interface PluginNodeViews {
-  [k: string]: PluginNodeVeiwFn;
+    [k: string]: PluginNodeVeiwFn;
 }
 
 const CONTENTS_CLASS_NAME = cls('contents');
 
 export default class WysiwygEditor extends EditorBase {
-  private toDOMAdaptor: ToDOMAdaptor;
+    private toDOMAdaptor: ToDOMAdaptor;
 
-  private linkAttributes: LinkAttributes;
+    private linkAttributes: LinkAttributes;
 
-  private pluginNodeViews: NodeViewPropMap;
+    private pluginNodeViews: NodeViewPropMap;
 
-  constructor(eventEmitter: Emitter, options: WysiwygOptions) {
-    super(eventEmitter);
+    constructor(eventEmitter: Emitter, options: WysiwygOptions) {
+        super(eventEmitter);
 
-    const {
-      toDOMAdaptor,
-      htmlSchemaMap = {} as HTMLSchemaMap,
-      linkAttributes = {},
-      useCommandShortcut = true,
-      wwPlugins = [],
-      wwNodeViews = {},
-    } = options;
+        const {
+            toDOMAdaptor,
+            htmlSchemaMap = {} as HTMLSchemaMap,
+            linkAttributes = {},
+            useCommandShortcut = true,
+            wwPlugins = [],
+            wwNodeViews = {}
+        } = options;
 
-    this.editorType = 'wysiwyg';
-    this.el.classList.add('ww-mode');
-    this.toDOMAdaptor = toDOMAdaptor;
-    this.linkAttributes = linkAttributes!;
-    this.extraPlugins = wwPlugins;
-    this.pluginNodeViews = wwNodeViews;
-    this.specs = this.createSpecs();
-    this.schema = this.createSchema(htmlSchemaMap);
-    this.context = this.createContext();
-    this.keymaps = this.createKeymaps(useCommandShortcut);
-    this.view = this.createView();
-    this.commands = this.createCommands();
-    this.specs.setContext({ ...this.context, view: this.view });
-    this.initEvent();
-  }
-
-  createSpecs() {
-    return createSpecs(this.linkAttributes);
-  }
-
-  createContext() {
-    return {
-      schema: this.schema,
-      eventEmitter: this.eventEmitter,
-    };
-  }
-
-  createSchema(htmlSchemaMap?: HTMLSchemaMap) {
-    return new Schema({
-      nodes: { ...this.specs.nodes, ...htmlSchemaMap!.nodes },
-      marks: { ...this.specs.marks, ...htmlSchemaMap!.marks },
-    });
-  }
-
-  createPlugins() {
-    return this.defaultPlugins.concat([
-      tableSelection(),
-      tableContextMenu(this.eventEmitter),
-      task(),
-      toolbarStateHighlight(this.eventEmitter),
-      ...this.createPluginProps(),
-    ]);
-  }
-
-  createPluginNodeViews() {
-    const { eventEmitter, pluginNodeViews } = this;
-    const pluginNodeViewMap: PluginNodeViews = {};
-
-    if (pluginNodeViews) {
-      Object.keys(pluginNodeViews).forEach((key) => {
-        pluginNodeViewMap[key] = (node, view, getPos) =>
-          pluginNodeViews[key](node, view, getPos, eventEmitter);
-      });
+        this.editorType = 'wysiwyg';
+        this.el.classList.add('ww-mode');
+        this.toDOMAdaptor = toDOMAdaptor;
+        this.linkAttributes = linkAttributes!;
+        this.extraPlugins = wwPlugins;
+        this.pluginNodeViews = wwNodeViews;
+        this.specs = this.createSpecs();
+        this.schema = this.createSchema(htmlSchemaMap);
+        this.context = this.createContext();
+        this.keymaps = this.createKeymaps(useCommandShortcut);
+        this.view = this.createView();
+        this.commands = this.createCommands();
+        this.specs.setContext({ ...this.context, view: this.view });
+        this.initEvent();
     }
 
-    return pluginNodeViewMap;
-  }
-
-  createView() {
-    const { toDOMAdaptor, eventEmitter } = this;
-
-    return new EditorView(this.el, {
-      state: this.createState(),
-      attributes: {
-        class: CONTENTS_CLASS_NAME,
-      },
-      nodeViews: {
-        customBlock(node, view, getPos) {
-          return new CustomBlockView(node, view, getPos, toDOMAdaptor);
-        },
-        image(node, view, getPos) {
-          return new ImageView(node, view, getPos, eventEmitter);
-        },
-        codeBlock(node, view, getPos) {
-          return new CodeBlockView(node, view, getPos, eventEmitter);
-        },
-        widget: widgetNodeView,
-        ...this.createPluginNodeViews(),
-      },
-      dispatchTransaction: (tr) => {
-        const { state } = this.view.state.applyTransaction(tr);
-
-        this.view.updateState(state);
-        this.emitChangeEvent(tr.scrollIntoView());
-        this.eventEmitter.emit('setFocusedNode', state.selection.$from.node(1));
-      },
-      transformPastedHTML: changePastedHTML,
-      transformPasted: (slice: Slice) =>
-        changePastedSlice(slice, this.schema, isInTableNode(this.view.state.selection.$from)),
-      handlePaste: (view: EditorView, _: ClipboardEvent, slice: Slice) => pasteToTable(view, slice),
-      handleKeyDown: (_, ev) => {
-        this.eventEmitter.emit('keydown', this.editorType, ev);
-        return false;
-      },
-      handleDOMEvents: {
-        paste: (_, ev) => {
-          const clipboardData =
-            (ev as ClipboardEvent).clipboardData || (window as WindowWithClipboard).clipboardData;
-          const items = clipboardData?.items;
-
-          if (items) {
-            const containRtfItem = toArray(items).some(
-              (item) => item.kind === 'string' && item.type === 'text/rtf'
-            );
-
-            // if it contains rtf, it's most likely copy paste from office -> no image
-            if (!containRtfItem) {
-              const imageBlob = pasteImageOnly(items);
-
-              if (imageBlob) {
-                ev.preventDefault();
-
-                emitImageBlobHook(this.eventEmitter, imageBlob, ev.type);
-              }
-            }
-          }
-          return false;
-        },
-        keyup: (_, ev: KeyboardEvent) => {
-          this.eventEmitter.emit('keyup', this.editorType, ev);
-          return false;
-        },
-        scroll: () => {
-          this.eventEmitter.emit('scroll', 'editor');
-          return true;
-        },
-      },
-    });
-  }
-
-  createCommands() {
-    return this.specs.commands(this.view, getWwCommands());
-  }
-
-  getHTML() {
-    return this.view.dom.innerHTML;
-  }
-
-  getModel() {
-    return this.view.state.doc;
-  }
-
-  getSelection(): [number, number] {
-    const { from, to } = this.view.state.selection;
-
-    return [from, to];
-  }
-
-  getSchema() {
-    return this.view.state.schema;
-  }
-
-  replaceSelection(text: string, start?: number, end?: number) {
-    const { schema, tr } = this.view.state;
-    const lineTexts = text.split('\n');
-    const paras = lineTexts.map((lineText) =>
-      createParagraph(schema, createNodesWithWidget(lineText, schema))
-    );
-    const slice = new Slice(Fragment.from(paras), 1, 1);
-    const newTr =
-      isNumber(start) && isNumber(end)
-        ? tr.replaceRange(start, end, slice)
-        : tr.replaceSelection(slice);
-
-    this.view.dispatch(newTr);
-    this.focus();
-  }
-
-  deleteSelection(start?: number, end?: number) {
-    const { tr } = this.view.state;
-    const newTr =
-      isNumber(start) && isNumber(end) ? tr.deleteRange(start, end) : tr.deleteSelection();
-
-    this.view.dispatch(newTr.scrollIntoView());
-  }
-
-  getSelectedText(start?: number, end?: number) {
-    const { doc, selection } = this.view.state;
-    let { from, to } = selection;
-
-    if (isNumber(start) && isNumber(end)) {
-      from = start;
-      to = end;
+    createSpecs() {
+        return createSpecs(this.linkAttributes);
     }
-    return doc.textBetween(from, to, '\n');
-  }
 
-  setModel(newDoc: ProsemirrorNode | [], cursorToEnd = false) {
-    const { tr, doc } = this.view.state;
-
-    this.view.dispatch(tr.replaceWith(0, doc.content.size, newDoc));
-
-    if (cursorToEnd) {
-      this.moveCursorToEnd(true);
+    createContext() {
+        return {
+            schema: this.schema,
+            eventEmitter: this.eventEmitter
+        };
     }
-  }
 
-  setSelection(start: number, end = start) {
-    const { tr } = this.view.state;
-    const selection = createTextSelection(tr, start, end);
+    createSchema(htmlSchemaMap?: HTMLSchemaMap) {
+        return new Schema({
+            nodes: { ...this.specs.nodes, ...htmlSchemaMap!.nodes },
+            marks: { ...this.specs.marks, ...htmlSchemaMap!.marks }
+        });
+    }
 
-    this.view.dispatch(tr.setSelection(selection).scrollIntoView());
-  }
+    createPlugins() {
+        return this.defaultPlugins.concat([
+            tableSelection(),
+            tableContextMenu(this.eventEmitter),
+            task(),
+            toolbarStateHighlight(this.eventEmitter),
+            ...this.createPluginProps()
+        ]);
+    }
 
-  addWidget(node: Node, style: WidgetStyle, pos?: number) {
-    const { dispatch, state } = this.view;
+    createPluginNodeViews() {
+        const { eventEmitter, pluginNodeViews } = this;
+        const pluginNodeViewMap: PluginNodeViews = {};
 
-    dispatch(state.tr.setMeta('widget', { pos: pos ?? state.selection.to, node, style }));
-  }
-
-  replaceWithWidget(start: number, end: number, text: string) {
-    const { tr, schema } = this.view.state;
-    const nodes = createNodesWithWidget(text, schema);
-
-    this.view.dispatch(tr.replaceWith(start, end, nodes));
-  }
-
-  getRangeInfoOfNode(pos?: number) {
-    const { doc, selection } = this.view.state;
-    const $pos = pos ? doc.resolve(pos) : selection.$from;
-    const marks = $pos.marks();
-    const node = $pos.node();
-    let start = $pos.start();
-    let end = $pos.end();
-    let type = node.type.name;
-
-    if (marks.length || type === 'paragraph') {
-      const mark = marks[marks.length - 1];
-      const maybeHasMark = (nodeMarks: Mark[]) =>
-        nodeMarks.length ? includes(nodeMarks, mark) : true;
-
-      type = mark ? mark.type.name : 'text';
-
-      node.forEach((child, offset) => {
-        const { isText, nodeSize, marks: nodeMarks } = child;
-        const startOffset = $pos.pos - start;
-
-        if (
-          isText &&
-          offset <= startOffset &&
-          offset + nodeSize >= startOffset &&
-          maybeHasMark(nodeMarks)
-        ) {
-          start = start + offset;
-          end = start + nodeSize;
+        if (pluginNodeViews) {
+            Object.keys(pluginNodeViews).forEach((key) => {
+                pluginNodeViewMap[key] = (node, view, getPos) =>
+                    pluginNodeViews[key](node, view, getPos, eventEmitter);
+            });
         }
-      });
+
+        return pluginNodeViewMap;
     }
-    return { range: [start, end] as [number, number], type };
-  }
+
+    createView() {
+        const { toDOMAdaptor, eventEmitter } = this;
+
+        return new EditorView(this.el, {
+            state: this.createState(),
+            attributes: {
+                class: CONTENTS_CLASS_NAME
+            },
+            nodeViews: {
+                customBlock(node, view, getPos) {
+                    return new CustomBlockView(node, view, getPos, toDOMAdaptor);
+                },
+                image(node, view, getPos) {
+                    return new ImageView(node, view, getPos, eventEmitter);
+                },
+                codeBlock(node, view, getPos) {
+                    return new CodeBlockView(node, view, getPos, eventEmitter);
+                },
+                widget: widgetNodeView,
+                ...this.createPluginNodeViews()
+            },
+            dispatchTransaction: (tr) => {
+                const { state } = this.view.state.applyTransaction(tr);
+
+                this.view.updateState(state);
+                this.emitChangeEvent(tr.scrollIntoView());
+                this.eventEmitter.emit('setFocusedNode', state.selection.$from.node(1));
+            },
+            transformPastedHTML: changePastedHTML,
+            transformPasted: (slice: Slice) =>
+                changePastedSlice(
+                    slice,
+                    this.schema,
+                    isInTableNode(this.view.state.selection.$from)
+                ),
+            handlePaste: (view: EditorView, _: ClipboardEvent, slice: Slice) =>
+                pasteToTable(view, slice),
+            handleKeyDown: (_, ev) => {
+                this.eventEmitter.emit('keydown', this.editorType, ev);
+                return false;
+            },
+            handleDOMEvents: {
+                paste: (_, ev) => {
+                    const clipboardData =
+                        (ev as ClipboardEvent).clipboardData ||
+                        (window as WindowWithClipboard).clipboardData;
+                    const items = clipboardData?.items;
+
+                    if (items) {
+                        const containRtfItem = toArray(items).some(
+                            (item) => item.kind === 'string' && item.type === 'text/rtf'
+                        );
+
+                        // if it contains rtf, it's most likely copy paste from office -> no image
+                        if (!containRtfItem) {
+                            const imageBlob = pasteImageOnly(items);
+
+                            if (imageBlob) {
+                                ev.preventDefault();
+
+                                emitImageBlobHook(this.eventEmitter, imageBlob, ev.type);
+                            }
+                        }
+                    }
+                    return false;
+                },
+                keyup: (_, ev: KeyboardEvent) => {
+                    this.eventEmitter.emit('keyup', this.editorType, ev);
+                    return false;
+                },
+                scroll: () => {
+                    this.eventEmitter.emit('scroll', 'editor');
+                    return true;
+                }
+            }
+        });
+    }
+
+    createCommands() {
+        return this.specs.commands(this.view, getWwCommands());
+    }
+
+    getHTML() {
+        return this.view.dom.innerHTML;
+    }
+
+    getModel() {
+        return this.view.state.doc;
+    }
+
+    getSelection(): [number, number] {
+        const { from, to } = this.view.state.selection;
+
+        return [from, to];
+    }
+
+    getSchema() {
+        return this.view.state.schema;
+    }
+
+    replaceSelection(text: string, start?: number, end?: number) {
+        const { schema, tr } = this.view.state;
+        const lineTexts = text.split('\n');
+        const paras = lineTexts.map((lineText) =>
+            createParagraph(schema, createNodesWithWidget(lineText, schema))
+        );
+        const slice = new Slice(Fragment.from(paras), 1, 1);
+        const newTr =
+            isNumber(start) && isNumber(end)
+                ? tr.replaceRange(start, end, slice)
+                : tr.replaceSelection(slice);
+
+        this.view.dispatch(newTr);
+        this.focus();
+    }
+
+    deleteSelection(start?: number, end?: number) {
+        const { tr } = this.view.state;
+        const newTr =
+            isNumber(start) && isNumber(end) ? tr.deleteRange(start, end) : tr.deleteSelection();
+
+        this.view.dispatch(newTr.scrollIntoView());
+    }
+
+    getSelectedText(start?: number, end?: number) {
+        const { doc, selection } = this.view.state;
+        let { from, to } = selection;
+
+        if (isNumber(start) && isNumber(end)) {
+            from = start;
+            to = end;
+        }
+        return doc.textBetween(from, to, '\n');
+    }
+
+    setModel(newDoc: ProsemirrorNode | [], cursorToEnd = false) {
+        const { tr, doc } = this.view.state;
+
+        this.view.dispatch(tr.replaceWith(0, doc.content.size, newDoc));
+
+        if (cursorToEnd) {
+            this.moveCursorToEnd(true);
+        }
+    }
+
+    setSelection(start: number, end = start) {
+        const { tr } = this.view.state;
+        const selection = createTextSelection(tr, start, end);
+
+        this.view.dispatch(tr.setSelection(selection).scrollIntoView());
+    }
+
+    addWidget(node: Node, style: WidgetStyle, pos?: number) {
+        const { dispatch, state } = this.view;
+
+        dispatch(state.tr.setMeta('widget', { pos: pos ?? state.selection.to, node, style }));
+    }
+
+    replaceWithWidget(start: number, end: number, text: string) {
+        const { tr, schema } = this.view.state;
+        const nodes = createNodesWithWidget(text, schema);
+
+        this.view.dispatch(tr.replaceWith(start, end, nodes));
+    }
+
+    getRangeInfoOfNode(pos?: number) {
+        const { doc, selection } = this.view.state;
+        const $pos = pos ? doc.resolve(pos) : selection.$from;
+        const marks = $pos.marks();
+        const node = $pos.node();
+        let start = $pos.start();
+        let end = $pos.end();
+        let type = node.type.name;
+
+        if (marks.length || type === 'paragraph') {
+            const mark = marks[marks.length - 1];
+            const maybeHasMark = (nodeMarks: Mark[]) =>
+                nodeMarks.length ? includes(nodeMarks, mark) : true;
+
+            type = mark ? mark.type.name : 'text';
+
+            node.forEach((child, offset) => {
+                const { isText, nodeSize, marks: nodeMarks } = child;
+                const startOffset = $pos.pos - start;
+
+                if (
+                    isText &&
+                    offset <= startOffset &&
+                    offset + nodeSize >= startOffset &&
+                    maybeHasMark(nodeMarks)
+                ) {
+                    start = start + offset;
+                    end = start + nodeSize;
+                }
+            });
+        }
+        return { range: [start, end] as [number, number], type };
+    }
 }

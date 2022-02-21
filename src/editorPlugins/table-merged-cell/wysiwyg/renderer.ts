@@ -5,74 +5,74 @@ type ColumnAlign = 'left' | 'right' | 'center';
 const DELIM_LENGH = 3;
 
 function repeat(text: string, count: number) {
-  let result = '';
+    let result = '';
 
-  for (let i = 0; i < count; i += 1) {
-    result += text;
-  }
+    for (let i = 0; i < count; i += 1) {
+        result += text;
+    }
 
-  return result;
+    return result;
 }
 
 function createTableHeadDelim(textContent: string, columnAlign: ColumnAlign) {
-  let textLen = textContent.length;
-  let leftDelim = '';
-  let rightDelim = '';
+    let textLen = textContent.length;
+    let leftDelim = '';
+    let rightDelim = '';
 
-  if (columnAlign === 'left') {
-    leftDelim = ':';
-    textLen -= 1;
-  } else if (columnAlign === 'right') {
-    rightDelim = ':';
-    textLen -= 1;
-  } else if (columnAlign === 'center') {
-    leftDelim = ':';
-    rightDelim = ':';
-    textLen -= 2;
-  }
+    if (columnAlign === 'left') {
+        leftDelim = ':';
+        textLen -= 1;
+    } else if (columnAlign === 'right') {
+        rightDelim = ':';
+        textLen -= 1;
+    } else if (columnAlign === 'center') {
+        leftDelim = ':';
+        rightDelim = ':';
+        textLen -= 2;
+    }
 
-  return `${leftDelim}${repeat('-', Math.max(textLen, DELIM_LENGH))}${rightDelim}`;
+    return `${leftDelim}${repeat('-', Math.max(textLen, DELIM_LENGH))}${rightDelim}`;
 }
 
 function createDelim(node: ProsemirrorNode) {
-  const { rowspan, colspan } = node.attrs;
-  let spanInfo = '';
+    const { rowspan, colspan } = node.attrs;
+    let spanInfo = '';
 
-  if (rowspan) {
-    spanInfo = `@rows=${rowspan}:`;
-  }
-  if (colspan) {
-    spanInfo = `@cols=${colspan}:${spanInfo}`;
-  }
+    if (rowspan) {
+        spanInfo = `@rows=${rowspan}:`;
+    }
+    if (colspan) {
+        spanInfo = `@cols=${colspan}:${spanInfo}`;
+    }
 
-  return { delim: `| ${spanInfo}` };
+    return { delim: `| ${spanInfo}` };
 }
 
 export const toMarkdownRenderers: ToMdConvertorMap = {
-  tableHead(nodeInfo) {
-    const row = (nodeInfo.node as ProsemirrorNode).firstChild;
+    tableHead(nodeInfo) {
+        const row = (nodeInfo.node as ProsemirrorNode).firstChild;
 
-    let delim = '';
+        let delim = '';
 
-    if (row) {
-      row.forEach(({ textContent, attrs }) => {
-        const headDelim = createTableHeadDelim(textContent, attrs.align);
+        if (row) {
+            row.forEach(({ textContent, attrs }) => {
+                const headDelim = createTableHeadDelim(textContent, attrs.align);
 
-        delim += `| ${headDelim} `;
+                delim += `| ${headDelim} `;
 
-        if (attrs.colspan) {
-          for (let i = 0; i < attrs.colspan - 1; i += 1) {
-            delim += `| ${headDelim} `;
-          }
+                if (attrs.colspan) {
+                    for (let i = 0; i < attrs.colspan - 1; i += 1) {
+                        delim += `| ${headDelim} `;
+                    }
+                }
+            });
         }
-      });
+        return { delim };
+    },
+    tableHeadCell(nodeInfo) {
+        return createDelim(nodeInfo.node as ProsemirrorNode);
+    },
+    tableBodyCell(nodeInfo) {
+        return createDelim(nodeInfo.node as ProsemirrorNode);
     }
-    return { delim };
-  },
-  tableHeadCell(nodeInfo) {
-    return createDelim(nodeInfo.node as ProsemirrorNode);
-  },
-  tableBodyCell(nodeInfo) {
-    return createDelim(nodeInfo.node as ProsemirrorNode);
-  },
 };

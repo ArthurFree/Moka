@@ -6,43 +6,43 @@ import NodeSchema from '@/spec/node';
 import { EditorCommand } from '@editorType/spec';
 
 export class FrontMatter extends NodeSchema {
-  get name() {
-    return 'frontMatter';
-  }
+    get name() {
+        return 'frontMatter';
+    }
 
-  get schema() {
-    return {
-      content: 'text*',
-      group: 'block',
-      code: true,
-      defining: true,
-      parseDOM: [
-        {
-          preserveWhitespace: 'full' as const,
-          tag: 'div[data-front-matter]',
-        },
-      ],
-      toDOM(): DOMOutputSpecArray {
-        return ['div', { 'data-front-matter': 'true' }, 0];
-      },
-    };
-  }
+    get schema() {
+        return {
+            content: 'text*',
+            group: 'block',
+            code: true,
+            defining: true,
+            parseDOM: [
+                {
+                    preserveWhitespace: 'full' as const,
+                    tag: 'div[data-front-matter]'
+                }
+            ],
+            toDOM(): DOMOutputSpecArray {
+                return ['div', { 'data-front-matter': 'true' }, 0];
+            }
+        };
+    }
 
-  commands(): EditorCommand {
-    return () => (state, dispatch, view) => {
-      const { $from } = state.selection;
+    commands(): EditorCommand {
+        return () => (state, dispatch, view) => {
+            const { $from } = state.selection;
 
-      if (view!.endOfTextblock('down') && $from.node().type.name === 'frontMatter') {
-        return exitCode(state, dispatch);
-      }
+            if (view!.endOfTextblock('down') && $from.node().type.name === 'frontMatter') {
+                return exitCode(state, dispatch);
+            }
 
-      return false;
-    };
-  }
+            return false;
+        };
+    }
 
-  keymaps() {
-    return {
-      Enter: this.commands()(),
-    };
-  }
+    keymaps() {
+        return {
+            Enter: this.commands()()
+        };
+    }
 }

@@ -6,57 +6,57 @@ import { isInListNode, isInTableNode } from '../helper/node';
 const reSoftTabLen = /\s{1,4}$/;
 
 export class Text extends Node {
-  get name() {
-    return 'text';
-  }
+    get name() {
+        return 'text';
+    }
 
-  get schema() {
-    return {
-      group: 'inline',
-    };
-  }
+    get schema() {
+        return {
+            group: 'inline'
+        };
+    }
 
-  private addSpaces(): Command {
-    return ({ selection, tr }, dispatch) => {
-      const { $from, $to } = selection;
-      const range = $from.blockRange($to);
+    private addSpaces(): Command {
+        return ({ selection, tr }, dispatch) => {
+            const { $from, $to } = selection;
+            const range = $from.blockRange($to);
 
-      if (range && !isInListNode($from) && !isInTableNode($from)) {
-        dispatch!(tr.insertText('    ', $from.pos, $to.pos));
-        return true;
-      }
+            if (range && !isInListNode($from) && !isInTableNode($from)) {
+                dispatch!(tr.insertText('    ', $from.pos, $to.pos));
+                return true;
+            }
 
-      return false;
-    };
-  }
+            return false;
+        };
+    }
 
-  private removeSpaces(): Command {
-    return ({ selection, tr }, dispatch) => {
-      const { $from, $to, from } = selection;
-      const range = $from.blockRange($to);
+    private removeSpaces(): Command {
+        return ({ selection, tr }, dispatch) => {
+            const { $from, $to, from } = selection;
+            const range = $from.blockRange($to);
 
-      if (range && !isInListNode($from) && !isInTableNode($from)) {
-        const { nodeBefore } = $from;
+            if (range && !isInListNode($from) && !isInTableNode($from)) {
+                const { nodeBefore } = $from;
 
-        if (nodeBefore && nodeBefore.isText) {
-          const text = nodeBefore.text!;
-          const removedSpaceText = text.replace(reSoftTabLen, '');
-          const spaces = text.length - removedSpaceText.length;
+                if (nodeBefore && nodeBefore.isText) {
+                    const text = nodeBefore.text!;
+                    const removedSpaceText = text.replace(reSoftTabLen, '');
+                    const spaces = text.length - removedSpaceText.length;
 
-          dispatch!(tr.delete(from - spaces, from));
+                    dispatch!(tr.delete(from - spaces, from));
 
-          return true;
-        }
-      }
+                    return true;
+                }
+            }
 
-      return false;
-    };
-  }
+            return false;
+        };
+    }
 
-  keymaps() {
-    return {
-      Tab: this.addSpaces(),
-      'Shift-Tab': this.removeSpaces(),
-    };
-  }
+    keymaps() {
+        return {
+            Tab: this.addSpaces(),
+            'Shift-Tab': this.removeSpaces()
+        };
+    }
 }

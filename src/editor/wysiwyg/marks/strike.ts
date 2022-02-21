@@ -7,46 +7,46 @@ import { getCustomAttrs, getDefaultCustomAttrs } from '@/wysiwyg/helper/node';
 import { EditorCommand } from '@editorType/spec';
 
 export class Strike extends Mark {
-  get name() {
-    return 'strike';
-  }
+    get name() {
+        return 'strike';
+    }
 
-  get schema() {
-    const parseDOM = ['s', 'del'].map((tag) => {
-      return {
-        tag,
-        getAttrs(dom: Node | string) {
-          const rawHTML = (dom as HTMLElement).getAttribute('data-raw-html');
+    get schema() {
+        const parseDOM = ['s', 'del'].map((tag) => {
+            return {
+                tag,
+                getAttrs(dom: Node | string) {
+                    const rawHTML = (dom as HTMLElement).getAttribute('data-raw-html');
 
-          return {
-            ...(rawHTML && { rawHTML }),
-          };
-        },
-      };
-    });
+                    return {
+                        ...(rawHTML && { rawHTML })
+                    };
+                }
+            };
+        });
 
-    return {
-      attrs: {
-        rawHTML: { default: null },
-        ...getDefaultCustomAttrs(),
-      },
-      parseDOM,
-      toDOM({ attrs }: ProsemirrorMark): DOMOutputSpecArray {
-        return [attrs.rawHTML || 'del', getCustomAttrs(attrs)];
-      },
-    };
-  }
+        return {
+            attrs: {
+                rawHTML: { default: null },
+                ...getDefaultCustomAttrs()
+            },
+            parseDOM,
+            toDOM({ attrs }: ProsemirrorMark): DOMOutputSpecArray {
+                return [attrs.rawHTML || 'del', getCustomAttrs(attrs)];
+            }
+        };
+    }
 
-  commands(): EditorCommand {
-    return () => (state, dispatch) => toggleMark(state.schema.marks.strike)(state, dispatch);
-  }
+    commands(): EditorCommand {
+        return () => (state, dispatch) => toggleMark(state.schema.marks.strike)(state, dispatch);
+    }
 
-  keymaps() {
-    const strikeCommand = this.commands()();
+    keymaps() {
+        const strikeCommand = this.commands()();
 
-    return {
-      'Mod-s': strikeCommand,
-      'Mod-S': strikeCommand,
-    };
-  }
+        return {
+            'Mod-s': strikeCommand,
+            'Mod-S': strikeCommand
+        };
+    }
 }

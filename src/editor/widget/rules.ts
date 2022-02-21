@@ -10,42 +10,42 @@ const widgetRuleMap: WidgetRuleMap = {};
 const reWidgetPrefix = /\$\$widget\d+\s/;
 
 export function unwrapWidgetSyntax(text: string) {
-  const index = text.search(reWidgetPrefix);
+    const index = text.search(reWidgetPrefix);
 
-  if (index !== -1) {
-    const rest = text.substring(index);
-    const replaced = rest.replace(reWidgetPrefix, '').replace('$$', '');
+    if (index !== -1) {
+        const rest = text.substring(index);
+        const replaced = rest.replace(reWidgetPrefix, '').replace('$$', '');
 
-    text = text.substring(0, index);
-    text += unwrapWidgetSyntax(replaced);
-  }
-  return text;
+        text = text.substring(0, index);
+        text += unwrapWidgetSyntax(replaced);
+    }
+    return text;
 }
 
 export function createWidgetContent(info: string, text: string) {
-  return `$$${info} ${text}$$`;
+    return `$$${info} ${text}$$`;
 }
 
 export function widgetToDOM(info: string, text: string) {
-  const { rule, toDOM } = widgetRuleMap[info];
+    const { rule, toDOM } = widgetRuleMap[info];
 
-  text = unwrapWidgetSyntax(text).match(rule)![0];
-  return toDOM(text);
+    text = unwrapWidgetSyntax(text).match(rule)![0];
+    return toDOM(text);
 }
 
 export function getWidgetRules() {
-  return widgetRules;
+    return widgetRules;
 }
 
 export function setWidgetRules(rules: WidgetRule[]) {
-  widgetRules = rules;
-  widgetRules.forEach((rule, index) => {
-    widgetRuleMap[`widget${index}`] = rule;
-  });
+    widgetRules = rules;
+    widgetRules.forEach((rule, index) => {
+        widgetRuleMap[`widget${index}`] = rule;
+    });
 }
 
 function mergeNodes(nodes: ProsemirrorNode[], text: string, schema: Schema, ruleIndex: number) {
-  return nodes.concat(createNodesWithWidget(text, schema, ruleIndex));
+    return nodes.concat(createNodesWithWidget(text, schema, ruleIndex));
 }
 
 /**
@@ -67,67 +67,70 @@ function mergeNodes(nodes: ProsemirrorNode[], text: string, schema: Schema, rule
  *  #test -> widget node
  */
 export function createNodesWithWidget(text: string, schema: Schema, ruleIndex = 0) {
-  let nodes: ProsemirrorNode[] = [];
-  const { rule } = widgetRules[ruleIndex] || {};
-  const nextRuleIndex = ruleIndex + 1;
+    let nodes: ProsemirrorNode[] = [];
+    const { rule } = widgetRules[ruleIndex] || {};
+    const nextRuleIndex = ruleIndex + 1;
 
-  text = unwrapWidgetSyntax(text);
+    text = unwrapWidgetSyntax(text);
 
-  if (rule && rule.test(text)) {
-    let index;
+    if (rule && rule.test(text)) {
+        let index;
 
-    while ((index = text.search(rule)) !== -1) {
-      const prev = text.substring(0, index);
+        while ((index = text.search(rule)) !== -1) {
+            const prev = text.substring(0, index);
 
-      // get widget node on first splitted text using next widget rule
-      if (prev) {
-        nodes = mergeNodes(nodes, prev, schema, nextRuleIndex);
-      }
+            // get widget node on first splitted text using next widget rule
+            if (prev) {
+                nodes = mergeNodes(nodes, prev, schema, nextRuleIndex);
+            }
 
-      // build widget node using current widget rule
-      text = text.substring(index);
+            // build widget node using current widget rule
+            text = text.substring(index);
 
-      const [literal] = text.match(rule)!;
-      const info = `widget${ruleIndex}`;
+            const [literal] = text.match(rule)!;
+            const info = `widget${ruleIndex}`;
 
-      nodes.push(
-        schema.nodes.widget.create({ info }, schema.text(createWidgetContent(info, literal)))
-      );
-      text = text.substring(literal.length);
+            nodes.push(
+                schema.nodes.widget.create(
+                    { info },
+                    schema.text(createWidgetContent(info, literal))
+                )
+            );
+            text = text.substring(literal.length);
+        }
+        // get widget node on last splitted text using next widget rule
+        if (text) {
+            nodes = mergeNodes(nodes, text, schema, nextRuleIndex);
+        }
+    } else if (text) {
+        nodes =
+            ruleIndex < widgetRules.length - 1
+                ? mergeNodes(nodes, text, schema, nextRuleIndex)
+                : [schema.text(text)];
     }
-    // get widget node on last splitted text using next widget rule
-    if (text) {
-      nodes = mergeNodes(nodes, text, schema, nextRuleIndex);
-    }
-  } else if (text) {
-    nodes =
-      ruleIndex < widgetRules.length - 1
-        ? mergeNodes(nodes, text, schema, nextRuleIndex)
-        : [schema.text(text)];
-  }
 
-  return nodes;
+    return nodes;
 }
 
 export function getWidgetContent(widgetNode: CustomInlineMdNode) {
-  let event;
-  let text = '';
-  const walker = widgetNode.walker();
+    let event;
+    let text = '';
+    const walker = widgetNode.walker();
 
-  while ((event = walker.next())) {
-    const { node, entering } = event;
+    while ((event = walker.next())) {
+        const { node, entering } = event;
 
-    if (entering) {
-      if (node !== widgetNode && node.type !== 'text') {
-        text += getInlineMarkdownText(node);
-        // skip the children
-        walker.resumeAt(widgetNode, false);
-        walker.next();
-      } else if (node.type === 'text') {
-        text += node.literal;
-      }
+        if (entering) {
+            if (node !== widgetNode && node.type !== 'text') {
+                text += getInlineMarkdownText(node);
+                // skip the children
+                walker.resumeAt(widgetNode, false);
+                walker.next();
+            } else if (node.type === 'text') {
+                text += node.literal;
+            }
+        }
     }
-  }
 
-  return text;
+    return text;
 }
