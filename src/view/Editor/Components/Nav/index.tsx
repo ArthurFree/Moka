@@ -1,19 +1,18 @@
 import React from 'react';
 import './index.scss';
 
-
 interface getNavStatus {
-    (status: string): void
+    (status: string): void;
 }
 
 interface getNavMode {
-    (mode: string): void
+    (mode: string): void;
 }
 interface NavProps {
-    mode: string,
+    mode: string;
     getNavStatus?: getNavStatus;
     getNavMode?: getNavMode;
-};
+}
 
 export default class Nav extends React.Component<NavProps, any> {
     constructor(props) {
@@ -31,7 +30,7 @@ export default class Nav extends React.Component<NavProps, any> {
         console.log('--- this.props.mode ---', this.props.mode);
         if (mode !== this.props.mode) {
             this.setState({
-                mode: this.props.mode,
+                mode: this.props.mode
             });
         }
     }
@@ -44,33 +43,55 @@ export default class Nav extends React.Component<NavProps, any> {
         const { getNavStatus } = this.props;
 
         this.setState({
-            status,
+            status
         });
 
         if (typeof getNavStatus === 'function') {
             getNavStatus(status);
         }
-    }
+    };
 
     componentDidMount(): void {
-        this.navWrapEl.current.addEventListener('mouseenter', () => {
-            console.log('--- mouseenter ---');
-            this.handleChangeNavStatus('expand');
-        }, false);
+        this.navWrapEl.current.addEventListener(
+            'mouseenter',
+            () => {
+                console.log('--- mouseenter ---');
+                this.handleChangeNavStatus('expand');
+            },
+            false
+        );
 
-        this.navWrapEl.current.addEventListener('mouseleave', () => {
-            console.log('--- mouseleave ---');
-            this.handleChangeNavStatus('close');
-        }, false);
+        this.navWrapEl.current.addEventListener(
+            'mouseleave',
+            () => {
+                console.log('--- mouseleave ---');
+                this.handleChangeNavStatus('close');
+            },
+            false
+        );
     }
+
+    handleClickPickUp = () => {
+        const { getNavMode } = this.props;
+
+        if (typeof getNavMode === 'function') {
+            getNavMode('float');
+        }
+    };
 
     render(): React.ReactNode {
         const { mode } = this.state;
         return mode === 'fixed' ? (
-            <div className="nav-fixed-wrap">fixed nav</div>
+            <div className="nav-fixed-wrap">
+                <div className="nav-fixed-pickup">
+                    <i className="icon icon-emnu-pickup" onClick={this.handleClickPickUp} />
+                </div>
+            </div>
         ) : (
             <div className="nav-wrap" ref={this.navWrapEl}>
-                <div className="nav-menu-float nav-emnu-float-show" ref ={this.navFloatEl}>123123</div>
+                <div className="nav-menu-float nav-emnu-float-show" ref={this.navFloatEl}>
+                    123123
+                </div>
             </div>
         );
     }

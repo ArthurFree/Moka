@@ -1,6 +1,6 @@
 import React from 'react';
 import Prism from 'prismjs';
-import EditorComp from '@components/Editor'
+import EditorComp from '@components/Editor';
 import codeSyntaxHighlightPlugin from '../../editorPlugins/code-syntax-highlight/indexAll';
 import chart from '../../editorPlugins/chart';
 import colorSyntax from '../../editorPlugins/color-syntax';
@@ -13,7 +13,7 @@ import 'prismjs/themes/prism.css';
 import './index.scss';
 
 interface EditorPageState {
-    [propName: string]: string
+    [propName: string]: string;
 }
 
 export default class EditorPage extends React.Component<any, EditorPageState> {
@@ -21,7 +21,7 @@ export default class EditorPage extends React.Component<any, EditorPageState> {
         super(props);
         this.state = {
             navMode: 'float',
-            navStatus: 'close',
+            navStatus: 'close'
         };
     }
 
@@ -29,23 +29,23 @@ export default class EditorPage extends React.Component<any, EditorPageState> {
         console.log('---- status ---', status);
 
         this.setState({
-            navStatus: status,
+            navStatus: status
         });
-    }
+    };
 
     getNavMode = (mode: string) => {
         console.log('--- mode ---', mode);
 
         this.setState({
-            navMode: mode,
+            navMode: mode
         });
-    }
+    };
 
     getNavModeChange = (mode) => {
         this.setState({
-            navMode: mode,
+            navMode: mode
         });
-    }
+    };
 
     render() {
         const { navMode, navStatus } = this.state;

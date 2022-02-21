@@ -18,7 +18,8 @@
         border-top-right-radius: 3px;
         border-bottom-right-radius: 3px;
         background: #ffffff;
-        box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
+        box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px,
+            rgba(15, 15, 15, 0.2) 0px 9px 24px;
         opacity: 0;
         transition: transform 300ms ease-in, opacity 300ms ease-in;
     }
@@ -32,7 +33,28 @@
 }
 
 .nav-fixed-wrap {
+    position: relative;
     width: 260px;
     height: 100%;
     background-color: rgb(247, 246, 243);
+
+    .nav-fixed-pickup {
+        position: absolute;
+        top: 0;
+        right: 12px;
+        padding: 6.5px 0;
+        width: 24px;
+        height: 37px;
+        box-sizing: border-box;
+
+        .icon-emnu-pickup {
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+            background-image: url(../../../../assets/icon_double_right_arrow_grey.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            transform: rotate(180deg);
+        }
+    }
 }
