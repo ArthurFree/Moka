@@ -7,6 +7,11 @@ pre[class*='language-'] {
     position: relative;
 }
 
+.toastui-editor-ww-code-block-highlighting pre[class*="language-"] {
+    padding: 34px 16px 32px 32px;
+    background-color: #f7f6f3;
+}
+
 .toastui-editor-ww-code-block-highlighting:after {
     content: attr(data-language);
     position: absolute;

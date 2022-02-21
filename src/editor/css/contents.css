@@ -136,7 +136,7 @@ table.ProseMirror-selectednode {
 
 .toastui-editor-contents blockquote {
     margin: 14px 0;
-    border-left: 4px solid #e5e5e5;
+    border-left: 3px solid #e5e5e5;
     padding: 0 16px;
     color: #999;
 }
@@ -202,21 +202,24 @@ table.ProseMirror-selectednode {
 
 .toastui-editor-contents table th,
 .toastui-editor-contents table td {
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* border: 1px solid rgba(0, 0, 0, 0.1); */
+    border: 1px solid #e9e9e7;
     padding: 5px 14px 5px 12px;
     height: 32px;
 }
 
 .toastui-editor-contents table th {
-    background-color: #555;
+    background-color: #f7f6f3;
     font-weight: 300;
-    color: #fff;
+    color: #37352f;
     padding-top: 6px;
 }
 
 .toastui-editor-contents th p {
     margin: 0;
-    color: #fff;
+    /* color: #fff; */
+    color: #37352f;
+    font-weight: 500;
 }
 
 .toastui-editor-contents td p {
@@ -265,7 +268,8 @@ table.ProseMirror-selectednode {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background-color: #ccc;
+    /* background-color: #ccc; */
+    background-color: #37352f;
 }
 
 .toastui-editor-contents ol > li::before {
@@ -274,7 +278,8 @@ table.ProseMirror-selectednode {
     width: 24px;
     text-align: right;
     direction: rtl;
-    color: #aaa;
+    /* color: #aaa; */
+    color: #37352f;
 }
 
 .toastui-editor-contents ul ul,
