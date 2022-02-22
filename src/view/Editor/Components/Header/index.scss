@@ -50,6 +50,11 @@
         cursor: pointer;
     }
 
+    .header-float-nav:hover > i.icon-menu {
+        background-image: url(../../../../assets/icon_double_right_arrow.png);
+        cursor: pointer;
+    }
+
     .header-float-nav > i.icon-expand-menu {
         background-image: url(../../../../assets/icon_double_right_arrow.png);
         cursor: pointer;
