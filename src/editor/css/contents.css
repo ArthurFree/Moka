@@ -86,15 +86,15 @@ table.ProseMirror-selectednode {
 }
 
 .toastui-editor-contents h1 {
-    font-size: 24px;
+    font-size: 30px;
     line-height: 28px;
-    border-bottom: 3px double #999;
+    border-bottom: 1px double #dbdbdb;
     margin: 52px 0 15px 0;
     padding-bottom: 7px;
 }
 
 .toastui-editor-contents h2 {
-    font-size: 22px;
+    font-size: 24px;
     line-height: 23px;
     border-bottom: 1px solid #dbdbdb;
     margin: 20px 0 13px 0;
