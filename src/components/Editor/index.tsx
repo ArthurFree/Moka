@@ -7,6 +7,7 @@ import tableMergedCell from '@editorPlugins/table-merged-cell';
 import content from './content';
 // import Vidtor from '../../editor/index';
 import Editor from '../../editor/index';
+import '../../editor/i18n/zh-cn';
 import 'prismjs/themes/prism.css';
 import './index.scss';
 
@@ -26,6 +27,7 @@ export default class EditorPage extends React.Component {
             height: '100%',
             initialValue: content,
             initialEditType: 'wysiwyg',
+            language: 'zh-CN',
             plugins: [
                 [
                     chart,
@@ -35,7 +37,8 @@ export default class EditorPage extends React.Component {
                         minHeight: 100,
                         maxHeight: 300
                     }
-                ], [
+                ],
+                [
                     codeSyntaxHighlightPlugin,
                     {
                         highlighter: Prism
