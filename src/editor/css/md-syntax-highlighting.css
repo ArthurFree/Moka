@@ -104,7 +104,9 @@
 }
 
 .toastui-editor-md-code-block-line-background {
-    background-color: #f5f7f8;
+    /* background-color: #f5f7f8; */
+    background-color: #f7f6f3;
+    font-size: 14px;
 }
 
 .toastui-editor-md-code-block-line-background.start,

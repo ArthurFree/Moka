@@ -166,7 +166,10 @@ table.ProseMirror-selectednode {
 .toastui-editor-contents pre {
     margin: 2px 0 8px;
     padding: 18px;
-    background-color: #f4f7f8;
+    /* padding: 34px 16px 32px 32px; */
+    /* background-color: #f4f7f8; */
+    background-color: #f7f6f3;
+    font-size: 14px;
 }
 
 .toastui-editor-contents code {
@@ -210,7 +213,7 @@ table.ProseMirror-selectednode {
 
 .toastui-editor-contents table th {
     background-color: #f7f6f3;
-    font-weight: 300;
+    font-weight: 500;
     color: #37352f;
     padding-top: 6px;
 }

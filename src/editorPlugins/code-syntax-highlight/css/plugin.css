@@ -7,9 +7,10 @@ pre[class*='language-'] {
     position: relative;
 }
 
-.toastui-editor-ww-code-block-highlighting pre[class*="language-"] {
+.toastui-editor-ww-code-block-highlighting pre[class*='language-'] {
     padding: 34px 16px 32px 32px;
     background-color: #f7f6f3;
+    font-size: 14px;
 }
 
 .toastui-editor-ww-code-block-highlighting:after {
