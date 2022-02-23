@@ -38,9 +38,19 @@
 
 .nav-fixed-wrap {
     position: relative;
+    margin-left: 0;
     width: 260px;
     height: 100%;
     background-color: rgb(247, 246, 243);
+
+    &.nav-fixed-animation {
+        transition: margin-left 300ms, opacity 300ms;
+    }
+
+    &.nav-fixed-hidden {
+        margin-left: -260px;
+        opacity: 0;
+    }
 
     .nav-fixed-pickup {
         position: absolute;

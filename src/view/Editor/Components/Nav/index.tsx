@@ -89,12 +89,19 @@ export default class Nav extends React.Component<NavProps, any> {
         const { mode } = this.state;
         return (
             <>
-                <div className={`nav-fixed-wrap ${mode === 'fixed' ? '' : 'nav-hidden'}`}>
+                <div
+                    className={`nav-fixed-wrap nav-fixed-animation ${
+                        mode === 'fixed' ? '' : 'nav-fixed-hidden'
+                    }`}
+                >
                     <div className="nav-fixed-pickup">
                         <i className="icon icon-emnu-pickup" onClick={this.handleClickPickUp} />
                     </div>
                 </div>
-                <div className={`nav-wrap ${mode === 'float' ? '' : 'nav-hidden'}`} ref={this.navWrapEl}>
+                <div
+                    className={`nav-wrap ${mode === 'float' ? '' : 'nav-hidden'}`}
+                    ref={this.navWrapEl}
+                >
                     <div className="nav-menu-float nav-emnu-float-show" ref={this.navFloatEl}>
                         123123
                     </div>
