@@ -1,0 +1,56 @@
+@keyframes moreMenuFadeIn {
+    from {
+        opacity: 0;
+        box-shadow: none;
+    }
+    to {
+        opacity: 1;
+        box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px,
+            rgba(15, 15, 15, 0.2) 0px 9px 24px;
+    }
+}
+
+@keyframes moreMenuFadeOut {
+    from {
+        opacity: 1;
+        box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px,
+            rgba(15, 15, 15, 0.2) 0px 9px 24px;
+    }
+    to {
+        opacity: 0;
+        box-shadow: none;
+        visibility: hidden;
+    }
+}
+
+.more-menu-wrap {
+    .more-menu {
+        position: fixed;
+        right: 24px;
+        top: 32px;
+        width: 240px;
+        height: 80vh;
+        background-color: #ffffff;
+        /* .toastui-editor-contents z-index -> 20 */
+        z-index: 22;
+
+        &.more-menu-show {
+            visibility: visible;
+            animation: moreMenuFadeIn 300ms ease-in-out forwards;
+        }
+
+        &.more-menu-hidden {
+            visibility: hidden;
+            animation: moreMenuFadeOut 300ms ease-in-out forwards;
+        }
+    }
+
+    .more-menu-mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 21;
+    }
+}

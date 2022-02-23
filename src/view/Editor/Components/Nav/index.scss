@@ -52,6 +52,10 @@
         opacity: 0;
     }
 
+    &:hover .nav-fixed-pickup {
+        opacity: 1;
+    }
+
     .nav-fixed-pickup {
         position: absolute;
         top: 0;
@@ -60,6 +64,8 @@
         width: 24px;
         height: 37px;
         box-sizing: border-box;
+        opacity: 0;
+        transition: opacity 300ms;
 
         .icon-emnu-pickup {
             width: 100%;
