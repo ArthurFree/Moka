@@ -19,7 +19,6 @@
     to {
         opacity: 0;
         box-shadow: none;
-        visibility: hidden;
     }
 }
 
@@ -35,12 +34,10 @@
         z-index: 22;
 
         &.more-menu-show {
-            visibility: visible;
             animation: moreMenuFadeIn 300ms ease-in-out forwards;
         }
 
         &.more-menu-hidden {
-            visibility: hidden;
             animation: moreMenuFadeOut 300ms ease-in-out forwards;
         }
     }

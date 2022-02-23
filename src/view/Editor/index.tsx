@@ -26,16 +26,12 @@ export default class EditorPage extends React.Component<any, EditorPageState> {
     }
 
     getNavStatus = (status: string) => {
-        console.log('---- status ---', status);
-
         this.setState({
             navStatus: status
         });
     };
 
     getNavMode = (mode: string) => {
-        console.log('--- mode ---', mode);
-
         this.setState({
             navMode: mode
         });
@@ -49,7 +45,6 @@ export default class EditorPage extends React.Component<any, EditorPageState> {
 
     render() {
         const { navMode, navStatus } = this.state;
-        console.log('----- page navStatus ---', navStatus);
         return (
             <div className="editor-wrap moka--default">
                 <Header

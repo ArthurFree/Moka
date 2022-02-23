@@ -27,7 +27,6 @@ export default class Nav extends React.Component<NavProps, any> {
 
     componentDidUpdate(): void {
         const { mode } = this.state;
-        console.log('--- this.props.mode ---', this.props.mode);
         if (mode !== this.props.mode) {
             this.setState({
                 mode: this.props.mode
@@ -56,7 +55,6 @@ export default class Nav extends React.Component<NavProps, any> {
             'mouseenter',
             () => {
                 const { mode } = this.state;
-                console.log('--- mouseenter ---');
                 if (mode === 'float') {
                     this.handleChangeNavStatus('expand');
                 }
@@ -68,7 +66,6 @@ export default class Nav extends React.Component<NavProps, any> {
             'mouseleave',
             () => {
                 const { mode } = this.state;
-                console.log('--- mouseleave ---');
                 if (mode === 'float') {
                     this.handleChangeNavStatus('close');
                 }

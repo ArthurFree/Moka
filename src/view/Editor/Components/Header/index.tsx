@@ -60,7 +60,6 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         const { navStatus } = this.props;
         const { mode, moreMenuVisible } = this.state;
 
-        console.log('--- header navStatus ---', navStatus, moreMenuVisible);
         return (
             <div className="header-wrap">
                 <div className="left-btn-group">

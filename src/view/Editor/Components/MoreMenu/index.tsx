@@ -1,4 +1,5 @@
 import React from 'react';
+import ControlShow from '@components/ControlShow';
 import './index.scss';
 
 interface MoreMenuProps {
@@ -40,8 +41,6 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
 
         this.setState({ visible: false });
 
-        console.log('--- close ---');
-
         if (typeof afterClose === 'function') {
             afterClose();
         }
@@ -49,21 +48,24 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
 
     render() {
         const { visible } = this.state;
-        /* return (
-            visible && (
-                <div className="more-menu-wrap">
-                    <div className="more-menu-mask" onClick={this.hide}></div>
-                    <div className={`more-menu${visible ? '' : ' more-menu-hidden'}`}>123</div>
-                </div>
-            )
-        ); */
 
         return (
             <div className="more-menu-wrap">
                 {visible && <div className="more-menu-mask" onClick={this.hide}></div>}
-                <div className={`more-menu ${visible ? 'more-menu-show' : 'more-menu-hidden'}`}>
+                <ControlShow
+                    visible={visible}
+                    wrapClassName="more-menu-wrap"
+                    fadeIn={{
+                        className: 'more-menu more-menu-show',
+                        duration: 300,
+                    }}
+                    fadeOut={{
+                        className: 'more-menu more-menu-hidden',
+                        duration: 300,
+                    }}
+                >
                     123
-                </div>
+                </ControlShow>
             </div>
         );
     }

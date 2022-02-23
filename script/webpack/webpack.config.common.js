@@ -11,9 +11,6 @@ const { ProvidePlugin, DefinePlugin, /* DllPlugin, */ DllReferencePlugin, webpac
 const { rootDir, src, dist, config, public } = require('../const/paths');
 const { isDev, isDevServer, isProd, mode } = require('../const/env');
 
-console.log('=== html ===', path.join(rootDir, './script/webpack', './index.html'));
-console.log('=== dist ===', dist);
-
 module.exports = {
     entry: [`${src}/index.tsx`],
     output: {
