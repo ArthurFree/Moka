@@ -178,11 +178,14 @@ table.ProseMirror-selectednode {
 }
 
 .toastui-editor-contents code {
-    color: #c1798b;
-    background-color: #f9f2f4;
+    /* color: #c1798b; */
+    color: #eb5757;
+    /* background-color: #f9f2f4; */
+    background-color: rgba(135, 131, 120, 0.15);
     padding: 2px 3px;
     letter-spacing: -0.3px;
     border-radius: 2px;
+    font-size: 14px;
 }
 
 .toastui-editor-contents pre code {
