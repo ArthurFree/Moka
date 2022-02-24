@@ -84,6 +84,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@loadable/component": "^5.15.2",
     "@toast-ui/chart": "^4.4.1",
     "buffer": "^6.0.3",
     "codemirror": "^5.51.0",
