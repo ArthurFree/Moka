@@ -199,12 +199,12 @@ nav {
                 left: 0;
                 top: 0;
                 display: inline-block;
-                width: 20px;
-                height: 4px;
+                width: 14px;
+                height: 2px;
                 border-radius: 1rem;
                 background-color: #000;
-                transform: rotate(40deg);
-                transform-origin: left top;
+                transform: rotate(-45deg);
+                transform-origin: right top;
             }
 
             &::after {
@@ -213,42 +213,42 @@ nav {
                 left: 0;
                 top: 0;
                 display: inline-block;
-                width: 20px;
-                height: 4px;
+                width: 14px;
+                height: 2px;
                 border-radius: 16px;
                 background-color: #000;
-                transform: rotate(-40deg);
-                transform-origin: left bottom;
+                transform: rotate(45deg);
+                transform-origin: right bottom;
             }
         }
 
         .menu-icon-double {
             opacity: 1;
-            left: 50px;
+            right: 8px;
         }
     }
 
     .menu-icon-double {
         position: relative;
         top: 0;
-        left: 0;
+        right: 20px;
         opacity: 0;
         display: inline-block;
-        width: 20px;
-        height: 4px;
-        transition: left 300ms ease-in-out 300ms, opacity 300ms ease-in;
+        width: 14px;
+        height: 2px;
+        transition: left 300ms ease-in-out 300ms, opacity 200ms ease-in;
 
         &::before {
             content: '';
             position: absolute;
             top: 0;
             display: inline-block;
-            width: 20px;
-            height: 4px;
+            width: 14px;
+            height: 2px;
             border-radius: 1rem;
             background-color: #000;
-            transform: rotate(-40deg);
-            transform-origin: left bottom;
+            transform: rotate(45deg);
+            transform-origin: right bottom;
         }
 
         &::after {
@@ -256,12 +256,12 @@ nav {
             position: absolute;
             top: 0;
             display: inline-block;
-            width: 20px;
-            height: 4px;
+            width: 14px;
+            height: 2px;
             border-radius: 16px;
             background-color: #000;
-            transform: rotate(40deg);
-            transform-origin: left top;
+            transform: rotate(-45deg);
+            transform-origin: right top;
         }
     }
 
@@ -272,7 +272,7 @@ nav {
         opacity: 1;
         display: inline-block;
         width: 20px;
-        height: 4px;
+        height: 2px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -283,10 +283,10 @@ nav {
             content: '';
             position: absolute;
             left: 0;
-            bottom: -8px;
+            bottom: -7px;
             display: inline-block;
             width: 20px;
-            height: 4px;
+            height: 2px;
             border-radius: 1rem;
             background-color: #000;
             transition: transform 300ms;
@@ -296,10 +296,10 @@ nav {
             content: '';
             position: absolute;
             left: 0;
-            top: -8px;
+            top: -7px;
             display: inline-block;
             width: 20px;
-            height: 4px;
+            height: 2px;
             border-radius: 16px;
             background-color: #000;
             transition: transform 300ms;
@@ -308,7 +308,7 @@ nav {
         .menu-center-left-line {
             display: inline-block;
             width: 20px;
-            height: 4px;
+            height: 2px;
             border-radius: 1rem;
             background-color: #000;
             transition: opacity 300ms;

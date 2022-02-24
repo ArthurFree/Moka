@@ -1,5 +1,7 @@
 import React from 'react';
 import MoreMenu from '../MoreMenu';
+import MenuRightIcon from '@components/Icons/MenuRightArrowIcon';
+import MenuLeftIcon from '@components/Icons/MenuLeftArrowIcon';
 import './index.scss';
 
 interface getNavModeChange {
@@ -44,13 +46,15 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
     changeNavMode = () => {
         const { getNavModeChange } = this.props;
+        const { mode } = this.state;
+        const _mode = mode === 'fixed' ? 'float' : 'fixed';
 
         this.setState({
-            mode: 'fixed'
+            mode: _mode,
         });
 
         if (typeof getNavModeChange === 'function') {
-            getNavModeChange('fixed');
+            getNavModeChange(_mode);
         }
     };
 
@@ -60,10 +64,12 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         const { navStatus } = this.props;
         const { mode, moreMenuVisible } = this.state;
 
+        console.log('--- navStatus ---', navStatus);
+
         return (
             <div className="header-wrap">
                 <div className="left-btn-group">
-                    {mode === 'float' ? (
+                    {/* {mode === 'float' ? (
                         <div
                             className="header-toggle-nav header-float-nav icon-wrap"
                             onClick={this.changeNavMode}
@@ -78,7 +84,28 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                         >
                             <i className="icon icon-left-arrow" />
                         </div>
+                    )} */}
+                    {/* {mode === 'float' && (
+                        <MenuIcon
+                            isMouseOverChange
+                            // isArrow={mode === 'fixed'}
+                            onClick={this.changeNavMode}
+                        />
+                    )} */}
+                    {mode === 'fixed' ? (
+                        <MenuLeftIcon
+                            isMouseOverChange
+                            isArrow={navStatus === 'expand'}
+                            onClick={this.changeNavMode}
+                        />
+                    ) : (
+                        <MenuRightIcon
+                            isMouseOverChange
+                            isArrow={navStatus === 'expand'}
+                            onClick={this.changeNavMode}
+                        />
                     )}
+
                 </div>
                 <div className="header-doc-path">Tech / Git / Git Commit 规范</div>
                 <div className="right-btn-group">

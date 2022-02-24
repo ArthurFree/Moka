@@ -1,0 +1,141 @@
+$width: 14px;
+$height: 14px;
+$barHeight: 2px;
+$barDoubleWidth: 8px;
+$barWidth: 14px;
+$barSpace: -5px;
+$barBackgroundColor: #37352f;
+
+.menu-right-icon-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $width;
+    height: $height;
+    cursor: pointer;
+
+    .menu-icon-double {
+        position: relative;
+        top: 0;
+        right: 8px;
+        opacity: 0;
+        display: inline-block;
+        width: $barDoubleWidth;
+        height: $barHeight;
+        transition: right 300ms ease-in-out 300ms, opacity 200ms ease-in;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            display: inline-block;
+            width: $barDoubleWidth;
+            height: $barHeight;
+            border-radius: 12px;
+            background-color: $barBackgroundColor;
+            transform: rotate(-45deg);
+            transform-origin: right bottom;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            display: inline-block;
+            width: $barDoubleWidth;
+            height: $barHeight;
+            border-radius: 16px;
+            background-color: $barBackgroundColor;
+            transform: rotate(45deg);
+            transform-origin: right top;
+        }
+    }
+
+    .menu-icon {
+        position: relative;
+        opacity: 1;
+        display: inline-block;
+        width: $barWidth;
+        height: $barHeight;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: $barSpace;
+            display: inline-block;
+            width: $barWidth;
+            height: $barHeight;
+            border-radius: 12px;
+            background-color: $barBackgroundColor;
+            transition: transform 300ms;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: $barSpace;
+            display: inline-block;
+            width: $barWidth;
+            height: $barHeight;
+            border-radius: 16px;
+            background-color: $barBackgroundColor;
+            transition: transform 300ms;
+        }
+
+        .menu-center-right-line {
+            display: inline-block;
+            width: $barWidth;
+            height: $barHeight;
+            border-radius: 12px;
+            background-color: $barBackgroundColor;
+            transition: opacity 300ms;
+        }
+    }
+
+    &.menu-arrow-status {
+        .menu-center-right-line {
+            opacity: 0;
+        }
+
+        .menu-icon {
+            &::before {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 0;
+                display: inline-block;
+                width: $barDoubleWidth;
+                height: $barHeight;
+                border-radius: 12px;
+                background-color: $barBackgroundColor;
+                transform: rotate(45deg);
+                transform-origin: right top;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 0;
+                display: inline-block;
+                width: $barDoubleWidth;
+                height: $barHeight;
+                border-radius: 16px;
+                background-color: $barBackgroundColor;
+                transform: rotate(-45deg);
+                transform-origin: right bottom;
+            }
+        }
+
+        .menu-icon-double {
+            opacity: 1;
+            right: 16px;
+        }
+    }
+}
