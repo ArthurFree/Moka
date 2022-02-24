@@ -6,7 +6,12 @@ const ForTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
-const { ProvidePlugin, DefinePlugin, /* DllPlugin, */ DllReferencePlugin, webpack, } = require('webpack');
+const {
+    ProvidePlugin,
+    DefinePlugin,
+    /* DllPlugin, */ DllReferencePlugin,
+    webpack
+} = require('webpack');
 
 const { rootDir, src, dist, config, public } = require('../const/paths');
 const { isDev, isDevServer, isProd, mode } = require('../const/env');
@@ -16,20 +21,18 @@ module.exports = {
     output: {
         path: dist,
         publicPath: '/',
-        filename: isDevServer
-            ? '[name].[fullhash].js'
-            : '[name].[contenthash].js',
+        filename: isDevServer ? '[name].[fullhash].js' : '[name].[contenthash].js'
     },
     cache: {
         // 使用文件缓存
-        type: 'filesystem',
+        type: 'filesystem'
     },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Editor',
             inject: 'body',
             filename: 'index.html',
-            template: path.join(rootDir, './script/webpack', './index.html'),
+            template: path.join(rootDir, './script/webpack', './index.html')
         }),
         new ProvidePlugin({}),
         new DefinePlugin({
@@ -39,7 +42,7 @@ module.exports = {
             IS_PROD: isProd,
             IS_DEV: isDev,
             IS_DEV_SERVER: isDevServer,
-            VDITOR_VERSION: JSON.stringify('3.8.11'),
+            VDITOR_VERSION: JSON.stringify('3.8.11')
         }),
         new ForTsCheckerWebpackPlugin({
             async: isDev,
@@ -47,9 +50,9 @@ module.exports = {
                 configFile: path.join(rootDir, '/tsconfig.json'),
                 configOverwrite: {
                     // compilerOptions: { skipLibCheck: true, sourceMap: false, inlineSourceMap: false, declarationMap: false }
-                    exclude: ['./src/editor/'],
-                },
-            },
+                    exclude: ['./src/editor/']
+                }
+            }
             // eslint: {
             //     enabled: true,
             //     files: './src/**/*.{ts,tsx,js,jsx}'
@@ -58,7 +61,7 @@ module.exports = {
         new ESLintPlugin({
             context: src,
             exclude: ['node_modules', path.join(rootDir, './src/editor')],
-            extensions: ['js', 'jsx', 'ts', 'tsx'],
+            extensions: ['js', 'jsx', 'ts', 'tsx']
         }),
         // new DllPlugin({
         //     name: '[name].manifest.json',
@@ -71,11 +74,11 @@ module.exports = {
         // 关联 dll 文件
         new DllReferencePlugin({
             context: rootDir,
-            manifest: path.resolve(rootDir, "./dll/react.manifest.json"),
+            manifest: path.resolve(rootDir, './dll/react.manifest.json')
         }),
         // 将 dll 文件插入到 html 中
         new AddAssetHtmlPlugin({
-            filepath: path.resolve(rootDir, './dll/react.dll.js'),
+            filepath: path.resolve(rootDir, './dll/react.dll.js')
         }),
         // 进度条
         new ProgressBarPlugin({
@@ -85,7 +88,7 @@ module.exports = {
         //     context: rootDir,
         //     manifest: path.resolve(rootDir, "./dll/runtime.manifest.json"),
         // }),
-        new FriendlyErrorsWebpackPlugin(),
+        new FriendlyErrorsWebpackPlugin()
     ],
     module: {
         rules: [
@@ -121,28 +124,28 @@ module.exports = {
             {
                 test: /\.(html)$/,
                 use: {
-                    loader: 'html-loader',
+                    loader: 'html-loader'
                 },
-                include: [src, path.join(__dirname, 'script')],
+                include: [src, path.join(__dirname, 'script')]
             },
             {
                 test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
                 type: 'asset/resource',
-                include: src,
+                include: src
             },
             {
                 test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
                 type: 'asset/inline',
-                include: src,
+                include: src
             },
             {
                 test: /\.(js|jsx)$/,
                 loader: 'esbuild-loader',
                 options: {
                     loader: 'jsx',
-                    target: 'es2015',
+                    target: 'es2015'
                 },
-                include: src,
+                include: src
             },
             /* {
                 loader: 'thread-loader',
@@ -159,7 +162,7 @@ module.exports = {
                 loader: 'esbuild-loader',
                 options: {
                     loader: 'tsx',
-                    target: 'es2015',
+                    target: 'es2015'
                     // tsconfigRaw: require('../../tsconfig.json'),
                 },
                 include: src,
@@ -169,16 +172,16 @@ module.exports = {
                     // path.join(src, './editor/spec'),
                     path.join(src, './toastmark/__test__'),
                     path.join(src, './toastmark/__sample__'),
-                    path.join(src, './toastmark/html/__test__'),
-                ],
-            },
+                    path.join(src, './toastmark/html/__test__')
+                ]
+            }
         ]
     },
     resolve: {
         fallback: {
             stream: require.resolve('stream-browserify'),
             buffer: require.resolve('buffer'),
-            os: require.resolve('os-browserify'),
+            os: require.resolve('os-browserify')
         },
         modules: [src, 'node_modules'],
         extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'],
@@ -198,25 +201,33 @@ module.exports = {
             // '@code': path.join(rootDir, './src/editorPlugins/code-syntax-highlight'),
             '@components': path.join(rootDir, './src/components'),
             '@view': path.join(rootDir, './src/view'),
-            '@svg': path.join(rootDir, 'src/assets/svg'),
+            '@svg': path.join(rootDir, 'src/assets/svg')
         },
         // 如果你不使用 symlinks（例如 npm link 或者 yarn link），可以设置 false
-        symlinks: false,
+        symlinks: false
     },
     optimization: {
         moduleIds: 'deterministic',
         runtimeChunk: {
-            name: 'runtime',
+            name: 'runtime'
         },
         splitChunks: {
+            chunks: 'all',
+            maxInitialRequests: 5,
+            minChunks: 1,
+            minSize: 30000,
             cacheGroups: {
-                commons: {
+                prismjs: {
+                    test: /[\\/]node_modules[\\/]prismjs[\\/]/,
+                    name: 'prismjs'
+                }
+                /* commons: {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendor',
-                    chunks: 'all',
-                }
+                    chunks: 'all'
+                } */
             }
         }
-    },
+    }
     // externals: {},
 };
