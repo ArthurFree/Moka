@@ -64,8 +64,6 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         const { navStatus } = this.props;
         const { mode, moreMenuVisible } = this.state;
 
-        console.log('--- navStatus ---', navStatus);
-
         return (
             <div className="header-wrap">
                 <div className="left-btn-group">
@@ -92,13 +90,13 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                             onClick={this.changeNavMode}
                         />
                     )} */}
-                    {mode === 'fixed' ? (
+                    {mode === 'fixed' ? /* (
                         <MenuLeftIcon
                             isMouseOverChange
                             isArrow={navStatus === 'expand'}
                             onClick={this.changeNavMode}
                         />
-                    ) : (
+                    ) */null : (
                         <MenuRightIcon
                             isMouseOverChange
                             isArrow={navStatus === 'expand'}

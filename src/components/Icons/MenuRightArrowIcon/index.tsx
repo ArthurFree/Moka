@@ -17,8 +17,6 @@ export default class MenuIcon extends React.Component<MenuIconProps, MenuIconSta
         isArrow: false,
     }
 
-    isInit = true
-
     state = {
         expand: false,
     }
@@ -26,16 +24,11 @@ export default class MenuIcon extends React.Component<MenuIconProps, MenuIconSta
     toggleMouseEnter = () => {
         const { isMouseOverChange } = this.props;
 
-        console.log('--- toggleMouseEnter ---', isMouseOverChange);
-
-        if (isMouseOverChange && !this.isInit) {
+        if (isMouseOverChange) {
             this.setState({
                 expand: !this.state.expand,
             });
         }
-
-        this.isInit = false;
-
     }
 
     handleClick = () => {
@@ -49,7 +42,7 @@ export default class MenuIcon extends React.Component<MenuIconProps, MenuIconSta
     render() {
         const { isArrow, } = this.props;
         const { expand } = this.state;
-        console.log('--- expand ---', expand);
+
         return (
             <div
                 className={`menu-right-icon-wrap ${(isArrow || expand) ? 'menu-arrow-status' : ''}`}

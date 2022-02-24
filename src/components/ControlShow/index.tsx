@@ -98,8 +98,6 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
         const { wrapClassName, fadeIn, fadeOut } = this.props;
         const { visible, renderEl } = this.state;
 
-        console.log('--- renderEl ---', renderEl);
-
         return renderEl;
     }
 }
