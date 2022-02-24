@@ -46,34 +46,46 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
     componentDidUpdate(
         prevProps: Readonly<ControlShowProps>,
         prevState: Readonly<ControlShowState>
-    ): void {
+    ) {
         if (prevState.visible !== this.props.visible) {
             const { wrapClassName, fadeIn, fadeOut, visible, children } = this.props;
-            const el = (
-                <div className={`${wrapClassName} ${visible ? fadeIn.className : fadeOut.className}`}>
+            const el = <div className={`${wrapClassName}`}>{children}</div>;
+            const animationEl = (
+                <div
+                    className={`${wrapClassName} ${visible ? fadeIn.className : fadeOut.className}`}
+                >
                     {children}
                 </div>
             );
 
             if (visible) {
+                // first step: 渲染节点
                 this.setState({
-                    renderEl: el,
+                    renderEl: el
                 });
+
+                // second step: 对节点增加动效 className
+                setTimeout(() => {
+                    this.setState({
+                        renderEl: animationEl
+                    });
+                }, 0);
             } else {
                 const { fadeOut } = this.props;
 
-                this.setState({
-                    renderEl: el,
-                }, () => {
-                    this.time = setTimeout(() => {
-                        this.setState({
-                            renderEl: null,
-                        });
-                    }, fadeOut.duration);
-                });
-
+                this.setState(
+                    {
+                        renderEl: animationEl
+                    },
+                    () => {
+                        this.time = setTimeout(() => {
+                            this.setState({
+                                renderEl: null
+                            });
+                        }, fadeOut.duration);
+                    }
+                );
             }
-
         }
     }
 
@@ -83,8 +95,10 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
     }
 
     render() {
-        const { wrapClassName, fadeIn, fadeOut, } = this.props;
+        const { wrapClassName, fadeIn, fadeOut } = this.props;
         const { visible, renderEl } = this.state;
+
+        console.log('--- renderEl ---', renderEl);
 
         return renderEl;
     }

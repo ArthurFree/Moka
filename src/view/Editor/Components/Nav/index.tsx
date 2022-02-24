@@ -1,4 +1,5 @@
 import React from 'react';
+import ControlShow from '@components/ControlShow';
 import './index.scss';
 
 interface getNavStatus {
@@ -86,7 +87,23 @@ export default class Nav extends React.Component<NavProps, any> {
         const { mode } = this.state;
         return (
             <>
-                <div
+                <ControlShow
+                    visible={mode === 'fixed'}
+                    wrapClassName="nav-fixed-wrap nav-fixed-animation"
+                    fadeIn={{
+                        className: 'nav-fixed-show',
+                        duration: 300
+                    }}
+                    fadeOut={{
+                        className: 'nav-fixed-hidden',
+                        duration: 300
+                    }}
+                >
+                    <div className="nav-fixed-pickup">
+                        <i className="icon icon-emnu-pickup" onClick={this.handleClickPickUp} />
+                    </div>
+                </ControlShow>
+                {/* <div
                     className={`nav-fixed-wrap nav-fixed-animation ${
                         mode === 'fixed' ? '' : 'nav-fixed-hidden'
                     }`}
@@ -94,7 +111,7 @@ export default class Nav extends React.Component<NavProps, any> {
                     <div className="nav-fixed-pickup">
                         <i className="icon icon-emnu-pickup" onClick={this.handleClickPickUp} />
                     </div>
-                </div>
+                </div> */}
                 <div
                     className={`nav-wrap ${mode === 'float' ? '' : 'nav-hidden'}`}
                     ref={this.navWrapEl}

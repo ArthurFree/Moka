@@ -47,19 +47,27 @@ export default class EditorPage extends React.Component<any, EditorPageState> {
         const { navMode, navStatus } = this.state;
         return (
             <div className="editor-wrap moka--default">
-                <Header
-                    navStatus={navStatus}
-                    navMode={navMode}
-                    getNavModeChange={this.getNavModeChange}
-                />
+                {/* <div className="editor-nav-wrap">
+                    <Nav
+                        mode={navMode}
+                        getNavStatus={this.getNavStatus}
+                        getNavMode={this.getNavMode}
+                    />
+                </div> */}
+                <Nav mode={navMode} getNavStatus={this.getNavStatus} getNavMode={this.getNavMode} />
                 <div className="editor-content">
-                    <div className="editor-nav-wrap">
+                    <Header
+                        navStatus={navStatus}
+                        navMode={navMode}
+                        getNavModeChange={this.getNavModeChange}
+                    />
+                    {/* <div className="editor-nav-wrap">
                         <Nav
                             mode={navMode}
                             getNavStatus={this.getNavStatus}
                             getNavMode={this.getNavMode}
                         />
-                    </div>
+                    </div> */}
                     <div className="editor-opreate-content">
                         <EditorComp />
                     </div>

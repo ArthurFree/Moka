@@ -132,6 +132,8 @@
     height: inherit;
     position: relative;
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .toastui-editor-ww-container .toastui-editor-contents {
@@ -172,7 +174,8 @@
 }
 
 .toastui-editor-defaultUI .toastui-editor-ww-mode .ProseMirror {
-    padding: 18px 280px;
+    padding: 18px 0;
+    width: 850px;
 }
 
 .toastui-editor-defaultUI {
