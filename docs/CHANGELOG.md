@@ -2,9 +2,10 @@
 
 ### 2022-02-24
 
--   优化: 优化布局，重新拆分侧边栏位置
 -   增加: 对侧边栏的展开收起增加 ControllShow 组件
+-   优化: 优化布局，重新拆分侧边栏位置
 -   优化: 优化 webpack 的 splitChunks 的配置
+-   优化: 侧边栏展开收缩按钮 png 替换为 css 绘制，并增加动画效果
 
 ### 2022-02-23
 
@@ -13,10 +14,10 @@
 
 ### 2022-02-22
 
--   优化: markdown 模式下的 Table、Code、Quote 样式等问题
--   优化: 标题样式，修改下划线样式
 -   增加: 左上角按钮增加 hover 效果，增加一个向右的箭头状态
 -   增加: 编辑区域的选中样式
+-   优化: markdown 模式下的 Table、Code、Quote 样式等问题
+-   优化: 标题样式，修改下划线样式
 -   更新: i18n 修改为中文
 
 ### 2022-02-21
@@ -36,7 +37,7 @@
 -   增加: 为 tui.editor 引入 code-syntax-highlight 插件
 -   增加: 尝试使用 thread-loader 优化 esbuild-loader ，构建时间略有增加
 -   增加: 构建速度检测插件(speed-measure-webpack-plugin)
--   更换内置编辑器：vditor -> tui.editor, 更换原因：
+-   更新: 更换内置编辑器：vditor -> tui.editor, 更换原因：
     -   再使用 vditor 开发的时候，经常遇到一些问题，比如，内容为空的时候，回车换行，会自动跳回第一行，导致编写状态会抖一下
     -   及时预览状态下，代码没有高亮，只有在生成真正的文章之后才会带上代码高亮
     -   代码块的编写逻辑，输入内容，会创建一个输入编写的模块，编写模块下方有个预览模块，编写体验不好
@@ -54,7 +55,7 @@
 -   增加: Git Commit 提交格式(doc/Git_Commit_Style.md)
 -   增加: 未来需要实现的功能 TODO List(doc/Feature.md)
 -   增加: 对 vditor.option.height 增加 % / vw / vh 支持
--   修复: vditor 引入后带来的 ts error
 -   更新: 重命名 ./doc => ./docs
 -   更新: tsconfig.json 文件
 -   更新: 编辑区样式 coding...
+-   修复: vditor 引入后带来的 ts error
