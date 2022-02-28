@@ -13,7 +13,7 @@ import 'prismjs/themes/prism.css';
 import './index.scss';
 
 interface EditorPageState {
-    [propName: string]: string;
+    [propName: string]: any;
 }
 
 export default class EditorPage extends React.Component<any, EditorPageState> {
@@ -21,8 +21,17 @@ export default class EditorPage extends React.Component<any, EditorPageState> {
         super(props);
         this.state = {
             navMode: 'float',
-            navStatus: 'close'
+            navStatus: 'close',
+            editor: null
         };
+    }
+
+    componentDidMount(): void {
+        if (EditorComp.editor) {
+            this.setState({
+                editor: EditorComp.editor
+            });
+        }
     }
 
     getNavStatus = (status: string) => {
@@ -44,7 +53,7 @@ export default class EditorPage extends React.Component<any, EditorPageState> {
     };
 
     render() {
-        const { navMode, navStatus } = this.state;
+        const { navMode, navStatus, editor } = this.state;
         return (
             <div className="editor-wrap moka--default">
                 {/* <div className="editor-nav-wrap">
@@ -57,6 +66,7 @@ export default class EditorPage extends React.Component<any, EditorPageState> {
                 <Nav mode={navMode} getNavStatus={this.getNavStatus} getNavMode={this.getNavMode} />
                 <div className="editor-content">
                     <Header
+                        editor={editor}
                         navStatus={navStatus}
                         navMode={navMode}
                         getNavModeChange={this.getNavModeChange}

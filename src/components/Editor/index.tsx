@@ -16,6 +16,8 @@ export default class EditorPage extends React.Component {
 
     editorInst!: Editor;
 
+    static editor: Editor;
+
     getRootElement() {
         return this.rootEl.current;
     }
@@ -50,6 +52,10 @@ export default class EditorPage extends React.Component {
                 tableMergedCell
             ]
         });
+
+        console.log('--- this.editorInst ----', this.editorInst);
+
+        EditorPage.editor = this.editorInst;
     }
 
     render() {
