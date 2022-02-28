@@ -12,6 +12,7 @@ interface HeaderProps {
     navStatus?: string;
     navMode?: string;
     getNavModeChange?: getNavModeChange;
+    editor?: any;
 }
 
 interface HeaderState {
@@ -50,7 +51,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         const _mode = mode === 'fixed' ? 'float' : 'fixed';
 
         this.setState({
-            mode: _mode,
+            mode: _mode
         });
 
         if (typeof getNavModeChange === 'function') {
@@ -61,7 +62,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     toggleMoreMenu = () => this.setState({ moreMenuVisible: !this.state.moreMenuVisible });
 
     render(): React.ReactNode {
-        const { navStatus } = this.props;
+        const { navStatus, editor } = this.props;
         const { mode, moreMenuVisible } = this.state;
 
         return (
@@ -96,14 +97,13 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                             isArrow={navStatus === 'expand'}
                             onClick={this.changeNavMode}
                         />
-                    ) */null : (
+                    ) */ null : (
                         <MenuRightIcon
                             isMouseOverChange
                             isArrow={navStatus === 'expand'}
                             onClick={this.changeNavMode}
                         />
                     )}
-
                 </div>
                 <div className="header-doc-path">Tech / Git / Git Commit 规范</div>
                 <div className="right-btn-group">
@@ -111,7 +111,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                         <i className="icon icon-more" onClick={this.toggleMoreMenu} />
                     </div>
                 </div>
-                <MoreMenu visible={moreMenuVisible} afterClose={this.toggleMoreMenu} />
+                <MoreMenu
+                    visible={moreMenuVisible}
+                    editor={editor}
+                    afterClose={this.toggleMoreMenu}
+                />
             </div>
         );
     }

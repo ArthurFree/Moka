@@ -6,17 +6,21 @@ interface MoreMenuProps {
     visible?: boolean;
     maskClosable?: boolean;
     afterClose?: () => void;
+    editor?: any;
 }
 
 interface MoreMenuState {
     visible?: boolean;
+    // TODO: 使用已声明过的类型 editorType
+    mode?: 'markdown' | 'wysiwyg';
 }
 
 export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuState> {
     constructor(props) {
         super(props);
         this.state = {
-            visible: props.visible
+            visible: props.visible,
+            mode: 'wysiwyg'
         };
     }
 
@@ -46,8 +50,23 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
         }
     };
 
+    changeMode = (type) => () => {
+        const { editor } = this.props;
+
+        console.log('--- editor ---', editor);
+
+        if (editor) {
+            editor.changeMode(type);
+            this.setState({
+                mode: type
+            });
+        }
+    };
+
     render() {
-        const { visible } = this.state;
+        const { visible, mode } = this.state;
+
+        console.log('--- mode ---', mode);
 
         return (
             <div className="more-menu-wrap">
@@ -57,14 +76,36 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
                     wrapClassName="more-menu-wrap"
                     fadeIn={{
                         className: 'more-menu more-menu-show',
-                        duration: 300,
+                        duration: 30
                     }}
                     fadeOut={{
                         className: 'more-menu more-menu-hidden',
-                        duration: 300,
+                        duration: 30
                     }}
                 >
-                    123
+                    <div className="menu-list">
+                        {mode === 'wysiwyg' ? (
+                            <div className="menu-item-group">
+                                <div className="menu-item" onClick={this.changeMode('markdown')}>
+                                    <div className="menu-item-icon icon-split"></div>
+                                    <div className="menu-item-content">分屏模式</div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="menu-item-group">
+                                <div className="menu-item" onClick={this.changeMode('wysiwyg')}>
+                                    <div className="menu-item-icon icon-view"></div>
+                                    <div className="menu-item-content">所见即所得模式</div>
+                                </div>
+                            </div>
+                        )}
+                        <div className="menu-item-group">
+                            <div className="menu-item" onClick={this.hide}>
+                                <div className="menu-item-icon icon-view"></div>
+                                <div className="menu-item-content">关闭菜单测试</div>
+                            </div>
+                        </div>
+                    </div>
                 </ControlShow>
             </div>
         );
