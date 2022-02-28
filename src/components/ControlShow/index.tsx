@@ -10,6 +10,7 @@ interface ControlShowProps {
     fadeIn: ControlShowObj;
     fadeOut: ControlShowObj;
     visible: boolean;
+    children: React.ReactElement;
 }
 
 interface ControlShowState {
@@ -47,17 +48,22 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
         prevProps: Readonly<ControlShowProps>,
         prevState: Readonly<ControlShowState>
     ) {
-        if (prevState.visible !== this.props.visible) {
-            const { wrapClassName, fadeIn, fadeOut, visible, children } = this.props;
-            const el = <div className={`${wrapClassName}`}></div>;
-            const animationEl = (
-                <div
-                    className={`${wrapClassName} ${visible ? fadeIn.className : fadeOut.className}`}
-                >
-                    {children}
-                </div>
-            );
+        const { wrapClassName, fadeIn, fadeOut, visible, children } = this.props;
+        const el = <div className={`${wrapClassName}`}></div>;
+        const animationEl = (
+            <div className={`${wrapClassName} ${visible ? fadeIn.className : fadeOut.className}`}>
+                {children}
+            </div>
+        );
 
+        // 控制 children 中的 state 变化时，重新渲染
+        if (this.props.children !== prevProps.children) {
+            this.setState({
+                renderEl: animationEl
+            });
+        }
+
+        if (prevState.visible !== this.props.visible) {
             if (visible) {
                 // first step: 渲染节点
                 this.setState({
