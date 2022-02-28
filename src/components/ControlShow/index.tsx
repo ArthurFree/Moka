@@ -49,7 +49,7 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
     ) {
         if (prevState.visible !== this.props.visible) {
             const { wrapClassName, fadeIn, fadeOut, visible, children } = this.props;
-            const el = <div className={`${wrapClassName}`}>{children}</div>;
+            const el = <div className={`${wrapClassName}`}></div>;
             const animationEl = (
                 <div
                     className={`${wrapClassName} ${visible ? fadeIn.className : fadeOut.className}`}
