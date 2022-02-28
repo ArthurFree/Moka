@@ -19,7 +19,7 @@ import {
 } from '@editorType/editor';
 import { PluginCommandMap, PluginInfoResult, CommandFn } from '@editorType/plugin';
 
-import { sendHostName, sanitizeLinkAttribute, deepMergedCopy } from './utils/common';
+import { /* sendHostName, */ sanitizeLinkAttribute, deepMergedCopy } from './utils/common';
 
 import MarkdownEditor from './markdown/mdEditor';
 import MarkdownPreview from './markdown/mdPreview';
@@ -134,7 +134,8 @@ class ToastUIEditorCore {
                 minHeight: '200px',
                 language: 'en-US',
                 useCommandShortcut: true,
-                usageStatistics: true,
+                // 是否开启 google analytics
+                usageStatistics: false,
                 toolbarItems: [
                     ['heading', 'bold', 'italic', 'strike'],
                     ['hr', 'quote'],
@@ -273,9 +274,10 @@ class ToastUIEditorCore {
             () => this.mode
         );
 
-        if (this.options.usageStatistics) {
+        /* if (this.options.usageStatistics) {
+            // 是否开启 google analytics
             sendHostName();
-        }
+        } */
 
         this.scrollSync = new ScrollSync(this.mdEditor, this.preview, this.eventEmitter);
         this.addInitEvent();
@@ -295,6 +297,7 @@ class ToastUIEditorCore {
     }
 
     private addInitEvent() {
+        // 注册模式改变监听器
         this.on('needChangeMode', this.changeMode.bind(this));
         this.on('loadUI', () => {
             if (this.height !== 'auto') {
