@@ -112,7 +112,7 @@
 .toastui-editor-ww-container {
     display: none;
     overflow: hidden;
-    height: inherit;
+    /* height: inherit; */
     background-color: #fff;
 }
 
@@ -129,15 +129,16 @@
 }
 
 .toastui-editor-ww-container > .toastui-editor {
-    height: inherit;
+    /* height: inherit; */
     position: relative;
     width: 100%;
     display: flex;
     justify-content: center;
+    overflow: auto;
 }
 
 .toastui-editor-ww-container .toastui-editor-contents {
-    overflow: auto;
+    /* overflow: auto; */
     box-sizing: border-box;
     margin: 0px;
     padding: 16px 25px 0px 25px;
@@ -174,9 +175,8 @@
 }
 
 .toastui-editor-defaultUI .toastui-editor-ww-mode .ProseMirror {
-    padding: 18px 300px;
-    /* width: 850px; */
-    width: 100%;
+    padding: 18px 0;
+    width: 850px;
 }
 
 .toastui-editor-defaultUI {

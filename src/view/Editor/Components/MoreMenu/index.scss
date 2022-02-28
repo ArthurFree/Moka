@@ -39,6 +39,7 @@
 
         &.more-menu-hidden {
             animation: moreMenuFadeOut 30ms ease-in forwards;
+            z-index: -1;
         }
     }
 
