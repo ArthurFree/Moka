@@ -32,16 +32,25 @@ export class ContextMenu extends Component<Props, State> {
 
     mounted() {
         document.addEventListener('click', this.handleClickDocument);
+        const maskEl = document.querySelector(`.${cls('context-menu-mask')}`);
+        maskEl.addEventListener('click', this.close);
     }
 
     beforeDestroy() {
         document.removeEventListener('click', this.handleClickDocument);
+
+        const maskEl = document.querySelector(`.${cls('context-menu-mask')}`);
+        maskEl.removeEventListener('click', this.close);
     }
 
     private handleClickDocument = (ev: MouseEvent) => {
         if (!closest(ev.target as HTMLElement, `.${cls('context-menu')}`)) {
             this.setState({ pos: null });
         }
+    };
+
+    close = () => {
+        this.setState({ pos: null });
     };
 
     private getMenuGroupElements() {
@@ -86,6 +95,7 @@ export class ContextMenu extends Component<Props, State> {
         const style = { display: this.state.pos ? 'block' : 'none', ...this.state.pos };
 
         return html`<div class="${cls('context-menu')}" style=${style} aria-role="menu">
+            <div class="${cls('context-menu-mask')}"></div>
             ${this.getMenuGroupElements()}
         </div>`;
     }

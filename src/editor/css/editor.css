@@ -677,12 +677,25 @@
     background-color: #fff;
 }
 
+.toastui-editor-context-menu .toastui-editor-context-menu-mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 22;
+    overflow: hidden;
+}
+
 .toastui-editor-context-menu .menu-group {
+    position: relative;
     list-style: none;
     border-bottom: 1px solid #ebedf2;
     padding: 0;
     margin: 0;
     font-size: 13px;
+    z-index: 30;
 }
 
 .toastui-editor-context-menu .menu-group:last-child {
