@@ -96,6 +96,14 @@ export function tableContextMenu(eventEmitter: Emitter) {
                     if (tableCell) {
                         ev.preventDefault();
 
+                        // fix: 在未选中表格单元格时，无法触发添加行操作问题
+                        const range = new Range();
+                        const selection = window.getSelection();
+                        range.setStart(ev.target as HTMLElement, 0);
+                        range.setEnd(ev.target as HTMLElement, 0);
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+
                         const { clientX, clientY } = ev as MouseEvent;
                         const { left, top } = (
                             view.dom.parentNode as HTMLElement
