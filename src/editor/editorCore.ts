@@ -178,13 +178,19 @@ class ToastUIEditorCore {
         this.i18n = i18n;
         this.i18n.setCode(this.options.language);
 
-        // 时间订阅
+        // 事件订阅
         this.eventEmitter = new EventEmitter();
 
+        // 添加小部件
+        // 根据正则匹配，渲染不同的样式节点
+        // Doc: https://github.com/nhn/tui.editor/blob/master/docs/en/widget.md
         setWidgetRules(widgetRules);
 
+        // 设置链接属性，主要是 a 标签的属性
+        // 'rel', 'target', 'hreflang', 'type'
         const linkAttributes = sanitizeLinkAttribute(this.options.linkAttributes);
 
+        // 处理插件信息，合并插件中的方法
         this.pluginInfo = getPluginInfo(
             this.options.plugins,
             this.eventEmitter,

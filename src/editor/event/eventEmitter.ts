@@ -53,11 +53,14 @@ class EventEmitter implements Emitter {
 
     constructor() {
         this.events = new Map();
+        // 最后生成一个 type: 'keyup' 我不理解
+        // => [{ type: 'keyup' }]
         this.eventTypes = eventTypeList.reduce((types, type) => {
             return { ...types, type };
         }, {});
         this.hold = false;
 
+        // => [{ afterPreviewRender: 'afterPreviewRender', type: 'keyup' }]
         eventTypeList.forEach((eventType) => {
             this.addEventType(eventType);
         });
