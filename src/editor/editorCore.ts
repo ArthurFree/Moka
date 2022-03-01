@@ -174,9 +174,11 @@ class ToastUIEditorCore {
         this.mode = initialEditType || 'markdown';
         this.mdPreviewStyle = this.options.previewStyle;
 
+        // 设置语言
         this.i18n = i18n;
         this.i18n.setCode(this.options.language);
 
+        // 时间订阅
         this.eventEmitter = new EventEmitter();
 
         setWidgetRules(widgetRules);
