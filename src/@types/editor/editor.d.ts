@@ -146,6 +146,7 @@ export interface EditorOptions {
   usageStatistics?: boolean;
   toolbarItems?: (string | ToolbarItemOptions)[][];
   hideModeSwitch?: boolean;
+  hideToolbar?: boolean;
   plugins?: EditorPlugin[];
   extendedAutolinks?: ExtendedAutolinks;
   placeholder?: string;

@@ -145,6 +145,7 @@ class ToastUIEditorCore {
                     ['scrollSync']
                 ],
                 hideModeSwitch: false,
+                hideToolbar: false,
                 linkAttributes: null,
                 extendedAutolinks: false,
                 customHTMLRenderer: null,

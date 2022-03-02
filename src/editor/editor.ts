@@ -25,6 +25,7 @@ class ToastUIEditor extends EditorCore {
                     eventEmitter=${this.eventEmitter}
                     slots=${this.getEditorElements()}
                     hideModeSwitch=${this.options.hideModeSwitch}
+                    hideToolbar=${this.options.hideToolbar}
                     toolbarItems=${this.options.toolbarItems}
                     previewStyle=${this.options.previewStyle}
                     editorType=${this.options.initialEditType}

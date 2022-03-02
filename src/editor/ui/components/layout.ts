@@ -11,6 +11,7 @@ import { ContextMenu } from './contextMenu';
 interface Props {
     eventEmitter: Emitter;
     hideModeSwitch: boolean;
+    hideToolbar: boolean;
     slots: {
         mdEditor: HTMLElement;
         mdPreview: HTMLElement;
@@ -60,7 +61,7 @@ export class Layout extends Component<Props, State> {
     }
 
     render() {
-        const { eventEmitter, hideModeSwitch, toolbarItems, theme } = this.props;
+        const { eventEmitter, hideModeSwitch, hideToolbar, toolbarItems, theme } = this.props;
         const { hide, previewStyle, editorType } = this.state;
         const displayClassName = hide ? ' hidden' : '';
         const editorTypeClassName = cls(editorType === 'markdown' ? 'md-mode' : 'ww-mode');
@@ -72,13 +73,14 @@ export class Layout extends Component<Props, State> {
                 class="${themeClassName}${cls('defaultUI')}${displayClassName}"
                 ref=${(el: HTMLElement) => (this.refs.el = el)}
             >
-                <${Toolbar}
+                ${!hideToolbar &&
+                html`<${Toolbar}
                     ref=${(toolbar: Toolbar) => (this.toolbar = toolbar)}
                     eventEmitter=${eventEmitter}
                     previewStyle=${previewStyle}
                     toolbarItems=${toolbarItems}
                     editorType=${editorType}
-                />
+                />`}
                 <div
                     class="${cls('main')} ${editorTypeClassName}"
                     ref=${(el: HTMLElement) => (this.refs.editorSection = el)}
