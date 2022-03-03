@@ -32,10 +32,14 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
     };
 
     static getDerivedStateFromProps(props, state) {
-        if (props.visible !== state.visible) {
+        if (
+            props.visible !== state.visible ||
+            props.editor?.options?.hideToolbar !== state.isHideToolbar
+        ) {
             return {
                 ...state,
-                visible: props.visible
+                visible: props.visible,
+                isHideToolbar: props.editor?.options?.hideToolbar || false
             };
         }
 
@@ -54,8 +58,6 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
 
     changeMode = (type) => () => {
         const { editor } = this.props;
-
-        console.log('--- editor ---', editor);
 
         if (editor) {
             editor.changeMode(type);
@@ -78,8 +80,6 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
 
     render() {
         const { visible, mode, isHideToolbar } = this.state;
-
-        console.log('--- mode ---', mode);
 
         return (
             <div className="more-menu-wrap">

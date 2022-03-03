@@ -326,8 +326,6 @@ export class Toolbar extends Component<Props, State> {
         };
         const toolbarStyle = previewStyle === 'tab' ? { borderTopLeftRadius: 0 } : null;
 
-        console.log('--- hideToolbar ---', hideToolbar);
-
         return html`
             <div
                 class="${cls('toolbar')}"

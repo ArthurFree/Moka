@@ -78,8 +78,6 @@ export class Layout extends Component<Props, State> {
         const previewClassName = `${cls('md')}-${previewStyle}-style`;
         const themeClassName = cls([theme !== 'light', `${theme} `]);
 
-        console.log('--- hideToolbar layout ---', hideToolbar);
-
         return html`
             <div
                 class="${themeClassName}${cls('defaultUI')}${displayClassName}"
