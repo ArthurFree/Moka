@@ -12,6 +12,7 @@ export interface Emitter {
   addEventType(type: string): void;
   removeEventHandler(type: string, handler?: Handler): void;
   getEvents(): Mapable<string, Handler[] | undefined>;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   holdEventInvoke(fn: Function): void;
 }
 
@@ -20,6 +21,7 @@ export interface EmitterConstructor {
 }
 
 export type EventTypes =
+  | 'hideToolbar'
   | 'afterPreviewRender'
   | 'updatePreview'
   | 'changeMode'

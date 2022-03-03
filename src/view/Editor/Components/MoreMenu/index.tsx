@@ -11,6 +11,7 @@ interface MoreMenuProps {
 
 interface MoreMenuState {
     visible?: boolean;
+    isHideToolbar?: boolean;
     // TODO: 使用已声明过的类型 editorType
     mode?: 'markdown' | 'wysiwyg';
 }
@@ -20,7 +21,8 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
         super(props);
         this.state = {
             visible: props.visible,
-            mode: 'wysiwyg'
+            mode: 'wysiwyg',
+            isHideToolbar: false
         };
     }
 
@@ -63,8 +65,19 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
         }
     };
 
+    toggleToolbar = (isHide) => () => {
+        const { editor } = this.props;
+
+        this.setState({
+            isHideToolbar: isHide
+        });
+
+        editor.eventEmitter.emit('hideToolbar', isHide);
+        this.hide();
+    };
+
     render() {
-        const { visible, mode } = this.state;
+        const { visible, mode, isHideToolbar } = this.state;
 
         console.log('--- mode ---', mode);
 
@@ -96,6 +109,21 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
                                 <div className="menu-item" onClick={this.changeMode('wysiwyg')}>
                                     <div className="menu-item-icon icon-view"></div>
                                     <div className="menu-item-content">所见即所得模式</div>
+                                </div>
+                            </div>
+                        )}
+                        {isHideToolbar ? (
+                            <div className="menu-item-group">
+                                <div className="menu-item" onClick={this.toggleToolbar(false)}>
+                                    <div className="menu-item-icon icon-split"></div>
+                                    <div className="menu-item-content">显示 Toolbar</div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="menu-item-group">
+                                <div className="menu-item" onClick={this.toggleToolbar(true)}>
+                                    <div className="menu-item-icon icon-view"></div>
+                                    <div className="menu-item-content">隐藏 Toolbar</div>
                                 </div>
                             </div>
                         )}

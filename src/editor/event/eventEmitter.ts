@@ -4,6 +4,7 @@ import { Emitter, EventTypes, Handler } from '@editorType/event';
 import Map from '@/utils/map';
 
 const eventTypeList: EventTypes[] = [
+    'hideToolbar',
     'afterPreviewRender',
     'updatePreview',
     'changeMode',

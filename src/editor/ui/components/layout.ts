@@ -27,6 +27,7 @@ interface State {
     editorType: EditorType;
     previewStyle: PreviewStyle;
     hide: boolean;
+    hideToolbar: boolean;
 }
 
 export class Layout extends Component<Props, State> {
@@ -34,22 +35,31 @@ export class Layout extends Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        const { editorType, previewStyle } = props;
+        const { editorType, previewStyle, hideToolbar } = props;
 
         this.state = {
             editorType,
             previewStyle,
+            hideToolbar,
             hide: false
         };
         this.addEvent();
     }
 
     mounted() {
-        const { wwEditor, mdEditor, mdPreview } = this.props.slots;
+        const { hideToolbar } = this.state;
+        const { eventEmitter, slots } = this.props;
+        const { wwEditor, mdEditor, mdPreview } = slots;
 
         this.refs.wwContainer.appendChild(wwEditor);
         this.refs.mdContainer.insertAdjacentElement('afterbegin', mdEditor);
         this.refs.mdContainer.appendChild(mdPreview);
+
+        eventEmitter.listen('hideToolbar', (isHide: boolean) => {
+            this.setState({
+                hideToolbar: isHide
+            });
+        });
     }
 
     insertToolbarItem(indexList: IndexList, item: string | ToolbarItemOptions) {
@@ -61,26 +71,28 @@ export class Layout extends Component<Props, State> {
     }
 
     render() {
-        const { eventEmitter, hideModeSwitch, hideToolbar, toolbarItems, theme } = this.props;
-        const { hide, previewStyle, editorType } = this.state;
+        const { eventEmitter, hideModeSwitch, toolbarItems, theme } = this.props;
+        const { hide, previewStyle, editorType, hideToolbar } = this.state;
         const displayClassName = hide ? ' hidden' : '';
         const editorTypeClassName = cls(editorType === 'markdown' ? 'md-mode' : 'ww-mode');
         const previewClassName = `${cls('md')}-${previewStyle}-style`;
         const themeClassName = cls([theme !== 'light', `${theme} `]);
+
+        console.log('--- hideToolbar layout ---', hideToolbar);
 
         return html`
             <div
                 class="${themeClassName}${cls('defaultUI')}${displayClassName}"
                 ref=${(el: HTMLElement) => (this.refs.el = el)}
             >
-                ${!hideToolbar &&
-                html`<${Toolbar}
+                <${Toolbar}
                     ref=${(toolbar: Toolbar) => (this.toolbar = toolbar)}
+                    hideToolbar=${hideToolbar}
                     eventEmitter=${eventEmitter}
                     previewStyle=${previewStyle}
                     toolbarItems=${toolbarItems}
                     editorType=${editorType}
-                />`}
+                />
                 <div
                     class="${cls('main')} ${editorTypeClassName}"
                     ref=${(el: HTMLElement) => (this.refs.editorSection = el)}

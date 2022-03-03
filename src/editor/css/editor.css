@@ -313,6 +313,7 @@
 .toastui-editor-toolbar {
     height: 46px;
     box-sizing: border-box;
+    transition: opacity 100ms, margin-top 100ms;
 }
 
 .toastui-editor-toolbar-divider {

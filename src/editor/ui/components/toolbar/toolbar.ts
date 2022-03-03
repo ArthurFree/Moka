@@ -41,6 +41,7 @@ interface Props {
     previewStyle: PreviewStyle;
     toolbarItems: ToolbarItem[];
     editorType: EditorType;
+    hideToolbar: boolean;
 }
 
 interface State {
@@ -288,11 +289,12 @@ export class Toolbar extends Component<Props, State> {
     }
 
     updated(prevProps: Props) {
-        const { editorType, previewStyle, eventEmitter } = this.props;
+        const { editorType, previewStyle, eventEmitter /* hideToolbar */ } = this.props;
         const changedStyle = previewStyle !== prevProps.previewStyle;
         const changedType = editorType !== prevProps.editorType;
+        // const changeDisplay = hideToolbar !== prevProps.hideToolbar;
 
-        if (changedStyle || changedType) {
+        if (changedStyle || changedType /*  || changeDisplay */) {
             // show or hide scrollSync button
             toggleScrollSync(this.initialItems, this.hiddenScrollSync());
             const newState = this.classifyToolbarItems() as State;
@@ -312,7 +314,7 @@ export class Toolbar extends Component<Props, State> {
     }
 
     render() {
-        const { previewStyle, eventEmitter, editorType } = this.props;
+        const { previewStyle, eventEmitter, editorType, hideToolbar } = this.props;
         const { popupInfo, showPopup, activeTab, items, dropdownItems } = this.state;
         const props = {
             eventEmitter,
@@ -324,8 +326,13 @@ export class Toolbar extends Component<Props, State> {
         };
         const toolbarStyle = previewStyle === 'tab' ? { borderTopLeftRadius: 0 } : null;
 
+        console.log('--- hideToolbar ---', hideToolbar);
+
         return html`
-            <div class="${cls('toolbar')}">
+            <div
+                class="${cls('toolbar')}"
+                style="${hideToolbar ? 'opacity: 0; margin-top: -46px; z-index: -1' : ''}"
+            >
                 <div
                     class="${cls('md-tab-container')}"
                     style="display: ${editorType === 'wysiwyg' || previewStyle === 'vertical'
