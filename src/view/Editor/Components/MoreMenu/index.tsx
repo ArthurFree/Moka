@@ -3,10 +3,11 @@ import ControlShow from '@components/ControlShow';
 import './index.scss';
 
 interface MoreMenuProps {
+    editor?: any;
     visible?: boolean;
     maskClosable?: boolean;
     afterClose?: () => void;
-    editor?: any;
+    toggleHeader: () => void;
 }
 
 interface MoreMenuState {
@@ -78,6 +79,14 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
         this.hide();
     };
 
+    toggleHeader = () => {
+        const { toggleHeader } = this.props;
+
+        if (typeof toggleHeader === 'function') {
+            toggleHeader();
+        }
+    }
+
     render() {
         const { visible, mode, isHideToolbar } = this.state;
 
@@ -127,6 +136,12 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
                                 </div>
                             </div>
                         )}
+                        <div className="menu-item-group">
+                            <div className="menu-item" onClick={this.toggleHeader}>
+                                <div className="menu-item-icon icon-split"></div>
+                                <div className="menu-item-content">隐藏顶部状态栏</div>
+                            </div>
+                        </div>
                         <div className="menu-item-group">
                             <div className="menu-item" onClick={this.hide}>
                                 <div className="menu-item-icon icon-view"></div>

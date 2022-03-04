@@ -18,6 +18,7 @@ interface HeaderProps {
 interface HeaderState {
     mode?: string;
     moreMenuVisible?: boolean;
+    visible?: boolean;
 }
 
 const navStatusClassName = {
@@ -30,7 +31,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         super(props);
         this.state = {
             mode: props.navMode,
-            moreMenuVisible: false
+            moreMenuVisible: false,
+            visible: true,
         };
     }
 
@@ -61,12 +63,14 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
     toggleMoreMenu = () => this.setState({ moreMenuVisible: !this.state.moreMenuVisible });
 
+    toggleHeader = () => this.setState({ visible: !this.state.visible })
+
     render(): React.ReactNode {
-        const { navStatus, editor } = this.props;
-        const { mode, moreMenuVisible } = this.state;
+        const { navStatus, editor, } = this.props;
+        const { mode, moreMenuVisible, visible } = this.state;
 
         return (
-            <div className="header-wrap">
+            <div className={`header-wrap ${visible ? '' : 'header-wrap-hidden'}`}>
                 <div className="left-btn-group">
                     {/* {mode === 'float' ? (
                         <div
@@ -115,6 +119,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                     visible={moreMenuVisible}
                     editor={editor}
                     afterClose={this.toggleMoreMenu}
+                    toggleHeader={this.toggleHeader}
                 />
             </div>
         );

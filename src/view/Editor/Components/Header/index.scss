@@ -16,6 +16,14 @@
     box-sizing: border-box;
     line-height: 1.5;
     user-select: none;
+    opacity: 1;
+    transition: opacity 80ms, margin-top 80ms;
+
+    &.header-wrap-hidden {
+        opacity: 0;
+        margin-top: -37px;
+        z-index: -1;
+    }
 
     .left-btn-group {
         margin-right: 5px;
