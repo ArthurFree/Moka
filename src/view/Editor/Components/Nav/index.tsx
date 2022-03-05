@@ -1,5 +1,6 @@
 import React from 'react';
 import ControlShow from '@components/ControlShow';
+import NavHeader from './NavHeader';
 import './index.scss';
 
 interface getNavStatus {
@@ -99,9 +100,12 @@ export default class Nav extends React.Component<NavProps, any> {
                         duration: 300
                     }}
                 >
-                    <div className="nav-fixed-pickup">
-                        <i className="icon icon-emnu-pickup" onClick={this.handleClickPickUp} />
-                    </div>
+                    <>
+                        <NavHeader />
+                        <div className="nav-fixed-pickup">
+                            <i className="icon icon-emnu-pickup" onClick={this.handleClickPickUp} />
+                        </div>
+                    </>
                 </ControlShow>
                 {/* <div
                     className={`nav-fixed-wrap nav-fixed-animation ${
@@ -117,7 +121,7 @@ export default class Nav extends React.Component<NavProps, any> {
                     ref={this.navWrapEl}
                 >
                     <div className="nav-menu-float nav-emnu-float-show" ref={this.navFloatEl}>
-                        123123
+                        <NavHeader />
                     </div>
                 </div>
             </>
