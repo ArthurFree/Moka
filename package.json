@@ -87,6 +87,7 @@
     "@loadable/component": "^5.15.2",
     "@toast-ui/chart": "^4.4.1",
     "buffer": "^6.0.3",
+    "classnames": "^2.3.1",
     "codemirror": "^5.51.0",
     "common-tags": "^1.8.2",
     "diff-match-patch": "^1.0.5",
