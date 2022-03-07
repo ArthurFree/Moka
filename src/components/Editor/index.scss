@@ -1,5 +1,6 @@
 .editor {
     height: 100%;
+    overflow: auto;
 
     /* 重置 prism 样式 */
     .token.operator {
@@ -7,6 +8,7 @@
     }
 
     .editor-inst {
+        position: relative;
         height: 100%;
     }
 }

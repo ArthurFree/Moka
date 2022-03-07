@@ -1,0 +1,47 @@
+.nav-footer-wrap {
+    padding: 2px 14px;
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(55, 53, 47, 0.09) 0px -1px 0px;
+    box-sizing: border-box;
+    user-select: none;
+
+    &:hover {
+        background-color: rgba(55, 53, 47, 0.08);
+    }
+
+    .nav-footer-add-page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(55, 53, 47, 0.65);
+        }
+    }
+
+    .nav-footer-icon {
+        margin-right: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-footer-plus-icon {
+        width: 16px;
+        height: 16px;
+        display: block;
+        fill: rgba(55, 53, 47, 0.45);
+        flex-shrink: 0;
+        backface-visibility: hidden;
+    }
+}

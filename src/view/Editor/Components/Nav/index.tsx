@@ -1,6 +1,8 @@
 import React from 'react';
 import ControlShow from '@components/ControlShow';
-import NavHeader from './NavHeader';
+import NavHeader from './Components/NavHeader';
+import NavFooter from './Components/NavFooter';
+import NavContent from './Components/NavContent';
 import './index.scss';
 
 interface getNavStatus {
@@ -101,7 +103,11 @@ export default class Nav extends React.Component<NavProps, any> {
                     }}
                 >
                     <>
-                        <NavHeader />
+                        <div className="nav-container">
+                            <NavHeader />
+                            <NavContent />
+                            <NavFooter />
+                        </div>
                         <div className="nav-fixed-pickup">
                             <i className="icon icon-emnu-pickup" onClick={this.handleClickPickUp} />
                         </div>
@@ -121,7 +127,11 @@ export default class Nav extends React.Component<NavProps, any> {
                     ref={this.navWrapEl}
                 >
                     <div className="nav-menu-float nav-emnu-float-show" ref={this.navFloatEl}>
-                        <NavHeader />
+                        <div className="nav-container">
+                            <NavHeader />
+                            <NavContent />
+                            <NavFooter />
+                        </div>
                     </div>
                 </div>
             </>
