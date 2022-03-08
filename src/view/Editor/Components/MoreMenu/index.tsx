@@ -65,6 +65,7 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
             this.setState({
                 mode: type
             });
+            this.hide();
         }
     };
 
@@ -84,6 +85,7 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
 
         if (typeof toggleHeader === 'function') {
             toggleHeader();
+            this.hide();
         }
     }
 
