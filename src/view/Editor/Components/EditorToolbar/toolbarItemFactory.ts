@@ -1,5 +1,10 @@
 import React from 'react';
 import { PopupInitialValues, PopupOptions, Pos, PopupInfo } from "@editorType/ui";
+import { HeadingPopupBody } from './Components/HeadingPopupBody';
+import { ImagePopupBody } from './Components/ImagePopupBody';
+import { LinkPopupBody } from './Components/LinkPopupBody';
+import { TablePopupBody } from './Components/TablePopupBody';
+// import { CustomPopupBody } from './Components/CustomPopupBody';
 
 interface Payload {
     el: HTMLElement,
