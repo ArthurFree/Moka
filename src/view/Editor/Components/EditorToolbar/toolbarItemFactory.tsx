@@ -1,10 +1,11 @@
 import React from 'react';
-import { PopupInitialValues, PopupOptions, Pos, PopupInfo } from "@editorType/ui";
+import { cls } from '@/utils/dom';
+import { PopupInitialValues, PopupOptions, Pos, /* PopupInfo */ } from "@editorType/ui";
 import { HeadingPopupBody } from './Components/HeadingPopupBody';
 import { ImagePopupBody } from './Components/ImagePopupBody';
 import { LinkPopupBody } from './Components/LinkPopupBody';
 import { TablePopupBody } from './Components/TablePopupBody';
-// import { CustomPopupBody } from './Components/CustomPopupBody';
+import { CustomPopupBody } from './Components/CustomPopupBody';
 
 interface Payload {
     el: HTMLElement,
@@ -13,20 +14,38 @@ interface Payload {
     initialValues?: PopupInitialValues;
 }
 
+interface PopupInfo {
+    className?: string;
+    style?: Record<string, any>;
+    fromEl: HTMLElement;
+    pos: Pos;
+    // TODO: 这里的类型需要使用具体类型
+    render: (props: any) => React.ReactNode | React.ReactNode[];
+    initialValues?: PopupInitialValues;
+  }
+
 export function createPopupInfo (type: string, payload: Payload): PopupInfo | null {
     const { el, pos, popup, initialValues } = payload;
 
     switch (type) {
         case 'heading':
             return {
-                render: (props) => html`<${HeadingPopupBody} ...${props} />`,
                 className: cls('popup-add-heading'),
                 fromEl: el,
-                pos
+                pos,
+                render: (props) => {
+                    return (
+                        <HeadingPopupBody {...props} />
+                    );
+                }
             };
         case 'link':
             return {
-                render: (props) => html`<${LinkPopupBody} ...${props} />`,
+                render: (props) => {
+                    return (
+                        <LinkPopupBody {...props} />
+                    )
+                },
                 className: cls('popup-add-link'),
                 fromEl: el,
                 pos,
@@ -34,14 +53,22 @@ export function createPopupInfo (type: string, payload: Payload): PopupInfo | nu
             };
         case 'image':
             return {
-                render: (props) => html`<${ImagePopupBody} ...${props} />`,
+                render: (props) => {
+                    return (
+                        <ImagePopupBody {...props} />
+                    )
+                },
                 className: cls('popup-add-image'),
                 fromEl: el,
                 pos
             };
         case 'table':
             return {
-                render: (props) => html`<${TablePopupBody} ...${props} />`,
+                render: (props) => {
+                    return (
+                        <TablePopupBody {...props} />
+                    )
+                },
                 className: cls('popup-add-table'),
                 fromEl: el,
                 pos
@@ -51,7 +78,11 @@ export function createPopupInfo (type: string, payload: Payload): PopupInfo | nu
                 return null;
             }
             return {
-                render: (props) => html`<${CustomPopupBody} ...${props} body=${popup!.body} />`,
+                render: (props) => {
+                    return (
+                        <CustomPopupBody {...props} body={popup!.body} />
+                    )
+                },
                 fromEl: el,
                 pos,
                 ...popup!

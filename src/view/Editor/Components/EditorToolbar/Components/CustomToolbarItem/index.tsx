@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     ExecCommand,
     SetPopupInfo,
@@ -9,7 +10,8 @@ import {
 } from '@editorType/ui';
 import { Emitter } from '@editorType/event';
 import { getOuterWidth } from '@/utils/dom';
-import React from 'react';
+import { createPopupInfo } from '../../toolbarItemFactory';
+import { connectHOC } from '../ButtonHoc';
 
 interface CustomToolbarItemProps {
     disabled: boolean;
@@ -41,6 +43,14 @@ class CustomToolbarItemComp extends React.Component<CustomToolbarItemProps> {
         }
     }
 
+    componnetDidUpdate(prevProps) {
+        const { item, active, disabled } = this.props;
+
+        if (prevProps.active !== active || prevProps.disabled !== disabled) {
+            item.onUpdated?.({ active, disabled });
+        }
+    }
+
     private showTooltip = () => {
         const { showTooltip } = this.props;
 
@@ -55,9 +65,9 @@ class CustomToolbarItemComp extends React.Component<CustomToolbarItemProps> {
             popup: item.popup!,
         });
 
-        if (info) [
+        if (info) {
             setPopupInfo(info);
-        ]
+        }
     }
 
     render() {
@@ -77,3 +87,5 @@ class CustomToolbarItemComp extends React.Component<CustomToolbarItemProps> {
         )
     }
 }
+
+export const CustomToolbarItem = connectHOC(CustomToolbarItemComp);

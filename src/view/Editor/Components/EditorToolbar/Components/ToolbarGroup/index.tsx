@@ -2,10 +2,12 @@ import { Emitter } from '@editorType/event';
 import { ExecCommand, GetBound, HideTooltip, SetItemWidth, SetPopupInfo, ShowTooltip, ToolbarCustomOptions, ToolbarGroupInfo } from '@editorType/ui';
 import React from 'react';
 import ToolbarButton from '../ToolbarButton';
+import { CustomToolbarItem } from '../CustomToolbarItem';
 import './index.scss';
 
 interface ToolbarGroupProps {
-    tooltipEl: HTMLElement;
+    // fix: 这里传入的应该是 Ref 而非 HTMlElement
+    tooltipRef: { current: HTMLElement };
     disabled: boolean;
     group: ToolbarGroupInfo;
     hidden: boolean;
@@ -18,6 +20,7 @@ interface ToolbarGroupProps {
     getBound: GetBound;
     setItemWdith?: SetItemWidth;
 }
+
 export default class ToolbarGroup extends React.Component<ToolbarGroupProps> {
     render(): React.ReactNode {
         const { group, hiddenDivider } = this.props;

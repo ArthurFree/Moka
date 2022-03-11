@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface PopupOptions {
   body: HTMLElement;
   className?: string;
@@ -99,7 +101,8 @@ export interface PopupInfo {
   style?: Record<string, any>;
   fromEl: HTMLElement;
   pos: Pos;
-  render: (props: Record<string, any>) => VNode | VNode[];
+//   render: (props: Record<string, any>) => VNode | VNode[];
+  render: (props: any) => React.ReactNode | React.ReactNode[];
   initialValues?: PopupInitialValues;
 }
 

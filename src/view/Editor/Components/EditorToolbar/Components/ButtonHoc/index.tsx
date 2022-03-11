@@ -1,7 +1,7 @@
+import React from 'react';
 import { closest, getTotalOffset } from '@/utils/dom';
 import { Emitter } from '@editorType/event';
 import { ExecCommand, SetItemWidth, SetPopupInfo, ToolbarButtonInfo, ToolbarItemInfo, ToolbarStateMap } from '@editorType/ui';
-import React, { ComponentClass } from 'react';
 import css from 'tui-code-snippet/domUtil/css';
 
 export interface ButtonHOCProps {

@@ -148,7 +148,6 @@ export class ImagePopupBody extends React.Component<ImagePopupBodyProps, ImagePo
 
         return (
             <div aria-label={i18n.get('Insert image')}>
-                {/* TODO: Tab Component */}
                 <Tabs
                     tabs={this.tabs}
                     activeTab={activeTab}
