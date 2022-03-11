@@ -55,6 +55,24 @@ interface ItemWidthMap {
 const INLINE_PADDING = 50;
 
 class EditorToolbar extends React.Component<EditorToolbarProps, EditorToolbarState> {
+    static defaultProps = {
+        // 是否隐藏 Toolbar
+        hideToolbar: false,
+        // markdown 模式下分屏 'tab' - 左右 / 'vertical' - 上下
+        previewStyle: 'tab',
+        // 编辑器模式 'wysisyg' / 'markdown'
+        editorType: 'wysiwyg',
+        // toolbar 中的功能按钮
+        toolbarItems: [
+            ['heading', 'bold', 'italic', 'strike'],
+            ['hr', 'quote'],
+            ['ul', 'ol', 'task', 'indent', 'outdent'],
+            ['table', 'image', 'link'],
+            ['code', 'codeblock'],
+            ['scrollSync']
+        ],
+    };
+
     el = React.createRef<HTMLDivElement>();
 
     private itemWidthMap: ItemWidthMap;

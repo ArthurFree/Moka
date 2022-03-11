@@ -338,6 +338,7 @@
     border-radius: 3px;
     margin: 7px 5px;
     /* border: 1px solid #f7f9fc; */
+    border: none;
 }
 
 .toastui-editor-defaultUI-toolbar button:not(:disabled):hover {

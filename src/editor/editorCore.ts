@@ -702,6 +702,14 @@ class ToastUIEditorCore {
     }
 
     /**
+     * Get editor's mode
+     * @returns {string}
+     */
+    getMode() {
+        return this.mode;
+    }
+
+    /**
      * Change editor's mode to given mode string
      * @param {string} mode - Editor mode name of want to change
      * @param {boolean} [withoutFocus] - Change mode without focus

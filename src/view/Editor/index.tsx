@@ -75,7 +75,7 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
                     {editor && (
                         <EditorToolbar
                             eventEmitter={editor.eventEmitter}
-                            previewStyle="tab"
+                            // previewStyle="tab"
                             toolbarItems={[
                                 ['heading', 'bold', 'italic', 'strike'],
                                 ['hr', 'quote'],
@@ -84,8 +84,8 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
                                 ['code', 'codeblock'],
                                 ['scrollSync']
                             ]}
-                            editorType="wysiwyg"
-                            hideToolbar={false}
+                            editorType={editor.getMode()}
+                            // hideToolbar={false}
                         />
                     )}
 
