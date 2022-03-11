@@ -15,6 +15,8 @@ import { Emitter } from '@editorType/event';
 import { GetBound, HideTooltip, IndexList, PopupInfo, ShowTooltip, ToolbarGroupInfo, ToolbarItem, ToolbarItemOptions } from '@editorType/ui';
 import React from 'react';
 import ToolbarGroup from './Components/ToolbarGroup';
+import { DropdownToolbarButton } from './Components/DropdownToolbarButton';
+import { Popup } from '../Popup';
 import {
     createToolbarItemInfo,
     toggleScrollSync,
@@ -23,7 +25,6 @@ import {
     createPopupInfo
 } from './toolbarItemFactory';
 import './index.scss';
-import { TestEditorWithNoneDelayHistory } from '@/__test__/unit/markdown/util';
 
 type TabType = 'write' | 'preview';
 
@@ -341,7 +342,19 @@ class EditorToolbar extends React.Component<EditorToolbarProps, EditorToolbarSta
                             {...props}
                         />
                     ))}
+                    <DropdownToolbarButton
+                        {...props}
+                        item={createToolbarItemInfo('more')}
+                        items={dropdownItems}
+                    />
                 </div>
+                <Popup
+                    info={popupInfo}
+                    show={showPopup}
+                    eventEmitter={eventEmitter}
+                    hidePopup={this.hidePopup}
+                    execCommand={this.execCommand}
+                />
             </div>
         );
     }

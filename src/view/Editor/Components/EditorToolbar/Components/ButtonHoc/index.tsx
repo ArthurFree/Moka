@@ -12,6 +12,7 @@ export interface ButtonHOCProps {
     execCommand: ExecCommand;
     setPopupInfo: SetPopupInfo;
     setItemWidth?: SetItemWidth;
+    [key: string]: any;
 }
 
 export interface ButtonHOCState {

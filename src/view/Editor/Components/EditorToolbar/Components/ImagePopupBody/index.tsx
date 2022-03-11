@@ -34,6 +34,8 @@ export class ImagePopupBody extends React.Component<ImagePopupBodyProps, ImagePo
 
     altTextRef = React.createRef<HTMLInputElement>();
 
+    fileNameRef = React.createRef<HTMLSpanElement>();
+
     constructor(props) {
         super(props);
         this.state = {
@@ -47,10 +49,23 @@ export class ImagePopupBody extends React.Component<ImagePopupBodyProps, ImagePo
         ];
     }
 
+    componentDidMount(): void {
+        const fileEl = this.fileNameRef.current;
+
+        fileEl.addEventListener('selectstart', this.preventSelectStart);
+    }
+
     componentDidUpdate(): void {
         if (!this.props.show) {
             this.initialize();
         }
+    }
+
+
+    componentWillUnmount(): void {
+        const fileEl = this.fileNameRef.current;
+
+        fileEl.removeEventListener('selectstart', this.preventSelectStart);
     }
 
     private initialize = (activeTab: TabType = 'file') => {
@@ -162,6 +177,7 @@ export class ImagePopupBody extends React.Component<ImagePopupBodyProps, ImagePo
                     <span
                         className={`toastui-editor-file-name${file ? ' has-file' : fileNameElClassName}`}
                         onClick={this.showFileSelectBox}
+                        ref={this.fileNameRef}
                         // TODO: 使用 ref 解决 React 中没有 selectstart 事件的问题
                         // onSelectStart={}
                     >
