@@ -9,7 +9,6 @@ import content from './content';
 import Editor from '../../editor/index';
 import '../../editor/i18n/zh-cn';
 import 'prismjs/themes/prism.css';
-import 'tui-color-picker/dist/tui-color-picker.css';
 import './index.scss';
 
 export default class EditorPage extends React.Component {

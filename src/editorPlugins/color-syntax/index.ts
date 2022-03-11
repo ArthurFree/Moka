@@ -5,6 +5,7 @@ import type { Transaction, Selection, TextSelection } from 'prosemirror-state';
 import { PluginOptions } from '@pluginColorSyntax/index';
 import { addLangs } from './i18n/langs';
 
+import 'tui-color-picker/dist/tui-color-picker.css';
 import './css/plugin.css';
 
 const PREFIX = 'toastui-editor-';
