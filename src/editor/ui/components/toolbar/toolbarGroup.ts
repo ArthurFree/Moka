@@ -36,6 +36,8 @@ export class ToolbarGroup extends Component<Props> {
         const groupStyle = group.hidden ? { display: 'none' } : null;
         const dividerStyle = hiddenDivider ? { display: 'none' } : null;
 
+        console.log('--- group ---', group);
+
         return html`
             <div class="${cls('toolbar-group')}" style=${groupStyle}>
                 ${group.map((item: ToolbarCustomOptions) => {

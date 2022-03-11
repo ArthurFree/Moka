@@ -81,6 +81,8 @@ class DropdownToolbarButtonComp extends Component<Props, State> {
         const groupStyle = visibleItems.length ? null : { display: 'none' };
         const dropdownStyle = showDropdown ? null : { display: 'none' };
 
+        console.log('---- visibleItems ----', visibleItems);
+
         return html`
             <div class="${cls('toolbar-group')}" style=${groupStyle}>
                 <button
