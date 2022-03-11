@@ -3,18 +3,20 @@ import { closest, cls } from '@/utils/dom';
 import ToolbarGroup from '../ToolbarGroup';
 import { ExecCommand, GetBound, HideTooltip, SetPopupInfo, ShowTooltip, ToolbarButtonInfo, ToolbarGroupInfo, ToolbarItemInfo } from '@editorType/ui';
 import { Emitter } from '@editorType/event';
-import { reCanBeTaskList } from '@/markdown/helper/list';
+import { connectHOC } from '../ButtonHoc';
 
 interface DropdownToolbarButtonCompProps {
     disabled: boolean;
+    hidden: boolean;
     eventEmitter: Emitter;
     item: ToolbarButtonInfo;
-    items: ToolbarItemInfo[];
+    items: ToolbarGroupInfo[];
     execCommand: ExecCommand;
     setPopupInfo: SetPopupInfo;
     showTooltip: ShowTooltip;
     hideTooltip: HideTooltip;
     getBound: GetBound;
+    tooltipRef: { current: HTMLElement };
 }
 
 interface DropdownToolbarButtonCompState {
@@ -104,7 +106,7 @@ class DropdownToolbarButtonComp extends React.Component<DropdownToolbarButtonCom
                     {visibleItems.length ? visibleItems.map((group, index) => (
                         <ToolbarGroup
                             group={group}
-                            hiddenDivider={index === visibleItems.length - 1 || (visibleItems as ToolbarButtonInfo[])[index + 1]?.hidden}
+                            hiddenDivider={index === visibleItems.length - 1 || (visibleItems as ToolbarGroupInfo[])[index + 1]?.hidden}
                             {...this.props}
                         />
                     )) : null}
@@ -113,3 +115,5 @@ class DropdownToolbarButtonComp extends React.Component<DropdownToolbarButtonCom
         );
     }
 }
+
+export const DropdownToolbarButton = connectHOC(DropdownToolbarButtonComp);
