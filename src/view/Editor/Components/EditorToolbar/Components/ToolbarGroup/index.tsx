@@ -18,7 +18,7 @@ interface ToolbarGroupProps {
     showTooltip: ShowTooltip;
     hideTooltip: HideTooltip;
     getBound: GetBound;
-    setItemWdith?: SetItemWidth;
+    setItemWidth?: SetItemWidth;
 }
 
 export default class ToolbarGroup extends React.Component<ToolbarGroupProps> {
