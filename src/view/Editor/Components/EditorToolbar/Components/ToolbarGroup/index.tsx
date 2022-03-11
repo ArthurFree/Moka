@@ -10,14 +10,14 @@ interface ToolbarGroupProps {
     tooltipRef: { current: HTMLElement };
     disabled: boolean;
     group: ToolbarGroupInfo;
-    hidden: boolean;
+    // hidden: boolean;
     hiddenDivider: boolean;
     eventEmitter: Emitter;
     execCommand: ExecCommand;
     setPopupInfo: SetPopupInfo;
-    showTooltip: ShowTooltip;
-    hideTooltip: HideTooltip;
-    getBound: GetBound;
+    // showTooltip: ShowTooltip;
+    // hideTooltip: HideTooltip;
+    // getBound: GetBound;
     setItemWidth?: SetItemWidth;
 }
 

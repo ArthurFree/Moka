@@ -7,7 +7,7 @@ import { connectHOC } from '../ButtonHoc';
 
 interface DropdownToolbarButtonCompProps {
     disabled: boolean;
-    hidden: boolean;
+    // hidden: boolean;
     eventEmitter: Emitter;
     item: ToolbarButtonInfo;
     items: ToolbarGroupInfo[];

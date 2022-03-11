@@ -66,7 +66,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         const popupStyle: PopupStyle = {
             display: show ? 'block' : 'none',
             ...style,
-            ...this.state.popupPos
+            ...this.state?.popupPos
         };
 
         return (

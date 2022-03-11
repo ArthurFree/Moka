@@ -1,5 +1,5 @@
 import React from 'react';
-import { closest, getTotalOffset } from '@/utils/dom';
+import { closest, getTotalOffset, cls } from '@/utils/dom';
 import { Emitter } from '@editorType/event';
 import { ExecCommand, SetItemWidth, SetPopupInfo, ToolbarButtonInfo, ToolbarItemInfo, ToolbarStateMap } from '@editorType/ui';
 import css from 'tui-code-snippet/domUtil/css';
@@ -53,7 +53,10 @@ export function connectHOC(WrappedComponent) {
         }
 
         getBound(el: HTMLElement) {
-            const { offsetLeft, offsetTop} = getTotalOffset(el, closest(el, 'toastui-editor-toolbar') as HTMLElement)
+            const { offsetLeft, offsetTop } = getTotalOffset(
+                el,
+                closest(el, `.${cls('toolbar')}`) as HTMLElement
+            );
 
             return { left: offsetLeft, top: el.offsetHeight + offsetTop };
         }

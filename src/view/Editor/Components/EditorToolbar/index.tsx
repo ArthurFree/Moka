@@ -31,13 +31,13 @@ type TabType = 'write' | 'preview';
 interface EditorToolbarProps {
     eventEmitter: Emitter;
     previewStyle: PreviewStyle;
-    toolbarItems: ToolbarItem;
+    toolbarItems: ToolbarItem[];
     editorType: EditorType;
     hideToolbar: boolean;
-    hidden: boolean;
-    showTooltip: ShowTooltip;
-    hideTooltip: HideTooltip;
-    getBound: GetBound;
+    // hidden: boolean;
+    // showTooltip: ShowTooltip;
+    // hideTooltip: HideTooltip;
+    // getBound: GetBound;
 }
 
 interface EditorToolbarState {
