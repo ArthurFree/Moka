@@ -241,14 +241,17 @@ function createDefaultToolbarItemInfo(type: string) {
     return info;
 }
 
+// 创建 toolbar 弹窗
 export function createPopupInfo (type: string, payload: Payload): PopupInfo | null {
     const { el, pos, popup, initialValues } = payload;
 
     switch (type) {
         case 'heading':
             return {
+                // 弹窗外层 className
                 className: cls('popup-add-heading'),
                 fromEl: el,
+                // 位置
                 pos,
                 render: (props) => {
                     return (
