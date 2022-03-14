@@ -59,7 +59,7 @@ class EditorToolbar extends React.Component<EditorToolbarProps, EditorToolbarSta
         // 是否隐藏 Toolbar
         hideToolbar: false,
         // markdown 模式下分屏 'tab' - 左右 / 'vertical' - 上下
-        previewStyle: 'tab',
+        previewStyle: 'vertical',
         // 编辑器模式 'wysisyg' / 'markdown'
         editorType: 'wysiwyg',
         // toolbar 中的功能按钮
@@ -124,6 +124,7 @@ class EditorToolbar extends React.Component<EditorToolbarProps, EditorToolbarSta
         const changedType = editorType !== prevProps.editorType;
         // const changeDisplay = hideToolbar !== prevProps.hideToolbar;
 
+        // 在改变编辑模式(markdown / wysiwyg)触发重新计算是否展示滚动同步按钮
         if (changedStyle || changedType /*  || changeDisplay */) {
             // show or hide scrollSync button
             toggleScrollSync(this.initialItems, this.hiddenScrollSync());
@@ -194,10 +195,12 @@ class EditorToolbar extends React.Component<EditorToolbarProps, EditorToolbarSta
         this.tooltipRef.current = createElementWith(tooltip, this.el.current) as HTMLElement;
     }
 
+    // 是否要隐藏滚动同步按钮，只有在 markdown && 预览模式是 virtical 下才展示
     private hiddenScrollSync() {
         return this.props.editorType === 'wysiwyg' || this.props.previewStyle === 'tab';
     }
 
+    // 切换 写作 / 预览 模式
     private toggleTab = (_: MouseEvent, activeTab: TabType) => {
         const { eventEmitter } = this.props;
 

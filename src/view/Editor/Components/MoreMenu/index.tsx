@@ -1,4 +1,5 @@
 import React from 'react';
+import { EditorType } from '@editorType/editor'
 import ControlShow from '@components/ControlShow';
 import './index.scss';
 
@@ -8,13 +9,13 @@ interface MoreMenuProps {
     maskClosable?: boolean;
     afterClose?: () => void;
     toggleHeader: () => void;
+    onChangeMode?: (mode: EditorType) => void;
 }
 
 interface MoreMenuState {
     visible?: boolean;
     isHideToolbar?: boolean;
-    // TODO: 使用已声明过的类型 editorType
-    mode?: 'markdown' | 'wysiwyg';
+    mode?: EditorType;
 }
 
 export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuState> {
@@ -57,14 +58,17 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
         }
     };
 
-    changeMode = (type) => () => {
-        const { editor } = this.props;
+    changeMode = (type: EditorType) => () => {
+        const { editor, onChangeMode } = this.props;
 
         if (editor) {
             editor.changeMode(type);
             this.setState({
                 mode: type
             });
+            if (typeof onChangeMode === 'function') {
+                onChangeMode(type);
+            }
             this.hide();
         }
     };

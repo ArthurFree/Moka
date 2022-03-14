@@ -76,6 +76,7 @@ function createScrollSyncToolbarItem(): ToolbarItemInfo {
     };
 }
 
+// 创建默认的 Toolbar 信息
 function createDefaultToolbarItemInfo(type: string) {
     let info!: ToolbarButtonInfo | ToolbarCustomOptions;
 

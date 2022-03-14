@@ -3,6 +3,7 @@ import MoreMenu from '../MoreMenu';
 import MenuRightIcon from '@components/Icons/MenuRightArrowIcon';
 import MenuLeftIcon from '@components/Icons/MenuLeftArrowIcon';
 import './index.scss';
+import { EditorType } from '@editorType/editor';
 
 interface getNavModeChange {
     (mode: string): void;
@@ -11,8 +12,9 @@ interface getNavModeChange {
 interface HeaderProps {
     navStatus?: string;
     navMode?: string;
-    getNavModeChange?: getNavModeChange;
     editor?: any;
+    getNavModeChange?: getNavModeChange;
+    onChangeMode?: (mode: EditorType) => void;
 }
 
 interface HeaderState {
@@ -64,6 +66,14 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     toggleMoreMenu = () => this.setState({ moreMenuVisible: !this.state.moreMenuVisible });
 
     toggleHeader = () => this.setState({ visible: !this.state.visible })
+
+    handleChangeMode = (mode) => {
+        const { onChangeMode } = this.props;
+
+        if (typeof onChangeMode === 'function') {
+            onChangeMode(mode);
+        }
+    }
 
     render(): React.ReactNode {
         const { navStatus, editor, } = this.props;
@@ -120,6 +130,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                     editor={editor}
                     afterClose={this.toggleMoreMenu}
                     toggleHeader={this.toggleHeader}
+                    onChangeMode={this.handleChangeMode}
                 />
             </div>
         );

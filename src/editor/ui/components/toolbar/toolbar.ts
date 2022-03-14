@@ -147,6 +147,7 @@ export class Toolbar extends Component<Props, State> {
         return this.props.editorType === 'wysiwyg' || this.props.previewStyle === 'tab';
     }
 
+    // 用来切换 写作 / 预览 模式
     private toggleTab = (_: MouseEvent, activeTab: TabType) => {
         const { eventEmitter } = this.props;
 

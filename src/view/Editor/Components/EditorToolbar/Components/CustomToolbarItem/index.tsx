@@ -9,7 +9,7 @@ import {
     ToolbarCustomOptions
 } from '@editorType/ui';
 import { Emitter } from '@editorType/event';
-import { getOuterWidth } from '@/utils/dom';
+import { cls, getOuterWidth } from '@/utils/dom';
 import { createPopupInfo } from '../../toolbarItemFactory';
 import { connectHOC } from '../ButtonHoc';
 
@@ -29,7 +29,7 @@ interface CustomToolbarItemProps {
 class CustomToolbarItemComp extends React.Component<CustomToolbarItemProps> {
     el = React.createRef<HTMLDivElement>()
 
-    componentDidMound() {
+    componentDidMount() {
         const { setItemWidth, item, execCommand } = this.props;
 
         this.el.current.appendChild(item.el!);
@@ -78,7 +78,7 @@ class CustomToolbarItemComp extends React.Component<CustomToolbarItemProps> {
         return (
             <div
                 ref={this.el}
-                className="toastui-editor-toolbar-item-wrapper"
+                className={cls('toolbar-item-wrapper')}
                 style={style}
                 onClick={getListener(this.showPopup)}
                 onMouseOver={getListener(this.showTooltip)}

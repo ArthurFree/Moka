@@ -23,7 +23,8 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
         this.state = {
             navMode: 'float',
             navStatus: 'close',
-            editor: null
+            editor: null,
+            mode: 'wysiwyg'
         };
     }
 
@@ -53,8 +54,14 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
         });
     };
 
+    handleChangeMode = (mode) => {
+        this.setState({
+            mode,
+        });
+    }
+
     render() {
-        const { navMode, navStatus, editor } = this.state;
+        const { navMode, navStatus, editor, mode } = this.state;
         return (
             <div className="editor-wrap moka--default">
                 {/* <div className="editor-nav-wrap">
@@ -71,6 +78,7 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
                         navStatus={navStatus}
                         navMode={navMode}
                         getNavModeChange={this.getNavModeChange}
+                        onChangeMode={this.handleChangeMode}
                     />
                     {editor && (
                         <EditorToolbar
@@ -84,7 +92,7 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
                                 ['code', 'codeblock'],
                                 ['scrollSync']
                             ]}
-                            editorType={editor.getMode()}
+                            editorType={mode}
                             // hideToolbar={false}
                         />
                     )}
