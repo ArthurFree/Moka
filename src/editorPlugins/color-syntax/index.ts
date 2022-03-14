@@ -86,9 +86,8 @@ export default function colorSyntaxPlugin(
     eventEmitter.listen('focus', (editType) => {
         const containerClassName = `${PREFIX}${editType === 'markdown' ? 'md' : 'ww'}-container`;
 
-        currentEditorEl = document.querySelector<HTMLElement>(
-            `.${containerClassName} .ProseMirror`
-        )!;
+        // 可编辑元素，即属性 contenteditable=true 的元素
+        currentEditorEl = document.querySelector<HTMLElement>(`.${containerClassName} .ProseMirror`);
     });
 
     container.addEventListener('click', (ev) => {

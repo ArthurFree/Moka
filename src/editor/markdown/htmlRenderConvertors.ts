@@ -21,6 +21,7 @@ type TokenAttrs = Record<string, any>;
 
 const reCloseTag = /^\s*<\s*\//;
 
+// 基础转换器 Map
 const baseConvertors: HTMLConvertorMap = {
     paragraph(_, { entering, origin, options }: Context) {
         if (options.nodeId) {
@@ -125,6 +126,12 @@ const baseConvertors: HTMLConvertorMap = {
     }
 };
 
+/**
+ * 获取 HTML 渲染转换器
+ * @param linkAttributes
+ * @param customConvertors
+ * @returns
+ */
 export function getHTMLRenderConvertors(
     linkAttributes: LinkAttributes | null,
     customConvertors: CustomHTMLRenderer
@@ -132,6 +139,7 @@ export function getHTMLRenderConvertors(
     const convertors = { ...baseConvertors };
 
     if (linkAttributes) {
+        // 如果设置了链接的属性，比如 target 等，对标签赋予 attributes 后挂到 convertors 转换器上
         convertors.link = (_, { entering, origin }: Context) => {
             const result = origin!();
 
@@ -146,10 +154,14 @@ export function getHTMLRenderConvertors(
     }
 
     if (customConvertors) {
+        // Object.keys(customConvertors) => nodeType => [chart / codeBlock / htmlIine / tableCell / tableRow]
         Object.keys(customConvertors).forEach((nodeType: string) => {
+            // base 基础类型中读取对应的转换器，没有为 undefined
             const orgConvertor = convertors[nodeType];
+            // 从 Plugin 中读取的转换器
             const customConvertor = customConvertors[nodeType]!;
 
+            // 基础类型中存在，并且 plugin 中读取的转换器是函数类型
             if (orgConvertor && isFunction(customConvertor)) {
                 convertors[nodeType] = (node, context) => {
                     const newContext = { ...context };
@@ -158,14 +170,30 @@ export function getHTMLRenderConvertors(
                     return customConvertor(node, newContext);
                 };
             } else if (
+                // 基础类型中不存在，或者 plugin 中的转换器不是函数类型的
+                // 判断类型是否是 htmlBlock / htmlInline
+                // 且 plugin 中的转换器不是函数类型
                 includes(['htmlBlock', 'htmlInline'], nodeType) &&
                 !isFunction(customConvertor)
             ) {
+                // 将 nodeType 挂载到 convertors 上
                 convertors[nodeType] = (node, context) => {
+                    // 正则:
+                    // OPEN_TAG = `<(${TAG_NAME})(${ATTRIBUTE})*\\s*/?>`;
+                    // CLOSE_TAG = `</(${TAG_NAME})\\s*[>]`;
+                    // HTML_TAG = `(?:${OPEN_TAG}|${CLOSE_TAG})`;
+                    // reHTMLTag = new RegExp(`^${HTML_TAG}`, 'i');
+                    // 变量说明:
+                    // node: MdNode 类型
+                    // literal - 文字 - string 类型
                     const matched = node.literal!.match(reHTMLTag);
 
+                    // 判断节点是否符合正则
                     if (matched) {
+                        // 取出匹配内容
                         const [rootHTML, openTagName, , closeTagName] = matched;
+                        // 标签转小写
+                        // typename - 标签名称 span / p 这种
                         const typeName = (openTagName || closeTagName).toLowerCase();
                         const htmlConvertor = customConvertor[typeName];
                         const childrenHTML = getChildrenHTML(node, typeName);
@@ -177,6 +205,7 @@ export function getHTMLRenderConvertors(
                             newNode.attrs = getHTMLAttrsByHTMLString(rootHTML);
                             newNode.childrenHTML = childrenHTML;
                             newNode.type = typeName;
+                            // reCloseTag = /^\s*<\s*\//;
                             context.entering = !reCloseTag.test(node.literal!);
 
                             return htmlConvertor(newNode, context);
@@ -185,6 +214,9 @@ export function getHTMLRenderConvertors(
                     return context.origin!();
                 };
             } else {
+                // 基础类型中不存在，或者 plugin 中的转换器不是函数
+                // 且不是 htmlBlock / htmlInline 类型 或者 plugin 转换器是个函数
+                // 直接将 plugin 的转换器挂载到 convertors 上
                 convertors[nodeType] = customConvertor as HTMLConvertor;
             }
         });

@@ -84,7 +84,9 @@ function createDefaultToolbarItemInfo(type: string) {
         case 'heading':
             info = {
                 name: 'heading',
+                // 编辑文本节点的 className
                 className: 'heading',
+                // 按钮的 tooltip
                 tooltip: i18n.get('Headings'),
                 state: 'heading'
             };
@@ -93,6 +95,7 @@ function createDefaultToolbarItemInfo(type: string) {
             info = {
                 name: 'bold',
                 className: 'bold',
+                // 按钮触发的执行命令
                 command: 'bold',
                 tooltip: i18n.get('Bold'),
                 state: 'strong'

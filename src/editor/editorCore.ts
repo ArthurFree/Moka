@@ -159,7 +159,7 @@ class ToastUIEditorCore {
             },
             options
         );
-
+debugger
         const {
             customHTMLRenderer,
             extendedAutolinks,
@@ -179,7 +179,7 @@ class ToastUIEditorCore {
         this.i18n = i18n;
         this.i18n.setCode(this.options.language);
 
-        // 事件订阅
+        // 初始化事件订阅
         this.eventEmitter = new EventEmitter();
 
         // 添加小部件
@@ -217,6 +217,9 @@ class ToastUIEditorCore {
         };
         const wwToDOMAdaptor = new WwToDOMAdaptor(
             linkAttributes,
+            // Plugin 中的 toHTMLRenderers 方法 Map 集合
+            // chart - 是个函数
+            // htmlInline - 是个对象，对象中有个 span 方法
             rendererOptions.customHTMLRenderer
         );
         const htmlSchemaMap = createHTMLSchemaMap(

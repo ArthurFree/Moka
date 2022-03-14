@@ -66,10 +66,14 @@ export class WwToDOMAdaptor implements ToDOMAdaptor {
     convertors: HTMLConvertorMap;
 
     constructor(linkAttributes: LinkAttributes | null, customRenderer: CustomHTMLRenderer) {
+        // 创建基本类型并且挂载 plugin 转换器
         const convertors = getHTMLRenderConvertors(linkAttributes, customRenderer);
+        // 取出 htmlBlock / htmlinline 两种从外传入未经处理的转换器
+        // 示例：customRenderer.htmlInline 取出的是 span() {}
         const customHTMLConvertor = { ...customRenderer.htmlBlock, ...customRenderer.htmlInline };
 
         // flatten the html block, inline convertor to other custom convertors
+        // => chart / htmlInline / span ...
         this.customConvertorKeys = Object.keys(customRenderer).concat(
             Object.keys(customHTMLConvertor)
         );
