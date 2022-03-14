@@ -40,8 +40,8 @@ export class TablePopupBody extends React.Component<TablePopupBodyProps, TablePo
         };
     }
 
-    componentDidUpdate(): void {
-        if (!this.props.show) {
+    componentDidUpdate(prevProps): void {
+        if (!this.props.show && this.props.show !== prevProps.show) {
             this.setState({
                 colIdx: -1,
                 rowIdx: -1,
@@ -133,7 +133,7 @@ export class TablePopupBody extends React.Component<TablePopupBodyProps, TablePo
     private getSelectionRangeByOffset(x: number, y: number) {
         const range = this.getRangeByOffset(x, y);
 
-        range.rowIdx = Math.min(Math.max(range.rowIdx, MIN_ROW_INDEX), MAX_ROW_INDEX);
+        range.rowIdx = Math.min(Math.max(range.rowIdx, MIN_ROW_SELECTION_INDEX), MAX_ROW_INDEX);
         range.colIdx = Math.min(Math.max(range.colIdx, MIN_COL_SELECTION_INDEX), MAX_COL_INDEX);
 
         return range;
@@ -171,7 +171,7 @@ export class TablePopupBody extends React.Component<TablePopupBodyProps, TablePo
         return (
             <div aria-label={i18n.get('Insert table')}>
                 <div
-                    className={cls('table-section')}
+                    className={cls('table-selection')}
                     ref={this.tableElRef}
                     onMouseMove={this.extendSelectionRange}
                     onClick={this.execCommand}

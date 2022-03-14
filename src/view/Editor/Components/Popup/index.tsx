@@ -26,6 +26,10 @@ const MARGIN_FROM_RIGHT_SIDE = 20;
 export class Popup extends React.Component<PopupProps, PopupState> {
     el = React.createRef<HTMLDivElement>();
 
+    state = {
+        popupPos: null,
+    }
+
     private handleMousedown = (ev) => {
         if (!closest(ev.target as HTMLElement, `.${cls('popup')}`) && !closest(ev.target as HTMLElement, this.props.info.fromEl)) {
             this.props.hidePopup();
@@ -39,8 +43,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     componentDidUpdate(prevProps: Readonly<PopupProps>): void {
         const { show, info } = this.props;
-
-        if (show && info.pos && prevProps.show !== show) {
+        if (show && info.pos && (prevProps.show !== show)) {
             const popupPos = { ...info.pos };
             const { offsetWidth } = this.el.current;
             const toolbarEl = closest(this.el.current, `.${cls('toolbar')}`) as HTMLElement;
@@ -71,7 +74,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
         return (
             <div
-                className={cls('popup-body')}
+                className={`${cls('popup')} ${className}`}
                 style={popupStyle}
                 ref={this.el}
                 aria-role="dialog"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createPopupInfo } from '@/ui/toolbarItemFactory';
+import { createPopupInfo } from '../../toolbarItemFactory';
 import { getOuterWidth } from '@/utils/dom';
 import { Emitter } from '@editorType/event';
 import { ExecCommand, GetBound, HideTooltip, SetItemWidth, SetPopupInfo, ShowTooltip, ToolbarButtonInfo } from '@editorType/ui';

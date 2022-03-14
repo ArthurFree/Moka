@@ -54,8 +54,6 @@ export default class EditorPage extends React.Component {
             ]
         });
 
-        console.log('--- this.editorInst ----', this.editorInst);
-
         EditorPage.editor = this.editorInst;
     }
 

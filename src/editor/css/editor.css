@@ -205,7 +205,20 @@
     outline-color: #009bf2;
 }
 
+.toastui-editor-ok-button {
+    min-width: 63px;
+    height: 32px;
+    background-color: #00a9ff;
+    color: #fff;
+    outline-color: #009bf2;
+    border: none;
+}
+
 .toastui-editor-defaultUI .toastui-editor-ok-button:hover {
+    background-color: #009bf2;
+}
+
+.toastui-editor-ok-button:hover {
     background-color: #009bf2;
 }
 
@@ -218,7 +231,20 @@
     outline-color: #cbcfdb;
 }
 
+.toastui-editor-close-button {
+    min-width: 63px;
+    height: 32px;
+    background-color: #f7f9fc;
+    border: 1px solid #dadde6;
+    margin-right: 5px;
+    outline-color: #cbcfdb;
+}
+
 .toastui-editor-defaultUI .toastui-editor-close-button:hover {
+    border-color: #cbcfdb;
+}
+
+.toastui-editor-close-button:hover {
     border-color: #cbcfdb;
 }
 

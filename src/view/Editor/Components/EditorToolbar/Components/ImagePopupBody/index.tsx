@@ -1,11 +1,12 @@
-import i18n from '@/i18n/i18n';
-import { cls } from '@/utils/dom';
-import { HookCallback } from '@editorType/editor';
-import { Emitter } from '@editorType/event';
-import { ExecCommand, HidePopup, TabInfo } from '@editorType/ui';
 import React from 'react';
 import addClass from 'tui-code-snippet/domUtil/addClass';
 import removeClass from 'tui-code-snippet/domUtil/removeClass';
+import i18n from '@/i18n/i18n';
+import { cls } from '@/utils/dom';
+import { Emitter } from '@editorType/event';
+import { HookCallback } from '@editorType/editor';
+import { ExecCommand, HidePopup, TabInfo } from '@editorType/ui';
+
 import { Tabs } from '../Tabs';
 
 const TYPE_UI = 'ui';
@@ -55,8 +56,8 @@ export class ImagePopupBody extends React.Component<ImagePopupBodyProps, ImagePo
         fileEl.addEventListener('selectstart', this.preventSelectStart);
     }
 
-    componentDidUpdate(): void {
-        if (!this.props.show) {
+    componentDidUpdate(prevProps): void {
+        if (!this.props.show && this.props.show !== prevProps.show) {
             this.initialize();
         }
     }
