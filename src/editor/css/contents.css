@@ -90,6 +90,16 @@ table.ProseMirror-selectednode {
     color: #222;
 }
 
+/* 修改标题状态下，增加标题颜色导致 line-height 变化 */
+.toastui-editor-contents h1 span,
+.toastui-editor-contents h2 span,
+.toastui-editor-contents h3 span,
+.toastui-editor-contents h4 span,
+.toastui-editor-contents h5 span,
+.toastui-editor-contents h6 span {
+    line-height: 1;
+}
+
 .toastui-editor-contents h1 {
     font-size: 30px;
     line-height: 28px;
