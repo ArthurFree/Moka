@@ -325,6 +325,12 @@ debugger
         addDefaultImageBlobHook(this.eventEmitter);
     }
 
+    /**
+     * 初始化插件中的 Commands
+     * e.g. Plugin 中的 markdownCommands / wysiwygCommands 方法
+     * @param mdCommands
+     * @param wwCommands
+     */
     private addInitCommand(mdCommands: PluginCommandMap, wwCommands: PluginCommandMap) {
         const addPluginCommands = (type: EditorType, commandMap: PluginCommandMap) => {
             Object.keys(commandMap).forEach((name) => {
