@@ -21,6 +21,8 @@ import { isWidgetNode } from './widget/widgetNode';
 import { last } from './utils/common';
 import { PluginProp } from '@editorType/plugin';
 
+// 基础编辑器抽象类
+// MdEditor 和 WysiwygEditor 继承了 EditorBase
 export default abstract class EditorBase implements Base {
     el: HTMLElement;
 
@@ -60,6 +62,10 @@ export default abstract class EditorBase implements Base {
 
     abstract createView(): EditorView;
 
+    /**
+     * ProseMirror 根据 schema 创建一个 statee
+     * @returns
+     */
     createState() {
         return EditorState.create({
             schema: this.schema,
@@ -85,6 +91,7 @@ export default abstract class EditorBase implements Base {
         const rules = this.createInputRules();
         const plugins = [
             ...this.keymaps,
+            // 绑定基础 commands，enter / delete 等
             keymap({
                 'Shift-Enter': baseKeymap.Enter,
                 ...baseKeymap

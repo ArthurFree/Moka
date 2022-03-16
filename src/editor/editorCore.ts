@@ -159,7 +159,7 @@ class ToastUIEditorCore {
             },
             options
         );
-debugger
+
         const {
             customHTMLRenderer,
             extendedAutolinks,
