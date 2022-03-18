@@ -1,7 +1,7 @@
-import { EditorView } from 'prosemirror-view';
-import { keymap } from 'prosemirror-keymap';
 import { EditorAllCommandMap, SpecContext, EditorCommand } from '@editorType/spec';
 import isFunction from 'tui-code-snippet/type/isFunction';
+import { EditorView } from 'prosemirror-view';
+import { keymap } from 'prosemirror-keymap';
 import { getDefaultCommands } from '@/commands/defaultCommands';
 import { includes } from '@/utils/common';
 

@@ -99,6 +99,11 @@ export default class WysiwygEditor extends EditorBase {
         };
     }
 
+    /**
+     * 创建 Schema, nodes 和 marks 来自于 ./nodes/* 和 ./marks/*
+     * @param htmlSchemaMap
+     * @returns
+     */
     createSchema(htmlSchemaMap?: HTMLSchemaMap) {
         return new Schema({
             nodes: { ...this.specs.nodes, ...htmlSchemaMap!.nodes },

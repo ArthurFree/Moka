@@ -8,13 +8,13 @@ import {
     RawHTMLToken,
     TextToken
 } from '@toastmarkType/index';
-import { Renderer } from '@toastmark/index';
+import { ToDOMAdaptor } from '@editorType/convertor';
+import { CustomHTMLRenderer, LinkAttributes } from '@editorType/editor';
 import { Node as ProsemirrorNode, Mark } from 'prosemirror-model';
 import isArray from 'tui-code-snippet/type/isArray';
+import { Renderer } from '@toastmark/index';
 import { getHTMLRenderConvertors } from '@/markdown/htmlRenderConvertors';
-import { ToDOMAdaptor } from '@editorType/convertor';
 import { includes, last } from '@/utils/common';
-import { CustomHTMLRenderer, LinkAttributes } from '@editorType/editor';
 import { setAttributes } from '@/utils/dom';
 import { createMdLikeNode, isContainer, isPmNode } from './mdLikeNode';
 
