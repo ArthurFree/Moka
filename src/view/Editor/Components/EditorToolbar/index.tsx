@@ -12,7 +12,16 @@ import {
 import { last } from '@/utils/common';
 import { EditorType, PreviewStyle } from '@editorType/editor';
 import { Emitter } from '@editorType/event';
-import { GetBound, HideTooltip, IndexList, PopupInfo, ShowTooltip, ToolbarGroupInfo, ToolbarItem, ToolbarItemOptions } from '@editorType/ui';
+import {
+    GetBound,
+    HideTooltip,
+    IndexList,
+    PopupInfo,
+    ShowTooltip,
+    ToolbarGroupInfo,
+    ToolbarItem,
+    ToolbarItemOptions
+} from '@editorType/ui';
 import React from 'react';
 import ToolbarGroup from './Components/ToolbarGroup';
 import { DropdownToolbarButton } from './Components/DropdownToolbarButton';
@@ -64,13 +73,13 @@ class EditorToolbar extends React.Component<EditorToolbarProps, EditorToolbarSta
         editorType: 'wysiwyg',
         // toolbar 中的功能按钮
         toolbarItems: [
-            ['heading', 'bold', 'italic', 'strike'],
+            ['heading', 'bold', 'italic', 'colors', 'strike'],
             ['hr', 'quote'],
             ['ul', 'ol', 'task', 'indent', 'outdent'],
             ['table', 'image', 'link'],
             ['code', 'codeblock'],
             ['scrollSync']
-        ],
+        ]
     };
 
     el = React.createRef<HTMLDivElement>();
@@ -339,22 +348,21 @@ class EditorToolbar extends React.Component<EditorToolbarProps, EditorToolbarSta
             ...this.props,
             eventEmitter,
             tooltipRef: this.tooltipRef,
-            disabled: editorType === 'markdown' && previewStyle === 'tab' && activeTab === 'preview',
+            disabled:
+                editorType === 'markdown' && previewStyle === 'tab' && activeTab === 'preview',
             execCommand: this.execCommand,
-            setPopupInfo: this.setPopupInfo,
+            setPopupInfo: this.setPopupInfo
         };
         const toolbarStyle = previewStyle === 'tab' ? { borderTopLeftRadius: 0 } : null;
+
+        console.log('--- items ---', items);
 
         return (
             <div
                 className={cls('toolbar')}
-                style={hideToolbar ? { 'opacity': 0, marginTop: '-46px', zIndex: '-1' } : {}}
+                style={hideToolbar ? { opacity: 0, marginTop: '-46px', zIndex: '-1' } : {}}
             >
-                <div
-                    className={cls('defaultUI-toolbar')}
-                    ref={this.el}
-                    style={toolbarStyle}
-                >
+                <div className={cls('defaultUI-toolbar')} ref={this.el} style={toolbarStyle}>
                     {items.map((group, index) => (
                         <ToolbarGroup
                             group={group}

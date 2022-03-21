@@ -2,15 +2,23 @@ import React from 'react';
 import { createPopupInfo } from '../../toolbarItemFactory';
 import { getOuterWidth } from '@/utils/dom';
 import { Emitter } from '@editorType/event';
-import { ExecCommand, GetBound, HideTooltip, SetItemWidth, SetPopupInfo, ShowTooltip, ToolbarButtonInfo } from '@editorType/ui';
-import { connectHOC, } from '../ButtonHoc';
+import {
+    ExecCommand,
+    GetBound,
+    HideTooltip,
+    SetItemWidth,
+    SetPopupInfo,
+    ShowTooltip,
+    ToolbarButtonInfo
+} from '@editorType/ui';
+import { connectHOC } from '../ButtonHoc';
 import './index.scss';
 
 interface ToolbarButtonProps {
     active: boolean;
     disabled: boolean;
     eventEmitter: Emitter;
-    item: ToolbarButtonInfo
+    item: ToolbarButtonInfo;
     execCommand: ExecCommand;
     setPopupInfo: SetPopupInfo;
     showTooltip: ShowTooltip;
@@ -51,7 +59,7 @@ class ToolbarButtonComp extends React.Component<ToolbarButtonProps> {
         if (typeof showTooltip === 'function') {
             showTooltip(this.el.current);
         }
-    }
+    };
 
     private execCommand = () => {
         const { item, execCommand, setPopupInfo, getBound, eventEmitter } = this.props;
@@ -62,7 +70,7 @@ class ToolbarButtonComp extends React.Component<ToolbarButtonProps> {
         } else {
             const popupName = popup ? 'customPopupBody' : name;
             const [initialValues] = eventEmitter.emit('query', 'getPopupInitialValues', {
-                popupName,
+                popupName
             });
 
             const info = createPopupInfo(popupName, {
@@ -70,18 +78,20 @@ class ToolbarButtonComp extends React.Component<ToolbarButtonProps> {
                 pos: getBound(this.el.current),
                 popup,
                 initialValues
-            })
+            });
 
             if (info) {
                 setPopupInfo(info);
             }
         }
-    }
+    };
 
     render() {
         const { hideTooltip, disabled, item, active } = this.props;
         const style = { display: item.hidden ? 'none' : null, ...item.style };
         const classNames = `${item.className || ''}${active ? ' active' : ''}`;
+
+        console.log('------ item ----', item);
 
         return (
             <button

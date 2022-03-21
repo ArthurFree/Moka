@@ -1,10 +1,10 @@
 import React from 'react';
-import Prism from 'prismjs';
+// import Prism from 'prismjs';
 import EditorComp from '@components/Editor';
-import codeSyntaxHighlightPlugin from '../../editorPlugins/code-syntax-highlight/indexAll';
-import chart from '../../editorPlugins/chart';
-import colorSyntax from '../../editorPlugins/color-syntax';
-import tableMergedCell from '../../editorPlugins/table-merged-cell';
+// import codeSyntaxHighlightPlugin from '../../editorPlugins/code-syntax-highlight/indexAll';
+// import chart from '../../editorPlugins/chart';
+// import colorSyntax from '../../editorPlugins/color-syntax';
+// import tableMergedCell from '../../editorPlugins/table-merged-cell';
 import Header from './Components/Header/index';
 import Nav from './Components/Nav/index';
 import EditorToolbar from './Components/EditorToolbar';
@@ -56,9 +56,9 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
 
     handleChangeMode = (mode) => {
         this.setState({
-            mode,
+            mode
         });
-    }
+    };
 
     render() {
         const { navMode, navStatus, editor, mode } = this.state;
@@ -85,7 +85,7 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
                             eventEmitter={editor.eventEmitter}
                             // previewStyle="tab"
                             toolbarItems={[
-                                ['heading', 'bold', 'italic', 'strike'],
+                                ['heading', 'bold', 'italic', 'colors', 'strike'],
                                 ['hr', 'quote'],
                                 ['ul', 'ol', 'task', 'indent', 'outdent'],
                                 ['table', 'image', 'link'],

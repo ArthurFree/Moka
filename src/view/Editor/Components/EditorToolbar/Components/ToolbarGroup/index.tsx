@@ -1,5 +1,14 @@
 import { Emitter } from '@editorType/event';
-import { ExecCommand, GetBound, HideTooltip, SetItemWidth, SetPopupInfo, ShowTooltip, ToolbarCustomOptions, ToolbarGroupInfo } from '@editorType/ui';
+import {
+    ExecCommand,
+    GetBound,
+    HideTooltip,
+    SetItemWidth,
+    SetPopupInfo,
+    ShowTooltip,
+    ToolbarCustomOptions,
+    ToolbarGroupInfo
+} from '@editorType/ui';
 import React from 'react';
 import ToolbarButton from '../ToolbarButton';
 import { CustomToolbarItem } from '../CustomToolbarItem';
@@ -27,18 +36,14 @@ export default class ToolbarGroup extends React.Component<ToolbarGroupProps> {
         const groupStyle = group.hidden ? { display: 'none' } : null;
         const dividerStyle = hiddenDivider ? { display: 'none' } : null;
 
+        console.log('--- group ---', group);
+
         return (
             <div className="toastui-editor-toolbar-group" style={groupStyle}>
                 {group.map((item: ToolbarCustomOptions) => {
                     const Comp = item.el ? CustomToolbarItem : ToolbarButton;
 
-                    return (
-                        <Comp
-                            {...this.props}
-                            key={item.name}
-                            item={item}
-                        />
-                    )
+                    return <Comp {...this.props} key={item.name} item={item} />;
                 })}
                 <div className="toastui-editor-toolbar-divider" style={dividerStyle}></div>
             </div>

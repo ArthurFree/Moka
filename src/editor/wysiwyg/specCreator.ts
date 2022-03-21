@@ -23,6 +23,7 @@ import { Emph } from './marks/emph';
 import { Strike } from './marks/strike';
 import { Link } from './marks/link';
 import { Code } from './marks/code';
+import { Colors } from './marks/colors';
 import { CustomBlock } from './nodes/customBlock';
 import { FrontMatter } from './nodes/frontMatter';
 import { LinkAttributes } from '@editorType/editor';
@@ -36,6 +37,7 @@ export function createSpecs(linkAttributes: LinkAttributes) {
         new Text(),
         new Heading(),
         new CodeBlock(),
+        new Colors(),
         new BulletList(),
         new OrderedList(),
         new ListItem(),

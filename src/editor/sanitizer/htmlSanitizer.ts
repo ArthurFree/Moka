@@ -10,6 +10,7 @@ export function registerTagWhitelistIfPossible(tagName: string) {
     }
 }
 
+// 过滤 XSS
 export function sanitizeHTML<T extends string | HTMLElement | DocumentFragment = string>(
     html: string | Node,
     options?: DOMPurify.Config

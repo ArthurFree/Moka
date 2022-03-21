@@ -126,6 +126,7 @@ interface ToolbarStateMap {
   strong: ToolbarItemState;
   emph: ToolbarItemState;
   strike: ToolbarItemState;
+  color: ToolbarItemState;
   heading: ToolbarItemState;
   thematicBreak: ToolbarItemState;
   blockQuote: ToolbarItemState;

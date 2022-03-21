@@ -22,10 +22,11 @@ import { ImagePopupBody } from './Components/ImagePopupBody';
 import { LinkPopupBody } from './Components/LinkPopupBody';
 import { TablePopupBody } from './Components/TablePopupBody';
 import { CustomPopupBody } from './Components/CustomPopupBody';
+import { ColorPopupBody } from './Components/ColorPopupBody';
 
 interface Payload {
-    el: HTMLElement,
-    pos: Pos,
+    el: HTMLElement;
+    pos: Pos;
     popup?: PopupOptions;
     initialValues?: PopupInitialValues;
 }
@@ -117,6 +118,17 @@ function createDefaultToolbarItemInfo(type: string) {
                 command: 'strike',
                 tooltip: i18n.get('Strike'),
                 state: 'strike'
+            };
+            break;
+        case 'colors':
+            info = {
+                name: 'colors',
+                className: 'color',
+                // TODO: 略坑
+                // 是否有 command 字段，代表了是否有 popup 弹窗形式
+                // command: 'colors',
+                tooltip: i18n.get('Text color'),
+                state: 'color'
             };
             break;
         case 'hr':
@@ -246,7 +258,7 @@ function createDefaultToolbarItemInfo(type: string) {
 }
 
 // 创建 toolbar 弹窗
-export function createPopupInfo (type: string, payload: Payload): PopupInfo | null {
+export function createPopupInfo(type: string, payload: Payload): PopupInfo | null {
     const { el, pos, popup, initialValues } = payload;
 
     switch (type) {
@@ -258,17 +270,13 @@ export function createPopupInfo (type: string, payload: Payload): PopupInfo | nu
                 // 位置
                 pos,
                 render: (props) => {
-                    return (
-                        <HeadingPopupBody {...props} />
-                    );
+                    return <HeadingPopupBody {...props} />;
                 }
             };
         case 'link':
             return {
                 render: (props) => {
-                    return (
-                        <LinkPopupBody {...props} />
-                    )
+                    return <LinkPopupBody {...props} />;
                 },
                 className: cls('popup-add-link'),
                 fromEl: el,
@@ -278,9 +286,7 @@ export function createPopupInfo (type: string, payload: Payload): PopupInfo | nu
         case 'image':
             return {
                 render: (props) => {
-                    return (
-                        <ImagePopupBody {...props} />
-                    )
+                    return <ImagePopupBody {...props} />;
                 },
                 className: cls('popup-add-image'),
                 fromEl: el,
@@ -289,11 +295,21 @@ export function createPopupInfo (type: string, payload: Payload): PopupInfo | nu
         case 'table':
             return {
                 render: (props) => {
-                    return (
-                        <TablePopupBody {...props} />
-                    )
+                    return <TablePopupBody {...props} />;
                 },
                 className: cls('popup-add-table'),
+                fromEl: el,
+                pos
+            };
+        case 'colors':
+            return {
+                render: (props) => {
+                    return <ColorPopupBody {...props} />;
+                },
+                className: cls('popup-color'),
+                style: {
+                    width: 'auto'
+                },
                 fromEl: el,
                 pos
             };
@@ -303,9 +319,7 @@ export function createPopupInfo (type: string, payload: Payload): PopupInfo | nu
             }
             return {
                 render: (props) => {
-                    return (
-                        <CustomPopupBody {...props} body={popup!.body} />
-                    )
+                    return <CustomPopupBody {...props} body={popup!.body} />;
                 },
                 fromEl: el,
                 pos,

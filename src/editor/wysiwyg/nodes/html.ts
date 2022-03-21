@@ -145,7 +145,7 @@ export function createHTMLSchemaMap(
 
                 // register tag white list for preventing to remove the html in sanitizer
                 registerTagWhitelistIfPossible(type);
-                // colors: htmlSchemaMap.marks.span = {}
+                // colors: htmlSchemaMap['marks']['span'] = {}
                 htmlSchemaMap[targetType][type] = schemaFactory[htmlType](
                     type,
                     sanitizeHTML,

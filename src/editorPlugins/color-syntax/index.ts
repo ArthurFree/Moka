@@ -87,7 +87,9 @@ export default function colorSyntaxPlugin(
         const containerClassName = `${PREFIX}${editType === 'markdown' ? 'md' : 'ww'}-container`;
 
         // 可编辑元素，即属性 contenteditable=true 的元素
-        currentEditorEl = document.querySelector<HTMLElement>(`.${containerClassName} .ProseMirror`);
+        currentEditorEl = document.querySelector<HTMLElement>(
+            `.${containerClassName} .ProseMirror`
+        );
     });
 
     container.addEventListener('click', (ev) => {
@@ -142,13 +144,17 @@ export default function colorSyntaxPlugin(
                 return false;
             }
         },
+        // toolbar 配置, 比如插入在哪个位置
         toolbarItems: [
             {
+                // group 索引
                 groupIndex: 0,
+                // group 中的第几个
                 itemIndex: 3,
                 item: toolbarItem
             }
         ],
+        // 用来创建 schema
         toHTMLRenderers: {
             htmlInline: {
                 span(node: HTMLMdNode, { entering }: Context) {
