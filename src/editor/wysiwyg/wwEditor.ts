@@ -138,7 +138,9 @@ export default class WysiwygEditor extends EditorBase {
     createView() {
         const { toDOMAdaptor, eventEmitter } = this;
 
+        // EditorView from prosemirror-view
         return new EditorView(this.el, {
+            // createState => EditorState.create() - 创建一个新的 state
             state: this.createState(),
             attributes: {
                 class: CONTENTS_CLASS_NAME

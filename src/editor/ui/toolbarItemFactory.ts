@@ -212,6 +212,7 @@ function createDefaultToolbarItemInfo(type: string) {
                 tooltip: i18n.get('More')
             };
             break;
+        // TODO: color
 
         default:
         // do nothing

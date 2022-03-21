@@ -5,6 +5,7 @@ import { SpecContext, EditorCommand, EditorCommandMap } from '@editorType/spec';
 export default abstract class Mark {
     context!: SpecContext;
 
+    // 区分是 mark 还是 node
     get type() {
         return 'mark';
     }
@@ -13,6 +14,9 @@ export default abstract class Mark {
         this.context = context;
     }
 
+    /**
+     * 返回定义当前 Mark 的名字
+     */
     abstract get name(): string;
 
     abstract get schema(): MarkSpec;

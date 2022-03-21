@@ -38,6 +38,7 @@ export class Strong extends Mark {
     }
 
     private bold(): EditorCommand {
+        // state.schema.marks.strong => MarkType - 用来给 mark 分类，并提供一些信息
         return () => (state, dispatch) => toggleMark(state.schema.marks.strong)(state, dispatch);
     }
 

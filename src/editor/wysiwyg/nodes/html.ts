@@ -35,6 +35,11 @@ export function getHTMLAttrsByHTMLString(html: string) {
         : {};
 }
 
+/**
+ * 获取 dom 元素属性集合
+ * @param {HTMLElement} dom 元素
+ * @returns {Array} => { [attrKey]: attrValue }
+ */
 function getHTMLAttrs(dom: HTMLElement) {
     return toArray(dom.attributes).reduce<Record<string, string | null>>((acc, attr) => {
         acc[attr.nodeName] = attr.nodeValue;
@@ -104,6 +109,7 @@ const schemaFactory = {
             },
             parseDOM: [
                 {
+                    // colors: typeName = 'span'
                     tag: typeName,
                     getAttrs(dom: Node | string) {
                         return {
@@ -129,12 +135,17 @@ export function createHTMLSchemaMap(
     const htmlSchemaMap: HTMLSchemaMap = { nodes: {}, marks: {} };
 
     (['htmlBlock', 'htmlInline'] as const).forEach((htmlType) => {
+        // htmlType => htmlInline
+        // convertorMap[htmlType] => span() => {}
         if (convertorMap[htmlType]) {
+            // type => 'span'
             Object.keys(convertorMap[htmlType]!).forEach((type) => {
+                // colors: targetType => marks
                 const targetType = htmlType === 'htmlBlock' ? 'nodes' : 'marks';
 
                 // register tag white list for preventing to remove the html in sanitizer
                 registerTagWhitelistIfPossible(type);
+                // colors: htmlSchemaMap.marks.span = {}
                 htmlSchemaMap[targetType][type] = schemaFactory[htmlType](
                     type,
                     sanitizeHTML,
