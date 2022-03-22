@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+### 2022-03-22
+
+-   修复: md 模式下，color picker 选择颜色报错
+
 ### 2022-03-21
 
 -   更新: 迁移了 color picker 插件到编辑器内置
