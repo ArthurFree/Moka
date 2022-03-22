@@ -31,6 +31,7 @@ import { Strike } from './marks/strike';
 import { Emph } from './marks/emph';
 import { Code } from './marks/code';
 import { Link } from './marks/link';
+import { Colors } from './marks/colors';
 import { Delimiter, TaskDelimiter, MarkedText, Meta, TableCell } from './marks/simpleMark';
 import { Html } from './marks/html';
 import { CustomBlock } from './marks/customBlock';
@@ -159,6 +160,7 @@ export default class MdEditor extends EditorBase {
             new Emph(),
             new Code(),
             new Link(),
+            new Colors(),
             new Delimiter(),
             new TaskDelimiter(),
             new MarkedText(),

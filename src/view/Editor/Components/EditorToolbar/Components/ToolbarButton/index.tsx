@@ -65,6 +65,7 @@ class ToolbarButtonComp extends React.Component<ToolbarButtonProps> {
         const { item, execCommand, setPopupInfo, getBound, eventEmitter } = this.props;
         const { command, name, popup } = item;
 
+        // 根据创建的 toolbarItemInfo 中是否有 command 字段判断是否有展开弹窗
         if (command) {
             execCommand(command);
         } else {
