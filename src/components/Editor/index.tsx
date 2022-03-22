@@ -26,12 +26,13 @@ export default class EditorPage extends React.Component {
         this.editorInst = new Editor({
             el: this.rootEl.current,
             previewStyle: 'vertical',
-            height: '100%',
+            height: '200',
             initialValue: content,
             initialEditType: 'wysiwyg',
             language: 'zh-CN',
             // 隐藏底部的模式切换按钮
             hideModeSwitch: true,
+            placeholder: '欢迎使用',
             plugins: [
                 [
                     chart,

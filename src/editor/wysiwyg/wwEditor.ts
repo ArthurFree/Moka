@@ -112,6 +112,7 @@ export default class WysiwygEditor extends EditorBase {
     }
 
     createPlugins() {
+        console.log('--- this.defaultPlugins ---', this.defaultPlugins);
         return this.defaultPlugins.concat([
             tableSelection(),
             tableContextMenu(this.eventEmitter),

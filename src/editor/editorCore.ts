@@ -314,11 +314,13 @@ class ToastUIEditorCore {
         this.on('loadUI', () => {
             if (this.height !== 'auto') {
                 // 75px equals default editor ui height - the editing area height
+                // 这里有 bug，如果传入 height: 100% 则被解析为了 100
                 const minHeight = `${Math.min(
                     parseInt(this.minHeight, 10),
                     parseInt(this.height, 10) - 75
                 )}px`;
 
+                console.log('--- loadUI minHeight ---', this.minHeight, this.height, minHeight);
                 this.setMinHeight(minHeight);
             }
         });
@@ -652,6 +654,7 @@ class ToastUIEditorCore {
      * @param {string} minHeight - min content height in pixel
      */
     setMinHeight(minHeight: string) {
+        console.log('--- minHeight ---', minHeight);
         if (minHeight !== this.minHeight) {
             const height = this.height || this.options.height;
 
