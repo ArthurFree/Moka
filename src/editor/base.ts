@@ -5,6 +5,8 @@ import { keymap } from 'prosemirror-keymap';
 import { baseKeymap } from 'prosemirror-commands';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
 import { history } from 'prosemirror-history';
+import { dropCursor } from 'prosemirror-dropcursor';
+import { gapCursor } from 'prosemirror-gapcursor';
 import { Sourcepos } from '@toastmarkType/index';
 import css from 'tui-code-snippet/domUtil/css';
 import { WidgetStyle, EditorType, EditorPos, Base, NodeRangeInfo } from '@editorType/editor';
@@ -96,11 +98,15 @@ export default abstract class EditorBase implements Base {
                 'Shift-Enter': baseKeymap.Enter,
                 ...baseKeymap
             }),
+            dropCursor(),
+            gapCursor(),
             history(),
             placeholder(this.placeholder),
             addWidget(this.eventEmitter),
             dropImage(this.context)
         ];
+
+        console.log('--- dropCursor ---', dropCursor({ color: '#333333', width: 3 }));
 
         return rules ? plugins.concat(rules) : plugins;
     }
