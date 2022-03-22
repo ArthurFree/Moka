@@ -60,6 +60,7 @@ export class ToolbarButtonComp extends Component<Props> {
         const { item, execCommand, setPopupInfo, getBound, eventEmitter } = this.props;
         const { command, name, popup } = item;
 
+        // 根据是否有 command 字段来区分是否有 popup 弹窗
         if (command) {
             execCommand(command);
         } else {

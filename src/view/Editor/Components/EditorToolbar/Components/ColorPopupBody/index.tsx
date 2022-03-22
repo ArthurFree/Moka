@@ -65,6 +65,7 @@ export class ColorPopupBody extends React.Component<ColorPopupBodyProps> {
         const { eventEmitter } = this.props;
         const selectedColor = this.colorPicker.getColor();
 
+        // TODO: 改成使用 execCommand 函数
         // 与现有的 color 指令区分开，之后再进行替换
         eventEmitter.emit('command', 'colors', { selectedColor });
         eventEmitter.emit('closePopup');
