@@ -845,6 +845,22 @@ class ToastUIEditorCore {
             wwEditor: this.wwEditor.getElement()
         };
     }
+
+    /**
+     * 获取当前编辑模式下 EditorView 的实例
+     * @returns new EditorView
+     */
+    getCurrentEditorView() {
+        let view = null;
+
+        if (this.isMarkdownMode()) {
+            view = this.mdEditor.view;
+        } else {
+            view = this.wwEditor.view;
+        }
+
+        return view;
+    }
 }
 
 // // (Not an official API)

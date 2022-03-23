@@ -26,7 +26,7 @@ export default class EditorPage extends React.Component {
         this.editorInst = new Editor({
             el: this.rootEl.current,
             previewStyle: 'vertical',
-            height: '200',
+            height: '100%',
             initialValue: content,
             initialEditType: 'wysiwyg',
             language: 'zh-CN',

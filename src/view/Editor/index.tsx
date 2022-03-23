@@ -19,6 +19,8 @@ interface EditorPageState {
 }
 
 export default class EditorPage extends React.Component<unknown, EditorPageState> {
+    editorWrapRef = React.createRef<HTMLDivElement>();
+
     constructor(props) {
         super(props);
         this.state = {
@@ -105,9 +107,11 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
                             getNavMode={this.getNavMode}
                         />
                     </div> */}
-                    <div className="editor-opreate-content">
+                    <div className="editor-opreate-content" ref={this.editorWrapRef}>
                         <EditorComp />
-                        {editor && <EditorCommandMenu editor={editor} />}
+                        {editor && (
+                            <EditorCommandMenu editor={editor} wrapEl={this.editorWrapRef} />
+                        )}
                     </div>
                 </div>
             </div>
