@@ -42,7 +42,13 @@ export type EventTypes =
   | 'removePopupWidget'
   | 'query'
   // provide event for user
+  // 打开 Command 菜单
+  | 'openCommandMenu'
+  // 关闭 Command 菜单
+  | 'closeCommandMenu'
+  // 打开 toolbar 弹窗
   | 'openPopup'
+  // 关闭 toolbar 弹窗
   | 'closePopup'
   | 'addImageBlobHook'
   | 'beforePreviewRender'

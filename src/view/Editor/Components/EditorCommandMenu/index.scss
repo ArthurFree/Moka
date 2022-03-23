@@ -1,0 +1,19 @@
+.command-placeholder {
+    &::before {
+        content: attr(data-empty-text);
+        padding-left: 2px;
+        display: block;
+        transition: opacity 150ms ease-in-out;
+        pointer-events: none;
+        height: 0;
+        color: rgba(55, 53, 47, 0.5);
+    }
+}
+
+.editor-command-menu-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+}

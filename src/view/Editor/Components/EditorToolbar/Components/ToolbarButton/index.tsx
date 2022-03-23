@@ -92,8 +92,6 @@ class ToolbarButtonComp extends React.Component<ToolbarButtonProps> {
         const style = { display: item.hidden ? 'none' : null, ...item.style };
         const classNames = `${item.className || ''}${active ? ' active' : ''}`;
 
-        console.log('------ item ----', item);
-
         return (
             <button
                 ref={this.el}

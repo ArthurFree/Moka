@@ -36,8 +36,6 @@ export default class ToolbarGroup extends React.Component<ToolbarGroupProps> {
         const groupStyle = group.hidden ? { display: 'none' } : null;
         const dividerStyle = hiddenDivider ? { display: 'none' } : null;
 
-        console.log('--- group ---', group);
-
         return (
             <div className="toastui-editor-toolbar-group" style={groupStyle}>
                 {group.map((item: ToolbarCustomOptions) => {

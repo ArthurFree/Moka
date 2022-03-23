@@ -355,8 +355,6 @@ class EditorToolbar extends React.Component<EditorToolbarProps, EditorToolbarSta
         };
         const toolbarStyle = previewStyle === 'tab' ? { borderTopLeftRadius: 0 } : null;
 
-        console.log('--- items ---', items, eventEmitter.getEvents());
-
         return (
             <div
                 className={cls('toolbar')}

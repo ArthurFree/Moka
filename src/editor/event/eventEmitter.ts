@@ -25,6 +25,8 @@ const eventTypeList: EventTypes[] = [
     'removePopupWidget',
     'query',
     // provide event for user
+    'openCommandMenu',
+    'closeCommandMenu',
     'openPopup',
     'closePopup',
     'addImageBlobHook',

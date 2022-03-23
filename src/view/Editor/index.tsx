@@ -8,6 +8,7 @@ import EditorComp from '@components/Editor';
 import Header from './Components/Header/index';
 import Nav from './Components/Nav/index';
 import EditorToolbar from './Components/EditorToolbar';
+import EditorCommandMenu from './Components/EditorCommandMenu';
 // import Vidtor from '../../editor/index';
 // import Editor from '../../editor/index';
 import 'prismjs/themes/prism.css';
@@ -106,6 +107,7 @@ export default class EditorPage extends React.Component<unknown, EditorPageState
                     </div> */}
                     <div className="editor-opreate-content">
                         <EditorComp />
+                        {editor && <EditorCommandMenu editor={editor} />}
                     </div>
                 </div>
             </div>

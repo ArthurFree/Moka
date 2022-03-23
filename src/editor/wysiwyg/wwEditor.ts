@@ -1,5 +1,6 @@
 import { EditorView, NodeView } from 'prosemirror-view';
 import { Node as ProsemirrorNode, Slice, Fragment, Mark, Schema } from 'prosemirror-model';
+import { inputRules } from 'prosemirror-inputrules';
 import isNumber from 'tui-code-snippet/type/isNumber';
 import toArray from 'tui-code-snippet/collection/toArray';
 
@@ -21,6 +22,9 @@ import { CodeBlockView } from './nodeview/codeBlockView';
 import { changePastedHTML, changePastedSlice } from './clipboard/paste';
 import { pasteToTable } from './clipboard/pasteToTable';
 import { createSpecs } from './specCreator';
+
+import { commandMenuPlugin } from './plugins/comandMenu';
+import { commandMenuRules } from './rules/commandMenu';
 
 import { Emitter } from '@editorType/event';
 import { ToDOMAdaptor } from '@editorType/convertor';
@@ -112,8 +116,13 @@ export default class WysiwygEditor extends EditorBase {
     }
 
     createPlugins() {
-        console.log('--- this.defaultPlugins ---', this.defaultPlugins);
         return this.defaultPlugins.concat([
+            // 创建 commendMenu 的 inputRules
+            inputRules({
+                rules: commandMenuRules(this.eventEmitter)
+            }),
+            // 创建 commendMenu 的 plugin
+            commandMenuPlugin(this.eventEmitter),
             tableSelection(),
             tableContextMenu(this.eventEmitter),
             task(),

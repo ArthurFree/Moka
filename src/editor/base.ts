@@ -106,8 +106,6 @@ export default abstract class EditorBase implements Base {
             dropImage(this.context)
         ];
 
-        console.log('--- dropCursor ---', dropCursor({ color: '#333333', width: 3 }));
-
         return rules ? plugins.concat(rules) : plugins;
     }
 

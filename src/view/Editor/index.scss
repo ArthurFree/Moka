@@ -7,12 +7,14 @@
     display: flex;
 
     .editor-content {
+        position: relative;
         display: flex;
         flex: 1;
         flex-direction: column;
     }
 
     .editor-opreate-content {
+        position: relative;
         flex: 1;
     }
 }

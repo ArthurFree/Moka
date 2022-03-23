@@ -320,7 +320,6 @@ class ToastUIEditorCore {
                     parseInt(this.height, 10) - 75
                 )}px`;
 
-                console.log('--- loadUI minHeight ---', this.minHeight, this.height, minHeight);
                 this.setMinHeight(minHeight);
             }
         });
@@ -654,7 +653,6 @@ class ToastUIEditorCore {
      * @param {string} minHeight - min content height in pixel
      */
     setMinHeight(minHeight: string) {
-        console.log('--- minHeight ---', minHeight);
         if (minHeight !== this.minHeight) {
             const height = this.height || this.options.height;
 
