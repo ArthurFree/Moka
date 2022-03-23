@@ -52,6 +52,8 @@ export function commandMenuPlugin(eventEmitter: Emitter) {
                 eventEmitter.emit('closeCommandMenu');
                 return false;
             },
+            // 完整的 event.key 参考:
+            // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
             handleKeyDown: (view, event) => {
                 // Prosemirror input rules are not triggered on backspace, however
                 // we need them to be evaluted for the filter trigger to work
@@ -73,6 +75,10 @@ export function commandMenuPlugin(eventEmitter: Emitter) {
                         });
                     });
                     console.log('--- handleKeyDown Backspace ---');
+                }
+
+                if (event.key === 'Escape') {
+                    eventEmitter.emit('closeCommandMenu');
                 }
                 // If the query is active and we're navigating the block menu then
                 // just ignore the key events in the editor itself until we're done
