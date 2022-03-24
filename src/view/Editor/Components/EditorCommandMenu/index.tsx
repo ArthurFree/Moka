@@ -3,6 +3,8 @@ import Editor from '@/index';
 import './index.scss';
 import { EditorView } from 'prosemirror-view';
 import { findDomRefAtPos } from 'prosemirror-utils';
+import ControlShow from '@components/ControlShow';
+import { off } from 'codemirror';
 
 interface EditorCommandMenuProps {
     editor?: Editor & { getCurrentEditorView: () => EditorView };
@@ -45,6 +47,7 @@ export default class EditorCommandMenu extends React.Component<
         prevProps: Readonly<EditorCommandMenuProps>,
         prevState: Readonly<EditorCommandMeunState>
     ): void {
+        console.log('---- parent componentDidUpdate ---');
         if (prevState.isActive !== this.state.isActive && this.state.isActive) {
             const position = this.calculatePosition();
 
@@ -95,7 +98,7 @@ export default class EditorCommandMenu extends React.Component<
         const editorWrapEl = editor.getEditorElements().wwEditor;
         let startPos;
 
-        console.log('--- getEditorElements ---', editor.getEditorElements());
+        console.log('--- getEditorElements ---', view.coordsAtPos(selection.from));
 
         try {
             startPos = view.coordsAtPos(selection.from);
@@ -104,11 +107,15 @@ export default class EditorCommandMenu extends React.Component<
             return defaultPosition;
         }
 
+        console.log('--- startPos ---', startPos);
+
         const domAtPos = view.domAtPos.bind(view);
         const menuEl = this.el.current;
         const offsetHeight = menuEl ? menuEl.offsetHeight : 0;
         const node = findDomRefAtPos(selection.from, domAtPos);
         const paragraph: any = { node };
+
+        console.log('--- isActive paragraph.node ---', isActive, paragraph.node);
 
         if (!isActive || !paragraph.node || !paragraph.node.getBoundingClientRect) {
             return defaultPosition;
@@ -124,10 +131,25 @@ export default class EditorCommandMenu extends React.Component<
             leftPos = right - menuEl.scrollWidth;
         } */
 
-        // debugger;
-        console.log('--- bottom ---', paragraph.node);
+        console.log('--- offsetHeight ---', offsetHeight);
 
-        if (startPos.top - offsetHeight > margin) {
+        if (startPos.bottom - margin < offsetHeight) {
+            return {
+                left: leftPos,
+                top: undefined,
+                // bottom: editorWrapEl.offsetHeight - top - editorWrapEl.offsetTop
+                bottom: document.body.offsetHeight - bottom - offsetHeight - 3
+            };
+        } else {
+            return {
+                left: leftPos,
+                // 5 - 向上弹窗偏移量
+                top: top - margin - offsetHeight - 3,
+                bottom: undefined
+            };
+        }
+
+        /* if (startPos.top - offsetHeight > margin) {
             return {
                 left: leftPos,
                 top: undefined,
@@ -138,11 +160,11 @@ export default class EditorCommandMenu extends React.Component<
         } else {
             return {
                 left: leftPos,
-                top: bottom + window.scrollY,
+                top: bottom - margin,
                 bottom: undefined
                 // isAbove: true
             };
-        }
+        } */
     };
 
     initEvent() {
@@ -171,9 +193,33 @@ export default class EditorCommandMenu extends React.Component<
             bottom
         };
 
+        console.log('--- parent render ---');
+        console.log('--- wrapStyle ---', wrapStyle);
+
+        /* return (
+            <ControlShow
+                visible={isActive}
+                wrapClassName="editor-command-menu-wrap"
+                style={wrapStyle}
+                fadeIn={{
+                    className: 'active',
+                    duration: 100
+                }}
+                fadeOut={{
+                    className: 'hide',
+                    duration: 100
+                }}
+            >
+                <div className="editor-command-menu" ref={this.el}>
+                    <span>hello, world</span>
+                </div>
+            </ControlShow>
+        ); */
         return (
             <div className="editor-command-menu-wrap" ref={this.el} style={wrapStyle}>
-                <span>hello, world</span>
+                <div className="editor-command-menu">
+                    <span>hello, world</span>
+                </div>
             </div>
         );
     }

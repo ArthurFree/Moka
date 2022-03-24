@@ -49,16 +49,25 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
         prevProps: Readonly<ControlShowProps>,
         prevState: Readonly<ControlShowState>
     ) {
-        const { wrapClassName, fadeIn, fadeOut, visible, children } = this.props;
-        const el = <div className={`${wrapClassName}`}></div>;
+        const { wrapClassName, fadeIn, fadeOut, visible, children, style = {} } = this.props;
+        const el = (
+            <div className={`${wrapClassName}`} style={style || {}}>
+                <div style={{ display: 'none' }}>{children}</div>
+            </div>
+        );
         const animationEl = (
-            <div className={`${wrapClassName} ${visible ? fadeIn.className : fadeOut.className}`}>
+            <div
+                className={`${wrapClassName} ${visible ? fadeIn.className : fadeOut.className}`}
+                style={style || {}}
+            >
                 {children}
             </div>
         );
 
+        console.log('---- child componentDidUpdate ---', style);
+
         // 控制 children 中的 state 变化时，重新渲染
-        if (this.props.children !== prevProps.children) {
+        if (this.props.children !== prevProps.children || this.props.style !== prevProps.style) {
             console.log('--- children change ---');
             this.setState({
                 renderEl: this.props.visible ? animationEl : el
@@ -74,6 +83,7 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
 
                 // second step: 对节点增加动效 className
                 setTimeout(() => {
+                    console.log('--- settimeout ---', animationEl);
                     this.setState({
                         renderEl: animationEl
                     });
@@ -106,6 +116,7 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
         const { visible, renderEl } = this.state;
 
         console.log('--- visible ---', visible);
+        console.log('--- child render ---', renderEl);
 
         return renderEl;
     }

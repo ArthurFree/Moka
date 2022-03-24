@@ -12,9 +12,29 @@
 
 .editor-command-menu-wrap {
     position: absolute;
-    // top: 0;
-    // left: 0;
-    width: 100px;
-    height: 100px;
+    width: 324px;
+    height: 100%;
+    max-height: 40vh;
     background-color: #ffffff;
+    transition: opacity 100ms ease-in;
+    overflow: hidden;
+    z-index: 23;
+    border-radius: 4px;
+    box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px,
+        rgba(15, 15, 15, 0.2) 0px 9px 24px;
+
+    .editor-command-menu {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden auto;
+    }
+
+    &.active {
+        opacity: 1;
+    }
+
+    &.hide {
+        opacity: 0;
+    }
 }
