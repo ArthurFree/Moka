@@ -6,11 +6,12 @@ interface ControlShowObj {
 }
 
 interface ControlShowProps {
-    wrapClassName: string;
+    wrapClassName?: string;
     fadeIn: ControlShowObj;
     fadeOut: ControlShowObj;
     visible: boolean;
     children: React.ReactElement;
+    style?: object;
 }
 
 interface ControlShowState {
@@ -58,8 +59,9 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
 
         // 控制 children 中的 state 变化时，重新渲染
         if (this.props.children !== prevProps.children) {
+            console.log('--- children change ---');
             this.setState({
-                renderEl: animationEl
+                renderEl: this.props.visible ? animationEl : el
             });
         }
 
@@ -101,8 +103,9 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
     }
 
     render() {
-        const { wrapClassName, fadeIn, fadeOut } = this.props;
         const { visible, renderEl } = this.state;
+
+        console.log('--- visible ---', visible);
 
         return renderEl;
     }
