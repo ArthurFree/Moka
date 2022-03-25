@@ -4,7 +4,7 @@ import './index.scss';
 import { EditorView } from 'prosemirror-view';
 import { findDomRefAtPos } from 'prosemirror-utils';
 import ControlShow from '@components/ControlShow';
-import { off } from 'codemirror';
+import MenuBlock from './MenuBlock';
 
 interface EditorCommandMenuProps {
     editor?: Editor & { getCurrentEditorView: () => EditorView };
@@ -170,12 +170,14 @@ export default class EditorCommandMenu extends React.Component<
     initEvent() {
         const { editor } = this.props;
 
+        // 监听打开 command menu 命令
         editor.eventEmitter.listen('openCommandMenu', () => {
             this.setState({
                 isActive: true
             });
         });
 
+        // 监听关闭 command menu 命令
         editor.eventEmitter.listen('closeCommandMenu', () => {
             this.setState({
                 isActive: false
@@ -218,7 +220,40 @@ export default class EditorCommandMenu extends React.Component<
         return (
             <div className="editor-command-menu-wrap" ref={this.el} style={wrapStyle}>
                 <div className="editor-command-menu">
-                    <span>hello, world</span>
+                    {[
+                        {
+                            title: 'BASIC BLOCKS',
+                            list: [
+                                {
+                                    img: 'http://www.notion.so/images/blocks/text.9fdb530b.png',
+                                    name: 'Heading 1',
+                                    desc: 'Big section heading'
+                                },
+                                {
+                                    img: 'http://www.notion.so/images/blocks/text.9fdb530b.png',
+                                    name: 'Heading 1',
+                                    desc: 'Big section heading'
+                                },
+                                {
+                                    img: 'http://www.notion.so/images/blocks/text.9fdb530b.png',
+                                    name: 'Heading 1',
+                                    desc: 'Big section heading'
+                                }
+                            ]
+                        },
+                        {
+                            title: 'BASIC BLOCKS',
+                            list: [
+                                {
+                                    img: 'http://www.notion.so/images/blocks/text.9fdb530b.png',
+                                    name: 'Heading 1',
+                                    desc: 'Big section heading'
+                                }
+                            ]
+                        }
+                    ].map((block, index) => {
+                        return <MenuBlock title={block.title} list={block.list} key={index} />;
+                    })}
                 </div>
             </div>
         );
