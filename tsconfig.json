@@ -31,7 +31,7 @@
             // "@toast/*": ["src/@types/toastmark/*"],
             // "@codeType/*": ["src/@types/code-syntax-highlight-plugin/*"],
             "@src/*": ["src/*"],
-            "@images/*": ["src/images/*"],
+            "@assets/*": ["src/assets/*"],
             "@svg/*": ["src/assets/svg/*"],
             "@styles/*": ["src/styles/*"],
             "@components/*": ["src/components/*"],
@@ -40,10 +40,10 @@
         "declaration": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "importHelpers": true,
+        "importHelpers": true
         // "importsNotUsedAsValues": "preserve",
         // "incremental": true
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"],
-    "exclude": ["**/node_modules", "**/.*/"]
+    "exclude": ["**/node_modules", "**/.*/", "src/assets"]
 }

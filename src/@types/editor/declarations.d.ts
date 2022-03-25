@@ -19,6 +19,11 @@ declare module '*.json' {
     export default content;
 }
 
+declare module '*.png' {
+    const value: any;
+    export = value;
+}
+
 declare const IS_PROD: boolean;
 declare const IS_DEV: boolean;
 declare const IS_DEV_SERVER: boolean;

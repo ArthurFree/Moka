@@ -201,7 +201,8 @@ module.exports = {
             // '@code': path.join(rootDir, './src/editorPlugins/code-syntax-highlight'),
             '@components': path.join(rootDir, './src/components'),
             '@view': path.join(rootDir, './src/view'),
-            '@svg': path.join(rootDir, 'src/assets/svg')
+            '@svg': path.join(rootDir, 'src/assets/svg'),
+            '@assets': path.join(rootDir, 'src/assets')
         },
         // 如果你不使用 symlinks（例如 npm link 或者 yarn link），可以设置 false
         symlinks: false
