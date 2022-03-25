@@ -931,6 +931,26 @@
     background-position-y: -23px;
 }
 
+.command-placeholder::before {
+    content: attr(data-empty-text);
+    padding-left: 2px;
+    display: block;
+    transition: opacity 150ms ease-in-out;
+    pointer-events: none;
+    height: 0;
+    color: rgba(55, 53, 47, 0.5);
+}
+
+.empty-placeholder::before {
+    content: attr(data-placeholder);
+    padding-left: 2px;
+    display: block;
+    transition: opacity 150ms ease-in-out;
+    pointer-events: none;
+    height: 0;
+    color: rgba(55, 53, 47, 0.5);
+}
+
 @media only screen and (max-width: 480px) {
     .toastui-editor-popup {
         max-width: 300px;

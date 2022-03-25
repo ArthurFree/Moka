@@ -23,6 +23,7 @@ import { changePastedHTML, changePastedSlice } from './clipboard/paste';
 import { pasteToTable } from './clipboard/pasteToTable';
 import { createSpecs } from './specCreator';
 
+import { placeholderPlugin } from './plugins/placeholder';
 import { commandMenuPlugin } from './plugins/comandMenu';
 import { commandMenuRules } from './rules/commandMenu';
 
@@ -121,6 +122,8 @@ export default class WysiwygEditor extends EditorBase {
             inputRules({
                 rules: commandMenuRules(this.eventEmitter)
             }),
+            // placeholder plugin
+            placeholderPlugin(),
             // 创建 commendMenu 的 plugin
             commandMenuPlugin(this.eventEmitter),
             tableSelection(),

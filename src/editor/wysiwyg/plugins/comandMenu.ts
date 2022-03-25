@@ -101,56 +101,56 @@ export function commandMenuPlugin(eventEmitter: Emitter) {
                 }
 
                 return false;
-            },
-            decorations: (state) => {
-                const parent = findParentNode((node) => node.type.name === 'paragraph')(
-                    state.selection
-                );
-
-                if (!parent) {
-                    return;
-                }
-
-                const decorations: Decoration[] = [];
-                const isEmpty = parent && parent.node.content.size === 0;
-                const isSlash = parent && parent.node.textContent === '/';
-                const isTopLevel = state.selection.$from.depth === 1;
-
-                if (isTopLevel) {
-                    if (isEmpty) {
-                        /* decorations.push(
-                            Decoration.widget(parent.pos, () => {
-                                button.addEventListener('click', () => {
-                                    this.options.onOpen('');
-                                });
-                                return button;
-                            })
-                        ); */
-
-                        decorations.push(
-                            Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
-                                class: 'command-placeholder',
-                                // 'data-empty-text': this.options.dictionary.newLineEmpty
-                                'data-empty-text': `Type '/' for commands`
-                            })
-                        );
-                    }
-
-                    if (isSlash) {
-                        decorations.push(
-                            Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
-                                class: 'command-placeholder',
-                                // 'data-empty-text': `  ${this.options.dictionary.newLineWithSlash}`
-                                'data-empty-text': ' Keep typing to filter... '
-                            })
-                        );
-                    }
-
-                    return DecorationSet.create(state.doc, decorations);
-                }
-
-                return;
             }
+            // decorations: (state) => {
+            //     const parent = findParentNode((node) => node.type.name === 'paragraph')(
+            //         state.selection
+            //     );
+
+            //     if (!parent) {
+            //         return;
+            //     }
+
+            //     const decorations: Decoration[] = [];
+            //     const isEmpty = parent && parent.node.content.size === 0;
+            //     const isSlash = parent && parent.node.textContent === '/';
+            //     const isTopLevel = state.selection.$from.depth === 1;
+
+            //     if (isTopLevel) {
+            //         if (isEmpty) {
+            //             /* decorations.push(
+            //                 Decoration.widget(parent.pos, () => {
+            //                     button.addEventListener('click', () => {
+            //                         this.options.onOpen('');
+            //                     });
+            //                     return button;
+            //                 })
+            //             ); */
+
+            //             decorations.push(
+            //                 Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
+            //                     class: 'command-placeholder',
+            //                     // 'data-empty-text': this.options.dictionary.newLineEmpty
+            //                     'data-empty-text': `Type '/' for commands`
+            //                 })
+            //             );
+            //         }
+
+            //         if (isSlash) {
+            //             decorations.push(
+            //                 Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
+            //                     class: 'command-placeholder',
+            //                     // 'data-empty-text': `  ${this.options.dictionary.newLineWithSlash}`
+            //                     'data-empty-text': ' Keep typing to filter... '
+            //                 })
+            //             );
+            //         }
+
+            //         return DecorationSet.create(state.doc, decorations);
+            //     }
+
+            //     return;
+            // }
         }
     });
 }

@@ -173,7 +173,6 @@ export default class EditorCommandMenu extends React.Component<
 
     initEvent() {
         const { editor } = this.props;
-        const { isActive } = this.state;
 
         // 监听打开 command menu 命令
         editor.eventEmitter.listen('openCommandMenu', () => {
@@ -182,6 +181,7 @@ export default class EditorCommandMenu extends React.Component<
 
         // 监听关闭 command menu 命令
         editor.eventEmitter.listen('closeCommandMenu', () => {
+            const { isActive } = this.state;
             if (isActive) {
                 this.toggleMenu(false);
             }
