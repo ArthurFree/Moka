@@ -18,6 +18,13 @@ function isInTable(state) {
     return false;
 }
 
+const isValidNodeType = (state) => {
+    return (
+        state.selection.$from.parent.type.name === 'paragraph' ||
+        state.selection.$from.parent.type.name === 'heading'
+    );
+};
+
 export function commandMenuRules(eventEmitter: Emitter) {
     return [
         // main regex should match only:
@@ -25,7 +32,8 @@ export function commandMenuRules(eventEmitter: Emitter) {
         new InputRule(OPEN_REGEX, (state, match) => {
             if (
                 match &&
-                state.selection.$from.parent.type.name === 'paragraph' &&
+                // state.selection.$from.parent.type.name === 'paragraph' &&
+                isValidNodeType(state) &&
                 !isInTable(state)
             ) {
                 // this.options.onOpen(match[1]);
