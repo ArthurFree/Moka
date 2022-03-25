@@ -2,9 +2,16 @@ import React from 'react';
 import Editor from '@/index';
 import './index.scss';
 import { EditorView } from 'prosemirror-view';
-import { findDomRefAtPos } from 'prosemirror-utils';
+import { findDomRefAtPos, findParentNode } from 'prosemirror-utils';
 import ControlShow from '@components/ControlShow';
 import MenuBlock from './MenuBlock';
+import { MenuItemData } from './MenuItem';
+import getCommandMenuList from './meun';
+
+interface CommandMenuBlock {
+    title?: string;
+    list?: Partial<MenuItemData>[];
+}
 
 interface EditorCommandMenuProps {
     editor?: Editor & { getCurrentEditorView: () => EditorView };
@@ -16,6 +23,7 @@ interface EditorCommandMeunState {
     left?: number;
     top?: number;
     bottom?: number;
+    menuList?: CommandMenuBlock[];
 }
 
 const defaultPosition = {
@@ -33,25 +41,29 @@ export default class EditorCommandMenu extends React.Component<
         isActive: false,
         left: -1000,
         top: 0,
-        bottom: undefined
+        bottom: undefined,
+        menuList: []
     };
 
     el = React.createRef<HTMLDivElement>();
 
     componentDidMount() {
+        const { editor } = this.props;
+        const { eventEmitter } = editor;
+
         this.initEvent();
         this.calculatePosition();
+        this.setState({
+            menuList: getCommandMenuList(eventEmitter)
+        });
     }
 
     componentDidUpdate(
         prevProps: Readonly<EditorCommandMenuProps>,
         prevState: Readonly<EditorCommandMeunState>
     ): void {
-        console.log('---- parent componentDidUpdate ---');
         if (prevState.isActive !== this.state.isActive && this.state.isActive) {
             const position = this.calculatePosition();
-
-            console.log('--- position ---', position);
 
             this.setState({
                 ...position
@@ -98,8 +110,6 @@ export default class EditorCommandMenu extends React.Component<
         const editorWrapEl = editor.getEditorElements().wwEditor;
         let startPos;
 
-        console.log('--- getEditorElements ---', view.coordsAtPos(selection.from));
-
         try {
             startPos = view.coordsAtPos(selection.from);
         } catch (err) {
@@ -107,22 +117,18 @@ export default class EditorCommandMenu extends React.Component<
             return defaultPosition;
         }
 
-        console.log('--- startPos ---', startPos);
-
         const domAtPos = view.domAtPos.bind(view);
         const menuEl = this.el.current;
         const offsetHeight = menuEl ? menuEl.offsetHeight : 0;
         const node = findDomRefAtPos(selection.from, domAtPos);
         const paragraph: any = { node };
 
-        console.log('--- isActive paragraph.node ---', isActive, paragraph.node);
-
         if (!isActive || !paragraph.node || !paragraph.node.getBoundingClientRect) {
             return defaultPosition;
         }
 
-        const { left } = this.caretPosition;
-        const { top, bottom, right, height } = paragraph.node.getBoundingClientRect();
+        // const { left } = this.caretPosition;
+        const { top, bottom, left, right, height } = paragraph.node.getBoundingClientRect();
         // const margin = 24;
         // Header + Toolbar 的高度
         const margin = 83;
@@ -130,8 +136,6 @@ export default class EditorCommandMenu extends React.Component<
         /* if (props.rtl && menuEl) {
             leftPos = right - menuEl.scrollWidth;
         } */
-
-        console.log('--- offsetHeight ---', offsetHeight);
 
         if (startPos.bottom - margin < offsetHeight) {
             return {
@@ -169,24 +173,45 @@ export default class EditorCommandMenu extends React.Component<
 
     initEvent() {
         const { editor } = this.props;
+        const { isActive } = this.state;
 
         // 监听打开 command menu 命令
         editor.eventEmitter.listen('openCommandMenu', () => {
-            this.setState({
-                isActive: true
-            });
+            this.toggleMenu(true);
         });
 
         // 监听关闭 command menu 命令
         editor.eventEmitter.listen('closeCommandMenu', () => {
-            this.setState({
-                isActive: false
-            });
+            if (isActive) {
+                this.toggleMenu(false);
+            }
         });
     }
 
+    toggleMenu = (isActive: boolean) => {
+        this.setState({
+            isActive
+        });
+
+        if (!isActive) {
+            this.clearSearch();
+        }
+    };
+
+    clearSearch = () => {
+        const { editor } = this.props;
+        const view = editor.getCurrentEditorView();
+        const { state, dispatch } = view;
+        const parent = findParentNode((node) => !!node)(state.selection);
+
+        if (parent) {
+            // dispatch 触发更改
+            dispatch(state.tr.insertText('', parent.start, state.selection.to));
+        }
+    };
+
     render() {
-        const { isActive, left, top, bottom } = this.state;
+        const { isActive, left, top, bottom, menuList } = this.state;
         const displayStyle = { display: isActive ? 'block' : 'none' };
         const wrapStyle = {
             ...displayStyle,
@@ -194,9 +219,6 @@ export default class EditorCommandMenu extends React.Component<
             top,
             bottom
         };
-
-        console.log('--- parent render ---');
-        console.log('--- wrapStyle ---', wrapStyle);
 
         /* return (
             <ControlShow
@@ -220,39 +242,15 @@ export default class EditorCommandMenu extends React.Component<
         return (
             <div className="editor-command-menu-wrap" ref={this.el} style={wrapStyle}>
                 <div className="editor-command-menu">
-                    {[
-                        {
-                            title: 'BASIC BLOCKS',
-                            list: [
-                                {
-                                    img: 'http://www.notion.so/images/blocks/text.9fdb530b.png',
-                                    name: 'Heading 1',
-                                    desc: 'Big section heading'
-                                },
-                                {
-                                    img: 'http://www.notion.so/images/blocks/text.9fdb530b.png',
-                                    name: 'Heading 1',
-                                    desc: 'Big section heading'
-                                },
-                                {
-                                    img: 'http://www.notion.so/images/blocks/text.9fdb530b.png',
-                                    name: 'Heading 1',
-                                    desc: 'Big section heading'
-                                }
-                            ]
-                        },
-                        {
-                            title: 'BASIC BLOCKS',
-                            list: [
-                                {
-                                    img: 'http://www.notion.so/images/blocks/text.9fdb530b.png',
-                                    name: 'Heading 1',
-                                    desc: 'Big section heading'
-                                }
-                            ]
-                        }
-                    ].map((block, index) => {
-                        return <MenuBlock title={block.title} list={block.list} key={index} />;
+                    {(menuList || []).map((block, index) => {
+                        return (
+                            <MenuBlock
+                                title={block.title}
+                                list={block.list}
+                                key={index}
+                                onClose={this.toggleMenu}
+                            />
+                        );
                     })}
                 </div>
             </div>

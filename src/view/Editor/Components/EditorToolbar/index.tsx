@@ -233,7 +233,7 @@ class EditorToolbar extends React.Component<EditorToolbarProps, EditorToolbarSta
     private openPopup = (popupName: string, initialValues = {}) => {
         const el = this.el.current.querySelector<HTMLElement>(
             `.${cls('toolbar-group')} .${popupName}`
-        )!;
+        );
 
         if (el) {
             const { offsetLeft, offsetTop } = getTotalOffset(

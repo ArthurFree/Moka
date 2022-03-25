@@ -12,7 +12,6 @@ const CLOSE_REGEX = /(^(?!\/(\w+)?)(.*)$|^\/(([\w\W]+)\s.*|\s)$|^\/((\W)+)$)/;
 function isInTable(state) {
     let $head = state.selection.$head;
     for (let d = $head.depth; d > 0; d--) {
-        console.log('----$head.node(d) ---', $head.node(d));
         if ($head.node(d).type.name == 'table') return true;
     }
 
@@ -30,7 +29,6 @@ export function commandMenuRules(eventEmitter: Emitter) {
                 !isInTable(state)
             ) {
                 // this.options.onOpen(match[1]);
-                console.log('--- openMenu ---');
                 eventEmitter.emit('openCommandMenu');
             }
             return null;
@@ -42,7 +40,6 @@ export function commandMenuRules(eventEmitter: Emitter) {
         new InputRule(CLOSE_REGEX, (state, match) => {
             if (match) {
                 // this.options.onClose();
-                console.log('--- close menu ---');
                 eventEmitter.emit('closeCommandMenu');
             }
             return null;

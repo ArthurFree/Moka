@@ -6,18 +6,37 @@ export interface MenuItemData {
     name: string;
     desc: string;
     command: string;
+    onSelect: () => void;
+    onBeforeClose?: () => void;
 }
 
 interface MenuItemProps {
     data: Partial<MenuItemData>;
+    onClose?: (isActive: boolean) => void;
 }
 
 class MenuItem extends React.Component<MenuItemProps> {
+    handleSelect = () => {
+        const { data, onClose } = this.props;
+
+        if (data.onSelect && typeof data.onSelect === 'function') {
+            data.onSelect();
+        }
+
+        if (data.onBeforeClose && typeof data.onBeforeClose === 'function') {
+            data.onBeforeClose();
+        }
+
+        if (onClose && typeof onClose === 'function') {
+            onClose(false);
+        }
+    };
+
     render() {
         const { data } = this.props;
 
         return (
-            <div className="menu-item-wrap">
+            <div className="menu-item-wrap" onClick={this.handleSelect}>
                 <div className="menu-item">
                     <div className="menu-item-image-wrap">
                         <img src="http://www.notion.so/images/blocks/text.9fdb530b.png" alt="" />

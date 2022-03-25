@@ -48,7 +48,6 @@ export function commandMenuPlugin(eventEmitter: Emitter) {
     return new Plugin({
         props: {
             handleClick: () => {
-                console.log('--- handleClick ---');
                 eventEmitter.emit('closeCommandMenu');
                 return false;
             },
@@ -74,7 +73,6 @@ export function commandMenuPlugin(eventEmitter: Emitter) {
                             return null;
                         });
                     });
-                    console.log('--- handleKeyDown Backspace ---');
                 }
 
                 if (event.key === 'Escape') {
@@ -94,7 +92,6 @@ export function commandMenuPlugin(eventEmitter: Emitter) {
                         // just tell Prosemirror we handled it and not to do anything
                         return match ? true : null;
                     }); */
-                    console.log('--- handleKeyDown Enter ArrowUp ArrowDown Tab');
                     const { pos } = view.state.selection.$from;
 
                     return run(view, pos, pos, OPEN_REGEX, (state, match) => {

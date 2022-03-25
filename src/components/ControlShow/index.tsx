@@ -64,11 +64,8 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
             </div>
         );
 
-        console.log('---- child componentDidUpdate ---', style);
-
         // 控制 children 中的 state 变化时，重新渲染
         if (this.props.children !== prevProps.children || this.props.style !== prevProps.style) {
-            console.log('--- children change ---');
             this.setState({
                 renderEl: this.props.visible ? animationEl : el
             });
@@ -83,7 +80,6 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
 
                 // second step: 对节点增加动效 className
                 setTimeout(() => {
-                    console.log('--- settimeout ---', animationEl);
                     this.setState({
                         renderEl: animationEl
                     });
@@ -114,9 +110,6 @@ export default class ControlShow extends React.Component<ControlShowProps, Contr
 
     render() {
         const { visible, renderEl } = this.state;
-
-        console.log('--- visible ---', visible);
-        console.log('--- child render ---', renderEl);
 
         return renderEl;
     }
