@@ -39,7 +39,7 @@ class MenuItem extends React.Component<MenuItemProps> {
             <div className="menu-item-wrap" onClick={this.handleSelect}>
                 <div className="menu-item">
                     <div className="menu-item-image-wrap">
-                        <img src="http://www.notion.so/images/blocks/text.9fdb530b.png" alt="" />
+                        <img src={data.img} alt="" />
                     </div>
                     <div className="menu-item-content">
                         <div className="menu-item-name">{data.name}</div>
