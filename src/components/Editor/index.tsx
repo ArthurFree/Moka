@@ -32,7 +32,7 @@ export default class EditorPage extends React.Component {
             language: 'zh-CN',
             // 隐藏底部的模式切换按钮
             hideModeSwitch: true,
-            placeholder: '欢迎使用',
+            // placeholder: '欢迎使用',
             plugins: [
                 [
                     chart,
