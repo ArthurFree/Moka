@@ -37,8 +37,7 @@ export class BulletList extends NodeSchema {
 
     commands() {
         return {
-            bulletList: this.changeList,
-            taskList: toggleTask
+            bulletList: this.changeList
         };
     }
 

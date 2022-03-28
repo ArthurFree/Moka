@@ -15,31 +15,54 @@ interface WrapperInfo {
 }
 
 function findWrappingOutside(range: NodeRange, type: NodeType) {
+    // parent - [Node] - 该 range 所在的父级节点
+    // startIndex - [number] - 该 range 在父级节点中的开始处的 index。
+    // endIndex - [number] - 该 range 在父级节点中的结束处的 index。
     const { parent, startIndex, endIndex } = range;
+
+    // Node.contentMatch - 获取当前节点给定 index 的 ContentMatch(ProseMirror 专有对象)
+    // Node.findWrapping - 寻找一个包裹给定节点的节点集合
+    // 该集合中的节点在包裹住给定类型的节点后才能出现在当前位置。
+    // 集合的内容可能是空（如果给定类型节点直接就适合当前位置而无需包裹任何节点时），
+    // 若不存在相应的包裹节点，则集合也可能是 null。
+    //
+    // 在新建行上，插入一个 Todo list, parent 代表了 doc
+    // 在 doc 上的 startIndex 位置获取 ContentMatch 然后查找 name 为 bulletList 的包裹节点
+    // 这时候，节点还没有创建，所以在选区内并找不到 NodeType 为 bulletList 的节点
+    // 所以 around 为空数组
     const around = parent.contentMatchAt(startIndex).findWrapping(type);
 
     if (around) {
         const outer = around.length ? around[0] : type;
 
+        // Node.canReplaceWith - 测试用给定的节点类型替换当前节点 from 到 to index 之间的子元素是否合法。
         return parent.canReplaceWith(startIndex, endIndex, outer) ? around : null;
     }
 
     return null;
 }
 
+// return 一个数组 / null
 function findWrappingInside(range: NodeRange, type: NodeType) {
     const { parent, startIndex, endIndex } = range;
+    // depth 为 1 时, parent 为 doc
+    // Node.child() - 获取给定 index 处的子节点。如果 index 超出范围，则返回错误。
     const inner = parent.child(startIndex);
+    // type 为 schema 中定义好的 NodeType，寻找包裹了 inner 的节点集合
     const inside = type.contentMatch.findWrapping(inner.type);
 
     if (inside) {
         const lastType = inside.length ? inside[inside.length - 1] : type;
         let innerMatch = lastType.contentMatch;
 
+        // lasyType->listItem
         for (let i = startIndex; innerMatch && i < endIndex; i += 1) {
+            // ContentMatch.matchType(NodeType) - 匹配一个节点类型，如果成功则返回该 ContentMatch 匹配结果。
+            // Node.child(index) - 获取给定 index 处的子节点。如果 index 超出范围，则返回错误。
             innerMatch = innerMatch.matchType(parent.child(i).type)!;
         }
 
+        // ContentMatch.validEnd - 当匹配状态表示该节点有一个可用的结尾时为 true。
         if (innerMatch && innerMatch.validEnd) {
             return inside;
         }
@@ -237,10 +260,21 @@ export function changeList(list: NodeType): Command {
 
 export function toggleTask(): Command {
     return ({ selection, tr, schema }, dispatch) => {
+        // $form, $to -> ResolvedPos 对象
         const { $from, $to } = selection;
+        // blockRange(other: ?⁠ResolvedPos = this, pred: ?⁠fn(Node) → bool) → ?⁠NodeRange
+        // 根据当前位置与给定位置围绕块级节点的周围看返回相应的 Range。
+        // 例如，如果两个位置都指向一个文本 block，则文本 block 的 range 会被返回
+        // 如果它们指向不同的块级节点，则包含这些块级节点的深度最大的共同祖先节点 range 将会被返回。
+        // 你可以传递一个指示函数，来决定该祖先节点是否可接受。
         const range = $from.blockRange($to);
 
         if (range) {
+            // changeToList =>
+            // 这里 { task: true } 代表了生成的是 Todo list
+            // 再生成 li 元素的时候，增加 attr -> task
+            // 列表元素的 listItem 是通用的，所以 todo list 会使用 bulletList 的 schema
+            // 先生成一个 ul / ol，然后再生成一个 listitem 节点
             const newTr = isInListNode($from)
                 ? toggleTaskListItems(tr, range)
                 : changeToList(tr, range, schema.nodes.bulletList, { task: true });

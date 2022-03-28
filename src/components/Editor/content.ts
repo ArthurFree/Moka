@@ -36,6 +36,7 @@ const content = [
     '>    1. [x] React',
     '>    2. [x] Vue',
     '>    3. [ ] Ember',
+    ''
 ].join('\n');
 
 export default content;

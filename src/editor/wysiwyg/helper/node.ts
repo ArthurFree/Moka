@@ -15,6 +15,9 @@ export function findNodeBy(
     let { depth } = pos;
 
     while (depth) {
+        // ResolvedPos.node(depth)
+        // 给定深度的祖先节点
+        // p.node(p.depth) 与 p.parent 相同。
         const node = pos.node(depth);
 
         if (condition(node, depth)) {
@@ -38,6 +41,7 @@ export function isListNode({ type }: ProsemirrorNode) {
 export function isInListNode(pos: ResolvedPos) {
     return !!findNodeBy(
         pos,
+        // 这里的 type 是 pos 所在节点的父节点的 type
         ({ type }: ProsemirrorNode) =>
             type.name === 'listItem' || type.name === 'bulletList' || type.name === 'orderedList'
     );

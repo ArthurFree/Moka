@@ -2,7 +2,8 @@ import type { Command } from 'prosemirror-commands';
 import type { Node as ProsemirrorNode, DOMOutputSpecArray } from 'prosemirror-model';
 
 import NodeSchema from '@/spec/node';
-import { splitListItem } from '@/wysiwyg/command/list';
+import { splitListItem, toggleTask } from '@/wysiwyg/command/list';
+import { EditorCommand, DefaultPayload, EditorCommandMap } from '@editorType/spec';
 
 export class ListItem extends NodeSchema {
     get name() {
@@ -11,6 +12,9 @@ export class ListItem extends NodeSchema {
 
     get schema() {
         return {
+            // Content Expressions
+            // 参考:
+            // https://www.xheldon.com/tech/prosemirror-guide-chinese.html#content-expressions
             content: 'paragraph block*',
             selectable: false,
             attrs: {
@@ -87,6 +91,12 @@ export class ListItem extends NodeSchema {
                 }
             }
             return false;
+        };
+    }
+
+    commands(): EditorCommand<DefaultPayload> | EditorCommandMap<DefaultPayload> {
+        return {
+            taskList: toggleTask
         };
     }
 
