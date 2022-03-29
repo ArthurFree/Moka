@@ -1,7 +1,7 @@
 import { nodeTypeWriters } from '@/convertors/toMarkdown/toMdNodeTypeWriters';
 import { Node } from 'prosemirror-model';
 import { EditorState, Plugin } from 'prosemirror-state';
-import { findParentNode } from 'prosemirror-utils';
+import { findParentNode, findChildren } from 'prosemirror-utils';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 
 type getNodeFn = (node: Node) => boolean;
@@ -94,12 +94,41 @@ export function placeholderPlugin() {
                 );
 
                 if (taskItemParent && taskItemParent?.node?.firstChild.content.size === 0) {
-                    console.log('---- taskItemParent true ----');
+                    console.log(
+                        '---- taskItemParent true ----',
+                        /* findChildren(
+                            taskItemParent.node,
+                            (child) => child.type.name === 'paragraph',
+                            false
+                        ) */
+                        taskItemParent.node.toJSON()
+                    );
                     const taskItemChildNode = taskItemParent.node.firstChild;
                     decorations.push(
+                        /**
+                         * Decoration.node 创建一个 node decoration。
+                         * from 和 to 应该精确的指向在文档中的某个节点的前面和后面
+                         *
+                         * 这里 from 和 to 有一个示例进行参考:
+                         *      4
+                         *      <li class="task-list-item " data-task="true">
+                         *      5<p>
+                         *      6<br class="ProseMirror-trailingBreak">
+                         *      7</p>
+                         *      8</li>
+                         * 方法接收的 from 为 4, to 为 8 时，
+                         * 会在 li 元素上增加 class="empty-placeholder" 和 data-placeholder="To-Do" 属性
+                         *
+                         * 方法接收的 from 为 5, to 为 7 时，
+                         * 会在 p 元素上增加 class="empty-placeholder" 和 data-placeholder="To-Do" 属性
+                         *
+                         * 由此可以看出，精确的位置是指开始节点前以及结尾节点前的位置
+                         */
                         Decoration.node(
-                            taskItemChildNode.pos,
-                            taskItemChildNode.pos + taskItemChildNode.node.nodeSize,
+                            // taskItemParent.pos + 2,
+                            // taskItemParent.pos + 2 + taskItemChildNode.nodeSize,
+                            taskItemParent.start,
+                            taskItemParent.pos + 2 + taskItemChildNode.nodeSize - 1,
                             {
                                 class: 'empty-placeholder',
                                 'data-placeholder': 'To-Do'
@@ -124,6 +153,11 @@ export function placeholderPlugin() {
 
                     // command menu 待触发时显示的 placeholder
                     if (isEmpty(paragraphParent)) {
+                        console.log(
+                            '--- paragraphParent.pos ---',
+                            paragraphParent.pos,
+                            paragraphParent.node.nodeSize
+                        );
                         decorations.push(
                             Decoration.node(
                                 paragraphParent.pos,
