@@ -23,7 +23,7 @@ import { changePastedHTML, changePastedSlice } from './clipboard/paste';
 import { pasteToTable } from './clipboard/pasteToTable';
 import { createSpecs } from './specCreator';
 
-import { placeholderPlugin } from './plugins/placeholder';
+import { placeholderPlugin } from './plugins/placeholder/placeholder';
 import { commandMenuPlugin } from './plugins/comandMenu';
 import { commandMenuRules } from './rules/commandMenu';
 
