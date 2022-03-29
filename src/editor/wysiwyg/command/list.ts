@@ -98,10 +98,10 @@ function wrapInList(
     list: NodeType
 ) {
     let content = Fragment.empty;
-    debugger;
+    // debugger;
 
     for (let i = wrappers.length - 1; i >= 0; i -= 1) {
-        console.log('--- wrappers[i].attrs ---', wrappers[i].attrs);
+        console.log('--- wrappers[i].attrs ---', wrappers[i].attrs, i);
         content = Fragment.from(wrappers[i].type.create(wrappers[i].attrs, content));
     }
 

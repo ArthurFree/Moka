@@ -18,7 +18,6 @@ export class OrderedList extends NodeSchema {
             group: 'block',
             attrs: {
                 order: { default: 1 },
-                ordered: { default: true },
                 rawHTML: { default: null },
                 ...getDefaultCustomAttrs()
             },
@@ -41,8 +40,7 @@ export class OrderedList extends NodeSchema {
                     attrs.rawHTML || 'ol',
                     {
                         start: attrs.order === 1 ? null : attrs.order,
-                        ...getCustomAttrs(attrs),
-                        'data-ordered': attrs.ordered
+                        ...getCustomAttrs(attrs)
                     },
                     0
                 ];

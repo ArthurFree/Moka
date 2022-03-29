@@ -20,7 +20,9 @@ export class ListItem extends NodeSchema {
             attrs: {
                 task: { default: false },
                 checked: { default: false },
-                rawHTML: { default: null }
+                rawHTML: { default: null },
+                bulletList: { default: null },
+                ordered: { default: null }
             },
             defining: true,
             parseDOM: [

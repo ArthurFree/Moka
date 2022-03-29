@@ -4,6 +4,8 @@ import { Decoration, DecorationSet } from 'prosemirror-view';
 import commandMenuDecorations from './decorations/commandmenu';
 import taskListDecorations from './decorations/taskList';
 import headingDecorations from './decorations/heading';
+import bulletListDecorations from './decorations/bulletList';
+import orderedListDecorations from './decorations/orderedList';
 
 export function placeholderPlugin() {
     return new Plugin({
@@ -14,6 +16,8 @@ export function placeholderPlugin() {
                 decorations.push(commandMenuDecorations(state));
                 decorations.push(taskListDecorations(state));
                 decorations.push(headingDecorations(state));
+                decorations.push(bulletListDecorations(state));
+                decorations.push(orderedListDecorations(state));
 
                 if (decorations.every((decoration) => !decoration)) {
                     return;

@@ -22,27 +22,11 @@ export class BulletList extends NodeSchema {
             group: 'block',
             attrs: {
                 rawHTML: { default: null },
-                ...getDefaultCustomAttrs(),
-                bulletList: { default: false }
+                ...getDefaultCustomAttrs()
             },
             parseDOM: [createDOMInfoParsedRawHTML('ul')],
             toDOM({ attrs }: ProsemirrorNode): DOMOutputSpecArray {
-                const { bulletList } = attrs;
-
-                console.log('--- attrs bulletList ---', bulletList);
-
-                if (!bulletList) {
-                    return ['ul', getCustomAttrs(attrs), 0];
-                }
-
-                return [
-                    'ul',
-                    {
-                        ...getCustomAttrs(attrs),
-                        'data-bullet': bulletList
-                    },
-                    0
-                ];
+                return ['ul', getCustomAttrs(attrs), 0];
             }
         };
     }
