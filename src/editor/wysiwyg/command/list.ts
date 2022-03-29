@@ -98,10 +98,14 @@ function wrapInList(
     list: NodeType
 ) {
     let content = Fragment.empty;
+    debugger;
 
     for (let i = wrappers.length - 1; i >= 0; i -= 1) {
+        console.log('--- wrappers[i].attrs ---', wrappers[i].attrs);
         content = Fragment.from(wrappers[i].type.create(wrappers[i].attrs, content));
     }
+
+    console.log('--- wrapInList ---', content);
 
     tr.step(
         new ReplaceAroundStep(
@@ -239,7 +243,7 @@ function changeListType(tr: Transaction, { $from, $to }: NodeRange, list: NodeTy
     return tr;
 }
 
-export function changeList(list: NodeType): Command {
+export function changeList(list: NodeType, type: string): Command {
     return ({ selection, tr }, dispatch) => {
         const { $from, $to } = selection;
         const range = $from.blockRange($to);
@@ -247,7 +251,7 @@ export function changeList(list: NodeType): Command {
         if (range) {
             const newTr = isInListNode($from)
                 ? changeListType(tr, range, list)
-                : changeToList(tr, range, list);
+                : changeToList(tr, range, list, { [type]: true });
 
             dispatch!(newTr);
 

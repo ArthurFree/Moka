@@ -22,17 +22,34 @@ export class BulletList extends NodeSchema {
             group: 'block',
             attrs: {
                 rawHTML: { default: null },
-                ...getDefaultCustomAttrs()
+                ...getDefaultCustomAttrs(),
+                bulletList: { default: false }
             },
             parseDOM: [createDOMInfoParsedRawHTML('ul')],
             toDOM({ attrs }: ProsemirrorNode): DOMOutputSpecArray {
-                return ['ul', getCustomAttrs(attrs), 0];
+                const { bulletList } = attrs;
+
+                console.log('--- attrs bulletList ---', bulletList);
+
+                if (!bulletList) {
+                    return ['ul', getCustomAttrs(attrs), 0];
+                }
+
+                return [
+                    'ul',
+                    {
+                        ...getCustomAttrs(attrs),
+                        'data-bullet': bulletList
+                    },
+                    0
+                ];
             }
         };
     }
 
     private changeList(): Command {
-        return (state, dispatch) => changeList(state.schema.nodes.bulletList)(state, dispatch);
+        return (state, dispatch) =>
+            changeList(state.schema.nodes.bulletList, 'bulletList')(state, dispatch);
     }
 
     commands() {

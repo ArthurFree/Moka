@@ -18,6 +18,7 @@ export class OrderedList extends NodeSchema {
             group: 'block',
             attrs: {
                 order: { default: 1 },
+                ordered: { default: true },
                 rawHTML: { default: null },
                 ...getDefaultCustomAttrs()
             },
@@ -38,7 +39,11 @@ export class OrderedList extends NodeSchema {
             toDOM({ attrs }: ProsemirrorNode): DOMOutputSpecArray {
                 return [
                     attrs.rawHTML || 'ol',
-                    { start: attrs.order === 1 ? null : attrs.order, ...getCustomAttrs(attrs) },
+                    {
+                        start: attrs.order === 1 ? null : attrs.order,
+                        ...getCustomAttrs(attrs),
+                        'data-ordered': attrs.ordered
+                    },
                     0
                 ];
             }
@@ -47,7 +52,7 @@ export class OrderedList extends NodeSchema {
 
     commands(): EditorCommand {
         return () => (state, dispatch) =>
-            changeList(state.schema.nodes.orderedList)(state, dispatch);
+            changeList(state.schema.nodes.orderedList, 'ordered')(state, dispatch);
     }
 
     keymaps() {
