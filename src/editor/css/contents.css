@@ -57,7 +57,7 @@ table.ProseMirror-selectednode {
 .toastui-editor-contents *:not(table) {
     /* line-height: 160%; */
     /* fix: 修改无内容时，光标与 placeholder 不对齐的问题 */
-    line-height: 1.3;
+    line-height: 1.5;
     box-sizing: content-box;
 }
 
@@ -107,27 +107,27 @@ table.ProseMirror-selectednode {
 .toastui-editor-contents h1 {
     font-size: 30px;
     line-height: 28px;
-    border-bottom: 1px double #dbdbdb;
+    /* border-bottom: 1px double #dbdbdb; */
     margin: 52px 0 15px 0;
-    padding-bottom: 7px;
+    padding-bottom: 4px;
 }
 
 .toastui-editor-contents h2 {
     font-size: 24px;
     line-height: 23px;
-    border-bottom: 1px solid #dbdbdb;
+    /* border-bottom: 1px solid #dbdbdb; */
     margin: 20px 0 13px 0;
-    padding-bottom: 7px;
+    padding-bottom: 4px;
 }
 
 .toastui-editor-contents h3 {
     font-size: 20px;
-    margin: 18px 0 2px;
+    margin: 18px 0 10px;
 }
 
 .toastui-editor-contents h4 {
     font-size: 18px;
-    margin: 10px 0 2px;
+    margin: 14px 0 10px;
 }
 
 .toastui-editor-contents h3,
@@ -137,10 +137,12 @@ table.ProseMirror-selectednode {
 
 .toastui-editor-contents h5 {
     font-size: 16px;
+    margin: 14px 0 10px;
 }
 
 .toastui-editor-contents h6 {
     font-size: 14px;
+    margin: 14px 0 10px;
 }
 
 .toastui-editor-contents h5,
@@ -155,7 +157,7 @@ table.ProseMirror-selectednode {
 
 .toastui-editor-contents blockquote {
     margin: 14px 0;
-    border-left: 3px solid #e5e5e5;
+    border-left: 3px solid rgb(55, 53, 47);
     padding: 0 16px;
     color: #999;
 }
