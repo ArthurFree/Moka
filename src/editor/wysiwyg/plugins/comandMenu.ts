@@ -18,11 +18,13 @@ function run(
         to?: number
     ) => boolean | null
 ) {
+    // 当 composition 事件触发的时候，该值为 true。
     if (view.composing) {
         return false;
     }
 
     const state = view.state;
+    // resolve 文档中给定的位置，返回一个关于此位置上下文信息的 object。
     const $from = state.doc.resolve(from);
 
     if ($from.parent.type.spec.code) {
