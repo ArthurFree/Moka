@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditorType } from '@editorType/editor'
+import { EditorType } from '@editorType/editor';
 import ControlShow from '@components/ControlShow';
 import './index.scss';
 
@@ -91,7 +91,7 @@ export default class MoreMenu extends React.Component<MoreMenuProps, MoreMenuSta
             toggleHeader();
             this.hide();
         }
-    }
+    };
 
     render() {
         const { visible, mode, isHideToolbar } = this.state;
