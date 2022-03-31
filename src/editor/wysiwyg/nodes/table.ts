@@ -1,6 +1,7 @@
 import { DOMOutputSpecArray, Node as ProsemirrorNode } from 'prosemirror-model';
 import { TextSelection, Transaction } from 'prosemirror-state';
 import { Command } from 'prosemirror-commands';
+import { findParentNode } from 'prosemirror-utils';
 
 import NodeSchema from '@/spec/node';
 import {
@@ -109,12 +110,14 @@ export class Table extends NodeSchema {
         return (payload = { rowCount: 2, columnCount: 1, data: [] }) =>
             (state, dispatch) => {
                 const { rowCount, columnCount, data } = payload;
-                const { schema, selection, tr } = state;
+                const { schema, selection } = state;
                 const { from, to, $from } = selection;
                 const collapsed = from === to;
 
                 if (collapsed && !isInTableNode($from)) {
                     const { tableHead, tableBody } = schema.nodes;
+
+                    const offset = state.tr.selection.anchor + 1;
 
                     const theadData = data?.slice(0, columnCount);
                     const tbodyData = data?.slice(columnCount, data.length);
@@ -129,8 +132,17 @@ export class Table extends NodeSchema {
                         tableHead.create(null, tableHeadRow),
                         tableBody.create(null, tableBodyRows)
                     ]);
+                    // 在使用 command menu 创建时，清除 [ /word ] 命令所占行
+                    const parent = findParentNode((node) => !!node)(state.selection);
+                    const tr = state.tr.insertText('', parent.start, state.selection.to);
 
-                    dispatch!(tr.replaceSelectionWith(table));
+                    tr.replaceSelectionWith(table).scrollIntoView();
+
+                    // 创建完成后将光标 focus 到第一个单元格中
+                    const resolvedPos = tr.doc.resolve(offset);
+                    tr.setSelection(TextSelection.near(resolvedPos));
+
+                    dispatch!(tr);
 
                     return true;
                 }
