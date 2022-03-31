@@ -233,7 +233,8 @@
 .toastui-editor-contents table td {
     /* border: 1px solid rgba(0, 0, 0, 0.1); */
     border: 1px solid #e9e9e7;
-    padding: 5px 14px 5px 12px;
+    padding: 0 14px 0 12px;
+    min-width: 100px;
     height: 32px;
 }
 
