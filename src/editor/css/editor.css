@@ -145,9 +145,9 @@
     height: inherit;
 }
 
-.toastui-editor-ww-container .toastui-editor-contents p {
+/* .toastui-editor-ww-container .toastui-editor-contents p {
     margin: 10px 0;
-}
+} */
 
 .toastui-editor-md-mode .toastui-editor-md-container,
 .toastui-editor-ww-mode .toastui-editor-ww-container {
