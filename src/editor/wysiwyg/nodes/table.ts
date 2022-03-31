@@ -93,6 +93,7 @@ export class Table extends NodeSchema {
         return {
             content: 'tableHead{1} tableBody{1}',
             group: 'block',
+            isolating: true,
             attrs: {
                 rawHTML: { default: null },
                 ...getDefaultCustomAttrs()

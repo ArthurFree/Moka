@@ -92,12 +92,12 @@ export default abstract class EditorBase implements Base {
     get defaultPlugins() {
         const rules = this.createInputRules();
         const plugins = [
-            ...this.keymaps,
             // 绑定基础 commands，enter / delete 等
             keymap({
                 'Shift-Enter': baseKeymap.Enter,
                 ...baseKeymap
             }),
+            ...this.keymaps,
             dropCursor(),
             gapCursor(),
             history(),

@@ -19,6 +19,7 @@ export class TableHead extends NodeSchema {
                 rawHTML: { default: null },
                 ...getDefaultCustomAttrs()
             },
+            isolating: true,
             parseDOM: [createDOMInfoParsedRawHTML('thead')],
             toDOM({ attrs }: ProsemirrorNode): DOMOutputSpecArray {
                 return ['thead', getCustomAttrs(attrs), 0];
