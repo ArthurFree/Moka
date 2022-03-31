@@ -222,7 +222,7 @@
 
 .toastui-editor-contents table {
     border: 1px solid rgba(0, 0, 0, 0.1);
-    margin: 12px 0 14px;
+    margin: 20px 0 20px;
     color: #222;
     width: auto;
     border-collapse: collapse;
@@ -254,7 +254,7 @@
 
 .toastui-editor-contents td p {
     margin: 0;
-    padding: 0 2px;
+    padding: 8px 2px;
 }
 
 .toastui-editor-contents td.toastui-editor-cell-selected {
