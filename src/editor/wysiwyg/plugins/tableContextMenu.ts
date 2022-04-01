@@ -113,7 +113,7 @@ export function tableContextMenu(eventEmitter: Emitter) {
                         eventEmitter.emit('contextmenu', {
                             pos: {
                                 left: `${clientX - left + 10}px`,
-                                top: `${clientY - top + 30}px`
+                                top: `${clientY - top + 15}px`
                             },
                             menuGroups: getContextMenuGroups(eventEmitter, inTableHead),
                             tableCell
