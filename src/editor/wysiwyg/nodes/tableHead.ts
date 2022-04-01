@@ -19,6 +19,7 @@ export class TableHead extends NodeSchema {
                 rawHTML: { default: null },
                 ...getDefaultCustomAttrs()
             },
+            selectable: false,
             isolating: true,
             parseDOM: [createDOMInfoParsedRawHTML('thead')],
             toDOM({ attrs }: ProsemirrorNode): DOMOutputSpecArray {

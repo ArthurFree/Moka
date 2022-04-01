@@ -62,6 +62,18 @@ export function createDummyCells(
     return cells;
 }
 
+export function findTableElement(node: HTMLElement, root: Element) {
+    while (node && node !== root) {
+        if (node.nodeName === 'TABLE') {
+            return node;
+        }
+
+        node = node.parentNode as HTMLElement;
+    }
+
+    return null;
+}
+
 export function findCellElement(node: HTMLElement, root: Element) {
     while (node && node !== root) {
         if (node.nodeName === 'TD' || node.nodeName === 'TH') {
@@ -69,6 +81,24 @@ export function findCellElement(node: HTMLElement, root: Element) {
         }
 
         node = node.parentNode as HTMLElement;
+    }
+
+    return null;
+}
+
+export function findFirstCellElement(cellNode: HTMLElement): ChildNode {
+    const trEl = cellNode.parentNode;
+    if (trEl && trEl.nodeName === 'TR') {
+        return trEl.firstChild;
+    }
+
+    return null;
+}
+
+export function findLastCellElement(cellNode: HTMLElement): ChildNode {
+    const trEl = cellNode.parentNode;
+    if (trEl && trEl.nodeName === 'TR') {
+        return trEl.lastChild;
     }
 
     return null;

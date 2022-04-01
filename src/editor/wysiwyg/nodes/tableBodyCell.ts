@@ -19,6 +19,7 @@ export class TableBodyCell extends NodeSchema {
                 rowspan: { default: null },
                 extended: { default: null }
             },
+            selectable: false,
             isolating: true,
             parseDOM: [createParsedCellDOM('td')],
             toDOM({ attrs }: ProsemirrorNode): DOMOutputSpecArray {

@@ -250,6 +250,7 @@
     /* color: #fff; */
     color: #37352f;
     font-weight: 500;
+    display: block;
 }
 
 .toastui-editor-contents td p {
@@ -259,10 +260,17 @@
 
 .toastui-editor-contents td.toastui-editor-cell-selected {
     background-color: #d8dfec;
+    user-select: none;
 }
 
 .toastui-editor-contents th.toastui-editor-cell-selected {
     background-color: #908f8f;
+    user-select: none;
+}
+
+.toastui-editor-contents th.toastui-editor-cell-selected p,
+.toastui-editor-contents td.toastui-editor-cell-selected p {
+    user-select: none;
 }
 
 .toastui-editor-contents ul,

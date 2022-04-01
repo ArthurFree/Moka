@@ -16,6 +16,7 @@ export class TableRow extends NodeSchema {
                 ...getDefaultCustomAttrs()
             },
             isolating: true,
+            selectable: false,
             parseDOM: [
                 {
                     tag: 'tr',
