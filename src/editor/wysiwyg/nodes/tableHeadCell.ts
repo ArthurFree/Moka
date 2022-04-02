@@ -24,6 +24,7 @@ export class TableHeadCell extends NodeSchema {
                 extended: { default: null },
                 ...getDefaultCustomAttrs()
             },
+            selectable: false,
             isolating: true,
             parseDOM: [createParsedCellDOM('th')],
             toDOM({ attrs }: ProsemirrorNode): DOMOutputSpecArray {

@@ -98,8 +98,6 @@ export default abstract class EditorBase implements Base {
                 ...baseKeymap
             }),
             ...this.keymaps,
-            dropCursor(),
-            gapCursor(),
             history(),
             placeholder(this.placeholder),
             addWidget(this.eventEmitter),

@@ -101,7 +101,16 @@ export class Table extends NodeSchema {
             },
             parseDOM: [createDOMInfoParsedRawHTML('table')],
             toDOM({ attrs }: ProsemirrorNode): DOMOutputSpecArray {
-                return ['table', getCustomAttrs(attrs), 0];
+                // return ['table', getCustomAttrs(attrs), 0];
+                return [
+                    'div',
+                    { class: 'scrollable-wrapper' },
+                    [
+                        'div',
+                        { class: 'scrollable' },
+                        ['table', getCustomAttrs({ ...attrs, classNames: ['rme-table'] }), 0]
+                    ]
+                ];
             }
         };
     }

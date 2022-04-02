@@ -2,9 +2,20 @@ import { ResolvedPos } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 import { PluginKey } from 'prosemirror-state';
 
-import { findCell, findCellElement } from '@/wysiwyg/helper/table';
+import {
+    findCell,
+    findCellElement,
+    findTableElement,
+    findLastCellElement,
+    findFirstCellElement
+} from '@/wysiwyg/helper/table';
 
 import CellSelection from './cellSelection';
+
+type mouseDownPos = {
+    x: number;
+    y: number;
+};
 
 interface EventHandlers {
     mousedown: (ev: Event) => void;
@@ -23,6 +34,10 @@ export default class TableSelection {
 
     private startCellPos: ResolvedPos | null;
 
+    private startCompatibleCellPos: ResolvedPos | null;
+
+    private mouseDownPos: mouseDownPos | null;
+
     constructor(view: EditorView) {
         this.view = view;
 
@@ -33,6 +48,8 @@ export default class TableSelection {
         };
 
         this.startCellPos = null;
+        this.mouseDownPos = null;
+        this.startCompatibleCellPos = null;
 
         this.init();
     }
@@ -41,7 +58,7 @@ export default class TableSelection {
         this.view.dom.addEventListener('mousedown', this.handlers.mousedown);
     }
 
-    handleMousedown(ev: Event) {
+    getStartCellPos = (ev: Event) => {
         const foundCell = findCellElement(ev.target as HTMLElement, this.view.dom);
 
         if ((ev as MouseEvent).button === MOUSE_RIGHT_BUTTON) {
@@ -55,17 +72,59 @@ export default class TableSelection {
             if (startCellPos) {
                 this.startCellPos = startCellPos;
             }
-
-            this.bindEvent();
         }
+    };
+
+    compatiblePos = (ev: MouseEvent) => {
+        const foundCell = findCellElement(ev.target as HTMLElement, this.view.dom);
+
+        console.log('--- this.startCompatibleCellPos ---', this.startCompatibleCellPos);
+
+        if (!this.startCompatibleCellPos && foundCell) {
+            const tableEl = findTableElement(ev.target as HTMLElement, this.view.dom);
+            const tableElRect = tableEl.getBoundingClientRect();
+            const firstCell = foundCell?.parentNode?.firstChild as HTMLElement;
+            const firstCellRect = firstCell.getBoundingClientRect();
+
+            if (this.mouseDownPos.y > tableElRect.bottom || this.mouseDownPos.y < tableElRect.top) {
+                this.startCompatibleCellPos = this.getCellPos({
+                    clientX: firstCellRect.right,
+                    clientY: firstCellRect.bottom
+                });
+                this.startCellPos = this.startCompatibleCellPos;
+            }
+        }
+
+        if (this.startCompatibleCellPos && foundCell) {
+            const lastCell = foundCell?.parentNode?.lastChild as HTMLElement;
+            const lastCellRect = lastCell.getBoundingClientRect();
+
+            return this.getCellPos({
+                clientX: lastCellRect.right,
+                clientY: lastCellRect.bottom
+            });
+        }
+
+        return null;
+    };
+
+    handleMousedown(ev: Event) {
+        this.mouseDownPos = {
+            x: (ev as MouseEvent).clientX,
+            y: (ev as MouseEvent).clientY
+        };
+        this.getStartCellPos(ev);
+        this.bindEvent();
     }
 
     handleMousemove(ev: Event) {
         const prevEndCellOffset = pluginKey.getState(this.view.state);
-        const endCellPos = this.getCellPos(ev as MouseEvent);
         const { startCellPos } = this;
 
+        let endCellPos = this.getCellPos(ev as MouseEvent);
         let prevEndCellPos;
+
+        endCellPos = this.compatiblePos(ev as MouseEvent) || endCellPos;
 
         if (prevEndCellOffset) {
             prevEndCellPos = this.view.state.doc.resolve(prevEndCellOffset);
@@ -74,12 +133,15 @@ export default class TableSelection {
         }
 
         if (prevEndCellPos && startCellPos && endCellPos) {
+            ev.preventDefault();
+            console.log('---- handleMousemove preventDefault ---');
             this.setCellSelection(startCellPos, endCellPos);
         }
     }
 
     handleMouseup() {
         this.startCellPos = null;
+        this.startCompatibleCellPos = null;
 
         this.unbindEvent();
 
@@ -102,7 +164,7 @@ export default class TableSelection {
         dom.removeEventListener('mouseup', this.handlers.mouseup);
     }
 
-    getCellPos({ clientX, clientY }: MouseEvent) {
+    getCellPos({ clientX, clientY }) {
         const mousePos = this.view.posAtCoords({ left: clientX, top: clientY });
 
         if (mousePos) {
