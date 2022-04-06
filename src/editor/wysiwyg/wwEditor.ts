@@ -26,6 +26,7 @@ import { createSpecs } from './specCreator';
 import { placeholderPlugin } from './plugins/placeholder/placeholder';
 import { commandMenuPlugin } from './plugins/comandMenu';
 import { commandMenuRules } from './rules/commandMenu';
+import { headingInputRules } from './rules/heading';
 
 import { Emitter } from '@editorType/event';
 import { ToDOMAdaptor } from '@editorType/convertor';
@@ -120,7 +121,10 @@ export default class WysiwygEditor extends EditorBase {
         return this.defaultPlugins.concat([
             // 创建 commendMenu 的 inputRules
             inputRules({
-                rules: commandMenuRules(this.eventEmitter)
+                rules: [
+                    ...commandMenuRules(this.eventEmitter),
+                    ...headingInputRules({ type: this.schema.nodes.heading })
+                ]
             }),
             // placeholder plugin
             placeholderPlugin(),
