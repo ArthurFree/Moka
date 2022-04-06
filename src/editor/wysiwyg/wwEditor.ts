@@ -24,6 +24,7 @@ import { pasteToTable } from './clipboard/pasteToTable';
 import { createSpecs } from './specCreator';
 
 import { placeholderPlugin } from './plugins/placeholder/placeholder';
+import { tablePlugin } from './plugins/table/table';
 import { commandMenuPlugin } from './plugins/comandMenu';
 import { commandMenuRules } from './rules/commandMenu';
 import { headingInputRules } from './rules/heading';
@@ -130,6 +131,7 @@ export default class WysiwygEditor extends EditorBase {
             placeholderPlugin(),
             // 创建 commendMenu 的 plugin
             commandMenuPlugin(this.eventEmitter),
+            tablePlugin(),
             tableSelection(),
             tableContextMenu(this.eventEmitter),
             task(),

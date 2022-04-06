@@ -220,9 +220,48 @@
     max-width: 100%;
 }
 
+.toastui-editor-contents .scrollable-wrapper {
+    position: relative;
+    margin: 20px 0 20px;
+}
+
+.toastui-editor-contents .scrollable {
+    overflow: auto hidden;
+    /* padding-left: 16px;
+    margin-left: -16px; */
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    transition: border 250ms ease-in-out 0s;
+}
+
+.toastui-editor-contents .scrollable .scrollable-shadow {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: -16px;
+    width: 16px;
+    transition: box-shadow 250ms ease-in-out 0s;
+    /* border-width: 0px 0px 0px 1em; */
+    /* border-style: solid; */
+    /* border-color: transparent; */
+    /* border-image: initial; */
+    pointer-events: none;
+}
+
+.toastui-editor-contents .scrollable .scrollable-shadow.right.active {
+    right: 0px;
+    left: auto;
+    box-shadow: rgb(0 0 0 / 25%) -16px 0px 16px -16px inset;
+}
+
+.toastui-editor-contents .scrollable .scrollable-shadow.left.active {
+    right: auto;
+    left: 0px;
+    box-shadow: rgb(0 0 0 / 25%) 16px 0px 16px -16px inset;
+}
+
 .toastui-editor-contents table {
     border: 1px solid rgba(0, 0, 0, 0.1);
-    margin: 20px 0 20px;
     color: #222;
     width: auto;
     border-collapse: collapse;
