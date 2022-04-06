@@ -175,8 +175,8 @@
 }
 
 .toastui-editor-defaultUI .toastui-editor-ww-mode .ProseMirror {
-    padding: 18px 0;
-    width: 850px;
+    padding: 18px 32px;
+    width: 880px;
 }
 
 .toastui-editor-defaultUI {
