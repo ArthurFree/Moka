@@ -238,7 +238,7 @@
     position: absolute;
     top: 0px;
     bottom: 0px;
-    left: -16px;
+    /* left: -16px; */
     width: 16px;
     transition: box-shadow 250ms ease-in-out 0s;
     /* border-width: 0px 0px 0px 1em; */
@@ -246,6 +246,7 @@
     /* border-color: transparent; */
     /* border-image: initial; */
     pointer-events: none;
+    z-index: 1;
 }
 
 .toastui-editor-contents .scrollable .scrollable-shadow.right.active {
