@@ -8,14 +8,6 @@ type ElementWithEvent = HTMLElement & { hasScrollEvent?: boolean | null };
 } */
 
 function handleTableScroll(element) {
-    console.log(
-        '--- event ---',
-        element,
-        element.scrollWidth,
-        element.clientWidth,
-        element.scrollLeft
-    );
-
     const shadowRight = !!(
         element &&
         element.scrollWidth > element.clientWidth &&
@@ -64,15 +56,8 @@ export function tablePlugin() {
                     }
 
                     const element: ElementWithEvent = table.parentElement;
-                    console.log(
-                        '---- element ---',
-                        element,
-                        element.scrollWidth,
-                        element.clientWidth
-                    );
 
                     if (element && !(element as ElementWithEvent).hasScrollEvent) {
-                        console.log('---- event listener ---');
                         element.addEventListener(
                             'scroll',
                             throttle(() => handleTableScroll(element), 60),
@@ -81,8 +66,6 @@ export function tablePlugin() {
                         element.hasScrollEvent = true;
                     }
                     const shadowRight = !!(element && element.scrollWidth > element.clientWidth);
-
-                    console.log('--- shadowRight ---', shadowRight);
 
                     if (shadowRight) {
                         decorations.push(

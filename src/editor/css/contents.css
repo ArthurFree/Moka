@@ -222,11 +222,11 @@
 
 .toastui-editor-contents .scrollable-wrapper {
     position: relative;
-    margin: 20px 0 20px;
 }
 
 .toastui-editor-contents .scrollable {
-    overflow: auto hidden;
+    padding: 20px 0 20px;
+    overflow-x: auto;
     /* padding-left: 16px;
     margin-left: -16px; */
     border-left: 1px solid transparent;
@@ -238,7 +238,7 @@
     position: absolute;
     top: 0px;
     bottom: 0px;
-    left: -16px;
+    /* left: -16px; */
     width: 16px;
     transition: box-shadow 250ms ease-in-out 0s;
     /* border-width: 0px 0px 0px 1em; */
@@ -246,6 +246,7 @@
     /* border-color: transparent; */
     /* border-image: initial; */
     pointer-events: none;
+    z-index: 1;
 }
 
 .toastui-editor-contents .scrollable .scrollable-shadow.right.active {
@@ -271,10 +272,24 @@
 .toastui-editor-contents table th,
 .toastui-editor-contents table td {
     /* border: 1px solid rgba(0, 0, 0, 0.1); */
+    position: relative;
     border: 1px solid #e9e9e7;
     padding: 0 14px 0 12px;
     min-width: 100px;
     height: 32px;
+}
+
+.toastui-editor-contents table th .grip-column::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    top: -16px;
+    left: 0px;
+    width: 100%;
+    height: 12px;
+    background: rgb(47, 51, 54);
+    border-bottom: 3px solid rgb(17, 19, 25);
+    display: block;
 }
 
 .toastui-editor-contents table th {
