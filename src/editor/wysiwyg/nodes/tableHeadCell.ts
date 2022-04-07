@@ -20,10 +20,12 @@ export class TableHeadCell extends NodeSchema {
                 align: { default: null },
                 className: { default: null },
                 rawHTML: { default: null },
-                colspan: { default: null },
+                rowspan: { default: 1 },
+                colspan: { default: 1 },
                 extended: { default: null },
                 ...getDefaultCustomAttrs()
             },
+            tableRole: 'header_cell',
             selectable: false,
             isolating: true,
             parseDOM: [createParsedCellDOM('th')],

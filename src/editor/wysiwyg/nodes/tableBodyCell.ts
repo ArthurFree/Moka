@@ -15,10 +15,11 @@ export class TableBodyCell extends NodeSchema {
                 align: { default: null },
                 className: { default: null },
                 rawHTML: { default: null },
-                colspan: { default: null },
-                rowspan: { default: null },
+                colspan: { default: 1 },
+                rowspan: { default: 1 },
                 extended: { default: null }
             },
+            tableRole: 'cell',
             selectable: false,
             isolating: true,
             parseDOM: [createParsedCellDOM('td')],

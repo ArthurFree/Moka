@@ -19,6 +19,7 @@ export class TableHead extends NodeSchema {
                 rawHTML: { default: null },
                 ...getDefaultCustomAttrs()
             },
+            tableRole: 'table_head',
             selectable: false,
             isolating: true,
             parseDOM: [createDOMInfoParsedRawHTML('thead')],

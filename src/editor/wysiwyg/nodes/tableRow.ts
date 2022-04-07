@@ -17,6 +17,7 @@ export class TableRow extends NodeSchema {
             },
             isolating: true,
             selectable: false,
+            tableRole: 'row',
             parseDOM: [
                 {
                     tag: 'tr',

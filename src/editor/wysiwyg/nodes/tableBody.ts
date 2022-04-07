@@ -13,6 +13,7 @@ export class TableBody extends NodeSchema {
             content: 'tableRow+',
             isolating: true,
             selectable: false,
+            tableRole: 'table_body',
             attrs: {
                 rawHTML: { default: null },
                 ...getDefaultCustomAttrs()

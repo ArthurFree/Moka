@@ -78,8 +78,6 @@ export default class TableSelection {
     compatiblePos = (ev: MouseEvent) => {
         const foundCell = findCellElement(ev.target as HTMLElement, this.view.dom);
 
-        console.log('--- this.startCompatibleCellPos ---', this.startCompatibleCellPos);
-
         if (!this.startCompatibleCellPos && foundCell) {
             const tableEl = findTableElement(ev.target as HTMLElement, this.view.dom);
             const tableElRect = tableEl.getBoundingClientRect();
@@ -134,7 +132,6 @@ export default class TableSelection {
 
         if (prevEndCellPos && startCellPos && endCellPos) {
             ev.preventDefault();
-            console.log('---- handleMousemove preventDefault ---');
             this.setCellSelection(startCellPos, endCellPos);
         }
     }
