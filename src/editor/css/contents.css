@@ -225,10 +225,10 @@
 }
 
 .toastui-editor-contents .scrollable {
-    padding: 20px 0 20px;
+    margin-left: -16px;
+    padding: 20px 0 20px 16px;
+    padding-left: 16px;
     overflow-x: auto;
-    /* padding-left: 16px;
-    margin-left: -16px; */
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
     transition: border 250ms ease-in-out 0s;
@@ -255,9 +255,19 @@
     box-shadow: rgb(0 0 0 / 25%) -16px 0px 16px -16px inset;
 }
 
+.toastui-editor-contents .scrollable .scrollable-shadow.right {
+    left: auto;
+    right: 0;
+}
+
+.toastui-editor-contents .scrollable .scrollable-shadow.left {
+    left: -16px;
+    right: auto;
+}
+
 .toastui-editor-contents .scrollable .scrollable-shadow.left.active {
     right: auto;
-    left: 0px;
+    left: -16px;
     box-shadow: rgb(0 0 0 / 25%) 16px 0px 16px -16px inset;
 }
 
@@ -267,6 +277,26 @@
     width: auto;
     border-collapse: collapse;
     box-sizing: border-box;
+}
+
+.toastui-editor-contents table .grip-table::after {
+    content: '';
+    cursor: pointer;
+    background: rgba(55, 53, 47, 0.06);
+    width: 13px;
+    height: 13px;
+    border-radius: 13px;
+    /* border: 2px solid rgb(17, 19, 25); */
+    position: absolute;
+    top: -16px;
+    left: -16px;
+    transition: background 20ms;
+    display: block;
+}
+
+.toastui-editor-contents table .grip-table.selected::after,
+.toastui-editor-contents table .grip-table:hover::after {
+    background: rgba(55, 53, 47, 0.2);
 }
 
 .toastui-editor-contents table th,
@@ -287,9 +317,23 @@
     left: 0px;
     width: 100%;
     height: 12px;
-    background: rgb(47, 51, 54);
-    border-bottom: 3px solid rgb(17, 19, 25);
+    background: rgba(55, 53, 47, 0.06);
+    transition: background 20ms;
+    /* border-bottom: 3px solid rgb(17, 19, 25); */
     display: block;
+}
+
+.toastui-editor-contents table th .grip-column.selected::after,
+.toastui-editor-contents table th .grip-column:hover::after {
+    background: rgba(55, 53, 47, 0.2);
+}
+
+.toastui-editor-contents table th .first.grip-column::after {
+    border-top-left-radius: 3px;
+}
+
+.toastui-editor-contents table th .last.grip-column::after {
+    border-top-right-radius: 3px;
 }
 
 .toastui-editor-contents table th {
@@ -305,6 +349,36 @@
     color: #37352f;
     font-weight: 500;
     display: block;
+}
+
+.toastui-editor-contents table .grip-row::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    left: -16px;
+    top: 0px;
+    height: 100%;
+    width: 12px;
+    background: rgba(55, 53, 47, 0.06);
+    /* border-right: 3px solid rgb(17, 19, 25);
+    border-top-color: rgb(17, 19, 25);
+    border-bottom-color: rgb(17, 19, 25);
+    border-left-color: rgb(17, 19, 25); */
+    display: block;
+    transition: background 20ms;
+}
+
+.toastui-editor-contents table .grip-row.selected::after,
+.toastui-editor-contents table .grip-row:hover::after {
+    background: rgba(55, 53, 47, 0.2);
+}
+
+.toastui-editor-contents table .first.grip-row::after {
+    border-top-left-radius: 3px;
+}
+
+.toastui-editor-contents table .last.grip-row::after {
+    border-bottom-left-radius: 3px;
 }
 
 .toastui-editor-contents td p {

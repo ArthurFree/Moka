@@ -26,6 +26,7 @@ import { createSpecs } from './specCreator';
 import { placeholderPlugin } from './plugins/placeholder/placeholder';
 import { tablePlugin } from './plugins/table/table';
 import { tableHeadCellPlugin } from './plugins/table/tableHeadCell';
+import { tableCellPlugin } from './plugins/table/tableCell';
 import { commandMenuPlugin } from './plugins/comandMenu';
 import { commandMenuRules } from './rules/commandMenu';
 import { headingInputRules } from './rules/heading';
@@ -134,6 +135,7 @@ export default class WysiwygEditor extends EditorBase {
             commandMenuPlugin(this.eventEmitter),
             tablePlugin(),
             tableHeadCellPlugin(this),
+            tableCellPlugin(this),
             tableSelection(),
             tableContextMenu(this.eventEmitter),
             task(),
