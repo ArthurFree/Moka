@@ -25,12 +25,9 @@ const findTable = function findTable(selection) {
 const getCellsInRow = function getCellsInRow(rowIndex) {
     return function (selection) {
         const table = findTable(selection);
-        console.log('--- table ---', table);
         if (table) {
             const map = TableMap.get(table.node);
-            console.log('---- map ----', map);
             const indexes = Array.isArray(rowIndex) ? rowIndex : Array.from([rowIndex]);
-            console.log('--- indexes ---', indexes);
             return indexes.reduce(function (acc, index) {
                 if (index >= 0 && index <= map.height - 1) {
                     const cells = map.cellsInRect({
@@ -60,22 +57,26 @@ const getCellsInRow = function getCellsInRow(rowIndex) {
 //   // ...
 // }
 // ```
-var isCellSelection = function isCellSelection(selection) {
+const isCellSelection = function isCellSelection(selection) {
     return selection instanceof CellSelection;
 };
 
 // (rect: {left: number, right: number, top: number, bottom: number}) → (selection: Selection) → boolean
 // Checks if a given CellSelection rect is selected
-var isRectSelected = function isRectSelected(rect) {
+const isRectSelected = function isRectSelected(rect) {
     return function (selection) {
-        var map = TableMap.get(selection.startCell.node(-2));
-        var start = selection.startCell.start(-1);
-        var cells = map.cellsInRect(rect);
-        var selectedCells = map.cellsInRect(
+        const tableNode = findTable(selection);
+        const map = TableMap.get(tableNode.node);
+        // start(depth: ?⁠number) → number
+        // 给定深度的祖先节点的开始位置（绝对位置）。
+        // const start = selection.startCell.start(-1);
+        const start = tableNode.start;
+        const cells = map.cellsInRect(rect);
+        const selectedCells = map.cellsInRect(
             map.rectBetween(selection.startCell.pos - start, selection.endCell.pos - start)
         );
 
-        for (var i = 0, count = cells.length; i < count; i++) {
+        for (let i = 0, count = cells.length; i < count; i++) {
             if (selectedCells.indexOf(cells[i]) === -1) {
                 return false;
             }
@@ -91,16 +92,11 @@ var isRectSelected = function isRectSelected(rect) {
 // ```javascript
 // const className = isColumnSelected(i)(selection) ? 'selected' : '';
 // ```
-var isColumnSelected = function isColumnSelected(columnIndex) {
+const isColumnSelected = function isColumnSelected(columnIndex) {
     return function (selection) {
         if (isCellSelection(selection)) {
-            console.log(
-                '---- selection.startCell ---',
-                selection.startCell,
-                selection.startCell.node(-1),
-                selection.startCell.node(-2)
-            );
-            var map = TableMap.get(selection.startCell.node(-2));
+            const tableNode = findTable(selection);
+            const map = TableMap.get(tableNode.node);
             return isRectSelected({
                 left: columnIndex,
                 right: columnIndex + 1,
@@ -120,9 +116,9 @@ var isColumnSelected = function isColumnSelected(columnIndex) {
 // const predicate = node => node.type === schema.nodes.blockquote;
 // const parent = findParentNodeClosestToPos(state.doc.resolve(5), predicate);
 // ```
-var findParentNodeClosestToPos = function findParentNodeClosestToPos($pos, predicate) {
-    for (var i = $pos.depth; i > 0; i--) {
-        var node = $pos.node(i);
+const findParentNodeClosestToPos = function findParentNodeClosestToPos($pos, predicate) {
+    for (let i = $pos.depth; i > 0; i--) {
+        const node = $pos.node(i);
         if (predicate(node)) {
             return {
                 pos: i > 0 ? $pos.before(i) : 0,
@@ -140,8 +136,8 @@ var findParentNodeClosestToPos = function findParentNodeClosestToPos($pos, predi
 // ```javascript
 // const cell = findCellClosestToPos(state.selection.$from);
 // ```
-var findCellClosestToPos = function findCellClosestToPos($pos) {
-    var predicate = function predicate(node) {
+const findCellClosestToPos = function findCellClosestToPos($pos) {
+    const predicate = function predicate(node) {
         return node.type.spec.tableRole && /cell/i.test(node.type.spec.tableRole);
     };
     return findParentNodeClosestToPos($pos, predicate);
@@ -149,32 +145,32 @@ var findCellClosestToPos = function findCellClosestToPos($pos) {
 
 // (tr: Transaction) → Transaction
 // Creates a new transaction object from a given transaction
-var cloneTr = function cloneTr(tr) {
+const cloneTr = function cloneTr(tr) {
     return Object.assign(Object.create(tr), tr).setTime(Date.now());
 };
 
-var select = function select(type) {
+const select = function select(type) {
     return function (index, expand) {
         return function (tr) {
-            var table = findTable(tr.selection);
-            var isRowSelection = type === 'row';
+            const table = findTable(tr.selection);
+            const isRowSelection = type === 'row';
             if (table) {
-                var map = TableMap.get(table.node);
+                const map = TableMap.get(table.node);
 
                 // Check if the index is valid
                 if (index >= 0 && index < (isRowSelection ? map.height : map.width)) {
-                    var left = isRowSelection ? 0 : index;
-                    var top = isRowSelection ? index : 0;
-                    var right = isRowSelection ? map.width : index + 1;
-                    var bottom = isRowSelection ? index + 1 : map.height;
+                    let left = isRowSelection ? 0 : index;
+                    let top = isRowSelection ? index : 0;
+                    let right = isRowSelection ? map.width : index + 1;
+                    let bottom = isRowSelection ? index + 1 : map.height;
 
                     if (expand) {
-                        var cell = findCellClosestToPos(tr.selection.$from);
+                        const cell = findCellClosestToPos(tr.selection.$from);
                         if (!cell) {
                             return tr;
                         }
 
-                        var selRect = map.findCell(cell.pos - table.start);
+                        const selRect = map.findCell(cell.pos - table.start);
                         if (isRowSelection) {
                             top = Math.min(top, selRect.top);
                             bottom = Math.max(bottom, selRect.bottom);
@@ -184,14 +180,14 @@ var select = function select(type) {
                         }
                     }
 
-                    var cellsInFirstRow = map.cellsInRect({
+                    const cellsInFirstRow = map.cellsInRect({
                         left: left,
                         top: top,
                         right: isRowSelection ? right : left + 1,
                         bottom: isRowSelection ? top + 1 : bottom
                     });
 
-                    var cellsInLastRow =
+                    const cellsInLastRow =
                         bottom - top === 1
                             ? cellsInFirstRow
                             : map.cellsInRect({
@@ -201,10 +197,10 @@ var select = function select(type) {
                                   bottom: bottom
                               });
 
-                    var head = table.start + cellsInFirstRow[0];
-                    var anchor = table.start + cellsInLastRow[cellsInLastRow.length - 1];
-                    var $head = tr.doc.resolve(head);
-                    var $anchor = tr.doc.resolve(anchor);
+                    const head = table.start + cellsInFirstRow[0];
+                    const anchor = table.start + cellsInLastRow[cellsInLastRow.length - 1];
+                    const $head = tr.doc.resolve(head);
+                    const $anchor = tr.doc.resolve(anchor);
 
                     return cloneTr(tr.setSelection(new CellSelection($anchor, $head)));
                 }
@@ -221,8 +217,6 @@ export function tableHeadCellPlugin(editor) {
                 const { doc, selection } = state;
                 const decorations: Decoration[] = [];
                 const cells = getCellsInRow(0)(selection);
-
-                console.log('---- cells ---', cells);
 
                 if (cells) {
                     cells.forEach(({ pos }, index) => {
@@ -243,7 +237,6 @@ export function tableHeadCellPlugin(editor) {
                                 grip.addEventListener('mousedown', (event) => {
                                     event.preventDefault();
                                     event.stopImmediatePropagation();
-                                    console.log('---- grip mousedown ----', editor);
                                     editor.view.dispatch(select('column')(index, null)(state.tr));
                                 });
                                 return grip;
