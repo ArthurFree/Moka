@@ -243,6 +243,8 @@ function computeMap(table) {
         if (colWidths[i] != null && colWidths[i + 1] < height) badWidths = true;
     if (badWidths) findBadColWidths(tableMap, colWidths, table);
 
+    console.log('---- computeMap ---', tableMap);
+
     return tableMap;
 }
 
