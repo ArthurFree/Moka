@@ -11,8 +11,6 @@ export function tableCellPlugin(editor) {
                 const decorations: Decoration[] = [];
                 const cells = getCellsInColumn(0)(selection);
 
-                console.log('--- cells ---', cells);
-
                 if (cells) {
                     cells.forEach(({ pos, node }, index) => {
                         if (index === 0) {
@@ -34,7 +32,6 @@ export function tableCellPlugin(editor) {
                                 })
                             );
                         }
-                        console.log('--- node ----', node, pos, doc.nodeAt(pos + 2));
                         let position = pos;
                         const table = findParentNode((node) => node.type.name === 'table')(
                             selection
@@ -43,18 +40,15 @@ export function tableCellPlugin(editor) {
                         // TODO: 临时处理，getCellsInColumn 对于 tbody thead 的计算目前不正确
                         if (index === 0) {
                             position += 1;
-                            console.log('---- doc.nodeAt(pos + 2) ---', doc.nodeAt(pos));
                         } else {
                             // position += 4;
                             position += 3;
-                            console.log('---- doc.nodeAt(pos + 4) ---', doc.nodeAt(pos + 2));
                         }
                         decorations.push(
                             Decoration.widget(position, (view) => {
                                 const rowSelected = isRowSelected(index)(selection);
                                 const trEl = view.domAtPos(position)?.node as HTMLElement;
                                 const trElRect = trEl?.getBoundingClientRect();
-                                console.log('--- dom ---', trElRect);
 
                                 let className = 'grip-row';
                                 if (rowSelected) {

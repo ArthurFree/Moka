@@ -73,7 +73,10 @@ export class TableMap {
     findCell(pos) {
         for (let i = 0; i < this.map.length; i++) {
             let curPos = this.map[i];
-            if (curPos != pos) continue;
+            // 这里做了兼容，当手动选中时，节点的 pos 会有 -1 / -3 的误差，
+            // 导致在预定的 map 中无法解析出单元格
+            // 最终的结果是，手动选中后，无法触发，表格控制条的选中效果
+            if (curPos != pos && curPos != pos - 1 && curPos !== pos - 3) continue;
             let left = i % this.width,
                 top = (i / this.width) | 0;
             let right = left + 1,
@@ -256,8 +259,6 @@ function computeMap(table) {
     for (let i = 0; !badWidths && i < colWidths.length; i += 2)
         if (colWidths[i] != null && colWidths[i + 1] < height) badWidths = true;
     if (badWidths) findBadColWidths(tableMap, colWidths, table);
-
-    console.log('---- computeMap ---', tableMap);
 
     return tableMap;
 }
