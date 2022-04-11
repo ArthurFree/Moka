@@ -8,6 +8,7 @@ import './index.scss';
 
 const LoadEditor = loadable(() => import('./Editor/index'));
 const LoadMaterial = loadable(() => import('./Material/index'));
+const LoadTestPage = loadable(() => import('./TestPage/index'));
 
 const App = (): React.ReactElement => (
     <BrowserRouter>
@@ -17,6 +18,7 @@ const App = (): React.ReactElement => (
             </Route>
             <Route path="/editor" element={<LoadEditor />} />
             <Route path="/material" element={<LoadMaterial />} />
+            <Route path="/test" element={<LoadTestPage />} />
         </Routes>
     </BrowserRouter>
 );

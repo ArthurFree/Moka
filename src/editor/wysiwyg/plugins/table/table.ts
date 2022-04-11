@@ -55,6 +55,7 @@ export function tablePlugin() {
                         return;
                     }
 
+                    // table -> scrollable -> scroolable-wrap
                     const element: ElementWithEvent = table.parentElement;
 
                     if (element && !(element as ElementWithEvent).hasScrollEvent) {

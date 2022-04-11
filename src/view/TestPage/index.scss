@@ -1,0 +1,38 @@
+.box {
+    padding: 50px;
+    width: 500px;
+    border: 1px solid blue;
+}
+
+.parent {
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    border: 1px solid red;
+}
+
+.child-wrap {
+    overflow: auto;
+}
+
+.child {
+    width: 1000px;
+    height: 100px;
+    border: 1px solid #000;
+}
+
+.child-1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.child-2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+}

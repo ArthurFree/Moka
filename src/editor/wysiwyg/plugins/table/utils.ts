@@ -57,7 +57,7 @@ export function getCellsInColumn(columnIndex) {
     return function (selection) {
         const table = findTable(selection);
         if (table) {
-            const map = TableMap.get(table.node);
+            const map: TableMap = TableMap.get(table.node);
             const indexes = Array.isArray(columnIndex) ? columnIndex : Array.from([columnIndex]);
             return indexes.reduce(function (acc, index) {
                 if (index >= 0 && index <= map.width - 1) {
@@ -70,7 +70,6 @@ export function getCellsInColumn(columnIndex) {
                     return acc.concat(
                         cells.map(function (nodePos) {
                             const node = table.node.nodeAt(nodePos);
-                            console.log('--- acc node ---', node, nodePos);
                             const pos = nodePos + table.start;
                             return { pos: pos, start: pos + 1, node: node };
                         })
@@ -98,12 +97,13 @@ export function isCellSelection(selection) {
 export function isRectSelected(rect) {
     return function (selection) {
         const tableNode = findTable(selection);
-        const map = TableMap.get(tableNode.node);
+        const map: TableMap = TableMap.get(tableNode.node);
         // start(depth: ?⁠number) → number
         // 给定深度的祖先节点的开始位置（绝对位置）。
         // const start = selection.startCell.start(-1);
         const start = tableNode.start;
         const cells = map.cellsInRect(rect);
+
         const selectedCells = map.cellsInRect(
             map.rectBetween(selection.startCell.pos - start, selection.endCell.pos - start)
         );
@@ -239,6 +239,7 @@ export function isRowSelected(rowIndex) {
         if (isCellSelection(selection)) {
             const table = findTable(selection);
             var map = TableMap.get(table.node);
+
             return isRectSelected({
                 left: 0,
                 right: map.width,

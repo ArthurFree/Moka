@@ -225,13 +225,18 @@
 }
 
 .toastui-editor-contents .scrollable {
-    margin-left: -16px;
-    padding: 20px 0 20px 16px;
-    padding-left: 16px;
     overflow-x: auto;
+    /* padding: 16px 0 0 16px; */
+    /* margin-left: -16px; */
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
     transition: border 250ms ease-in-out 0s;
+}
+
+.toastui-editor-contents .scroll {
+    padding: 16px 0 0 16px;
+    margin-left: -16px;
+    overflow-x: auto;
 }
 
 .toastui-editor-contents .scrollable .scrollable-shadow {
@@ -253,6 +258,7 @@
     right: 0px;
     left: auto;
     box-shadow: rgb(0 0 0 / 25%) -16px 0px 16px -16px inset;
+    background: transparent;
 }
 
 .toastui-editor-contents .scrollable .scrollable-shadow.right {
@@ -261,25 +267,26 @@
 }
 
 .toastui-editor-contents .scrollable .scrollable-shadow.left {
-    left: -16px;
+    left: 0;
     right: auto;
 }
 
 .toastui-editor-contents .scrollable .scrollable-shadow.left.active {
     right: auto;
-    left: -16px;
+    left: 0;
     box-shadow: rgb(0 0 0 / 25%) 16px 0px 16px -16px inset;
+    background: transparent;
 }
 
 .toastui-editor-contents table {
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* border: 1px solid rgba(0, 0, 0, 0.1); */
     color: #222;
     width: auto;
     border-collapse: collapse;
     box-sizing: border-box;
 }
 
-.toastui-editor-contents table .grip-table::after {
+.toastui-editor-contents table .grip-table {
     content: '';
     cursor: pointer;
     background: rgba(55, 53, 47, 0.06);
@@ -288,16 +295,20 @@
     border-radius: 13px;
     /* border: 2px solid rgb(17, 19, 25); */
     position: absolute;
-    top: -16px;
+    top: 0;
     left: -16px;
     transition: background 20ms;
     display: block;
 }
 
-.toastui-editor-contents table .grip-table.selected::after,
-.toastui-editor-contents table .grip-table:hover::after {
+.toastui-editor-contents table .grip-table.selected,
+.toastui-editor-contents table .grip-table:hover {
     background: rgba(55, 53, 47, 0.2);
 }
+
+/* .toastui-editor-contents table tr {
+    position: relative;
+} */
 
 .toastui-editor-contents table th,
 .toastui-editor-contents table td {
@@ -309,7 +320,7 @@
     height: 32px;
 }
 
-.toastui-editor-contents table th .grip-column::after {
+.toastui-editor-contents table th .grip-column {
     content: '';
     cursor: pointer;
     position: absolute;
@@ -323,16 +334,16 @@
     display: block;
 }
 
-.toastui-editor-contents table th .grip-column.selected::after,
-.toastui-editor-contents table th .grip-column:hover::after {
+.toastui-editor-contents table th .grip-column.selected,
+.toastui-editor-contents table th .grip-column:hover {
     background: rgba(55, 53, 47, 0.2);
 }
 
-.toastui-editor-contents table th .first.grip-column::after {
+.toastui-editor-contents table th .first.grip-column {
     border-top-left-radius: 3px;
 }
 
-.toastui-editor-contents table th .last.grip-column::after {
+.toastui-editor-contents table th .last.grip-column {
     border-top-right-radius: 3px;
 }
 
@@ -351,7 +362,7 @@
     display: block;
 }
 
-.toastui-editor-contents table .grip-row::after {
+.toastui-editor-contents table .grip-row {
     content: '';
     cursor: pointer;
     position: absolute;
@@ -368,16 +379,16 @@
     transition: background 20ms;
 }
 
-.toastui-editor-contents table .grip-row.selected::after,
-.toastui-editor-contents table .grip-row:hover::after {
+.toastui-editor-contents table .grip-row.selected,
+.toastui-editor-contents table .grip-row:hover {
     background: rgba(55, 53, 47, 0.2);
 }
 
-.toastui-editor-contents table .first.grip-row::after {
+.toastui-editor-contents table .first.grip-row {
     border-top-left-radius: 3px;
 }
 
-.toastui-editor-contents table .last.grip-row::after {
+.toastui-editor-contents table .last.grip-row {
     border-bottom-left-radius: 3px;
 }
 
@@ -392,7 +403,8 @@
 }
 
 .toastui-editor-contents th.toastui-editor-cell-selected {
-    background-color: #908f8f;
+    background-color: #d8dfec;
+    /* background-color: #908f8f; */
     user-select: none;
 }
 

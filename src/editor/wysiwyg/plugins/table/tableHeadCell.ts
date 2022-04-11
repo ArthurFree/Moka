@@ -24,7 +24,7 @@ export function tableHeadCellPlugin(editor) {
                                 } else if (index === cells.length - 1) {
                                     className += ' last';
                                 }
-                                const grip = document.createElement('a');
+                                const grip = document.createElement('div');
                                 grip.className = className;
                                 grip.addEventListener('mousedown', (event) => {
                                     event.preventDefault();
