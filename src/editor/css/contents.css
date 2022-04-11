@@ -225,8 +225,8 @@
 }
 
 .toastui-editor-contents .scrollable {
+    padding: 16px 0 0 16px;
     margin-left: -16px;
-    padding: 20px 0 20px 16px;
     padding-left: 16px;
     overflow-x: auto;
     border-left: 1px solid transparent;
