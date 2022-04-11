@@ -109,7 +109,11 @@ export class Table extends NodeSchema {
                     [
                         'div',
                         { class: 'scrollable' },
-                        ['table', getCustomAttrs({ ...attrs, classNames: ['rme-table'] }), 0]
+                        [
+                            'div',
+                            { class: 'scroll' },
+                            ['table', getCustomAttrs({ ...attrs, classNames: ['rme-table'] }), 0]
+                        ]
                     ]
                 ];
             }

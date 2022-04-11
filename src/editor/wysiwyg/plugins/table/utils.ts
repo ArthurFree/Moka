@@ -239,6 +239,12 @@ export function isRowSelected(rowIndex) {
         if (isCellSelection(selection)) {
             const table = findTable(selection);
             var map = TableMap.get(table.node);
+            console.log('--- rect ---', {
+                left: 0,
+                right: map.width,
+                top: rowIndex,
+                bottom: rowIndex + 1
+            });
             return isRectSelected({
                 left: 0,
                 right: map.width,

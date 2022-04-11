@@ -83,7 +83,9 @@ export class TableMap {
                 bottom++;
             return new Rect(left, top, right, bottom);
         }
-        throw new RangeError('No cell with offset ' + pos + ' found');
+
+        return null;
+        // throw new RangeError('No cell with offset ' + pos + ' found');
     }
 
     // :: (number) → number
@@ -97,7 +99,11 @@ export class TableMap {
     // Find the next cell in the given direction, starting from the cell
     // at `pos`, if any.
     nextCell(pos, axis, dir) {
-        let { left, right, top, bottom } = this.findCell(pos);
+        const cellRect = this.findCell(pos);
+
+        if (!cellRect) return null;
+
+        let { left, right, top, bottom } = cellRect;
         if (axis == 'horiz') {
             if (dir < 0 ? left == 0 : right == this.width) return null;
             return this.map[top * this.width + (dir < 0 ? left - 1 : right)];
@@ -110,8 +116,13 @@ export class TableMap {
     // :: (number, number) → Rect
     // Get the rectangle spanning the two given cells.
     rectBetween(a, b) {
-        let { left: leftA, right: rightA, top: topA, bottom: bottomA } = this.findCell(a);
-        let { left: leftB, right: rightB, top: topB, bottom: bottomB } = this.findCell(b);
+        const aRect = this.findCell(a);
+        const bRect = this.findCell(b);
+
+        if (!aRect && !bRect) return null;
+
+        let { left: leftA, right: rightA, top: topA, bottom: bottomA } = aRect;
+        let { left: leftB, right: rightB, top: topB, bottom: bottomB } = bRect;
         return new Rect(
             Math.min(leftA, leftB),
             Math.min(topA, topB),
@@ -126,6 +137,9 @@ export class TableMap {
     cellsInRect(rect) {
         let result = [],
             seen = {};
+
+        if (!rect) return result;
+
         for (let row = rect.top; row < rect.bottom; row++) {
             for (let col = rect.left; col < rect.right; col++) {
                 let index = row * this.width + col,
