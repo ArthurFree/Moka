@@ -9,6 +9,8 @@
 // compute the start position of the table and offset positions passed
 // to or gotten from this structure by that amount.
 
+import { Node } from "prosemirror-model";
+
 let readFromCache, addToCache;
 // Prefer using a weak map to cache table maps. Fall back on a
 // fixed-size cache if that's not supported.
@@ -277,6 +279,10 @@ function findWidth(table) {
         if (hasRowSpan)
             for (let j = 0; j < row; j++) {
                 let prevRow = table.child(j);
+                if (prevRow.type.name === 'tableHead' || prevRow.type.name === 'tableBody') {
+                    // 如果 prevRow 是 thead 则向下查找一次
+                    prevRow = prevRow.child(0);
+                }
                 for (let i = 0; i < prevRow.childCount; i++) {
                     let cell = prevRow.child(i);
                     if (j + (cell.attrs.rowspan || 0) > row) rowWidth += cell.attrs.colspan || 0;
