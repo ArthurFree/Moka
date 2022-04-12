@@ -1,3 +1,4 @@
+import { Emitter } from '@editorType/event';
 import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import throttle from 'tui-code-snippet/tricks/throttle';
@@ -35,7 +36,7 @@ function handleTableScroll(element) {
     }
 }
 
-export function tablePlugin() {
+export function tablePlugin(eventEmitter: Emitter) {
     return new Plugin({
         props: {
             decorations: (state) => {
@@ -69,6 +70,7 @@ export function tablePlugin() {
                     const shadowRight = !!(element && element.scrollWidth > element.clientWidth);
 
                     if (shadowRight) {
+                        // pos + 1 -> table.rme-table.child
                         decorations.push(
                             Decoration.widget(pos + 1, () => {
                                 const shadow = document.createElement('div');
@@ -85,6 +87,28 @@ export function tablePlugin() {
                             })
                         );
                     }
+
+                    // 表格新增行
+                    decorations.push(
+                        Decoration.widget(pos + 1, () => {
+                            const columnAddbtn = document.createElement('div');
+                            columnAddbtn.className = 'scrollable-add-row';
+                            columnAddbtn.addEventListener('mousedown', () => {
+                                console.log('---- command ----');
+                                eventEmitter.emit('command', 'addRowToDown');
+                            }, false);
+                            return columnAddbtn;
+                        })
+                    );
+
+                    // 表格新增列
+                    decorations.push(
+                        Decoration.widget(pos + 1, () => {
+                            const columnAddbtn = document.createElement('div');
+                            columnAddbtn.className = 'scrollable-add-column';
+                            return columnAddbtn;
+                        })
+                    );
 
                     index++;
                 });

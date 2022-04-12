@@ -82,6 +82,8 @@ export function createAddRowCommand(
             }
         }
 
+        console.log('---- cells ----', cells);
+
         for (let i = 0; i < rowCount; i += 1) {
             rows.push(schema.nodes.tableRow.create(null, cells));
         }

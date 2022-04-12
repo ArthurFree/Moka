@@ -222,20 +222,22 @@
 
 .toastui-editor-contents .scrollable-wrapper {
     position: relative;
+    margin: 20px 0 30px;
 }
 
 .toastui-editor-contents .scrollable {
     overflow-x: auto;
     /* padding: 16px 0 0 16px; */
     /* margin-left: -16px; */
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
+    /* border-left: 1px solid transparent;
+    border-right: 1px solid transparent; */
     transition: border 250ms ease-in-out 0s;
 }
 
 .toastui-editor-contents .scroll {
-    padding: 16px 0 0 16px;
+    padding: 16px 16px 0 16px;
     margin-left: -16px;
+    margin-right: -16px;
     overflow-x: auto;
 }
 
@@ -256,26 +258,112 @@
 
 .toastui-editor-contents .scrollable .scrollable-shadow.right.active {
     right: 0px;
-    left: auto;
     box-shadow: rgb(0 0 0 / 25%) -16px 0px 16px -16px inset;
     background: transparent;
 }
 
 .toastui-editor-contents .scrollable .scrollable-shadow.right {
-    left: auto;
+    top: 16px;
     right: 0;
+    height: calc(100% - 16px);
 }
 
 .toastui-editor-contents .scrollable .scrollable-shadow.left {
+    top: 16px;
     left: 0;
-    right: auto;
+    height: calc(100% - 16px);
 }
 
 .toastui-editor-contents .scrollable .scrollable-shadow.left.active {
-    right: auto;
     left: 0;
     box-shadow: rgb(0 0 0 / 25%) 16px 0px 16px -16px inset;
     background: transparent;
+}
+
+.toastui-editor-contents .scrollable-add-row {
+    position: absolute;
+    left: 0;
+    bottom: -16px;
+    width: 100%;
+    height: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(55, 53, 47, 0.06);
+    transition: opacity 300ms;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.toastui-editor-contents .scrollable-wrapper:hover .scrollable-add-row {
+    opacity: 1;
+}
+
+.toastui-editor-contents .scrollable-add-row::before {
+    content: '';
+    width: 8px;
+    height: 2px;
+    display: inline-block;
+    background: rgba(55, 53, 47, 0.45);
+    z-index: 1;
+}
+
+.toastui-editor-contents .scrollable-add-row::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 2px;
+    height: 8px;
+    display: inline-block;
+    background: rgba(55, 53, 47, 0.45);
+    z-index: 2;
+}
+
+.toastui-editor-contents .scrollable-add-column {
+    position: absolute;
+    right: -16px;
+    top: 16px;
+    width: 13px;
+    height: calc(100% - 16px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(55, 53, 47, 0.06);
+    transition: opacity 300ms;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.toastui-editor-contents .scrollable-wrapper:hover .scrollable-add-column {
+    opacity: 1;
+}
+
+.toastui-editor-contents .scrollable-add-column::before {
+    content: '';
+    width: 8px;
+    height: 2px;
+    display: inline-block;
+    background: rgba(55, 53, 47, 0.45);
+    z-index: 1;
+}
+
+.toastui-editor-contents .scrollable-add-column::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 2px;
+    height: 8px;
+    display: inline-block;
+    background: rgba(55, 53, 47, 0.45);
+    z-index: 2;
 }
 
 .toastui-editor-contents table {

@@ -133,7 +133,7 @@ export default class WysiwygEditor extends EditorBase {
             placeholderPlugin(),
             // 创建 commendMenu 的 plugin
             commandMenuPlugin(this.eventEmitter),
-            tablePlugin(),
+            tablePlugin(this.eventEmitter),
             tableHeadCellPlugin(this),
             tableCellPlugin(this),
             tableSelection(),
