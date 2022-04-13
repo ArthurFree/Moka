@@ -1,4 +1,6 @@
 import { findParentNode } from 'prosemirror-utils';
+import { NodeSelection, Selection } from 'prosemirror-state';
+import { Fragment, Node } from 'prosemirror-model';
 import CellSelection from '../selection/cellSelection';
 import { TableMap } from './TableMap';
 
@@ -250,6 +252,468 @@ export function isRowSelected(rowIndex) {
 
         return false;
     };
+}
+
+export function tableNodeTypes(schema) {
+    let result = schema.cached.tableNodeTypes;
+    if (!result) {
+        result = schema.cached.tableNodeTypes = {};
+        for (let name in schema.nodes) {
+            let type = schema.nodes[name],
+                role = type.spec.tableRole;
+            if (role) result[role] = type;
+        }
+    }
+    return result;
+}
+
+export function rowIsHeader(map, table, row) {
+    let headerCell = tableNodeTypes(table.type.schema).header_cell;
+    for (let col = 0; col < map.width; col++)
+        if (table.nodeAt(map.map[col + row * map.width]).type != headerCell) return false;
+    return true;
+}
+
+export function setAttr(attrs, name, value) {
+    let result = {};
+    for (let prop in attrs) result[prop] = attrs[prop];
+    result[name] = value;
+    return result;
+}
+
+export function addRow(tr, { map, tableStart, table }, row) {
+    let rowPos = tableStart;
+    for (let i = 0; i < row; i++) rowPos += table.child(i).nodeSize;
+    let cells = [],
+        refRow = row > 0 ? -1 : 0;
+    if (rowIsHeader(map, table, row + refRow)) refRow = row == 0 || row == map.height ? null : 0;
+    for (let col = 0, index = map.width * row; col < map.width; col++, index++) {
+        // Covered by a rowspan cell
+        if (row > 0 && row < map.height && map.map[index] == map.map[index - map.width]) {
+            let pos = map.map[index],
+                attrs = table.nodeAt(pos).attrs;
+            tr.setNodeMarkup(tableStart + pos, null, setAttr(attrs, 'rowspan', attrs.rowspan + 1));
+            col += attrs.colspan - 1;
+        } else {
+            let type =
+                refRow == null
+                    ? tableNodeTypes(table.type.schema).cell
+                    : table.nodeAt(map.map[index + refRow * map.width]).type;
+            cells.push(type.createAndFill());
+        }
+    }
+    tr.insert(rowPos, tableNodeTypes(table.type.schema).row.create(null, cells));
+    return tr;
+}
+
+var filterCellsInRow = function filterCellsInRow(rowIndex, predicate) {
+    return function (tr) {
+        var foundCells = [];
+        var cells = getCellsInRow(rowIndex)(tr.selection);
+        if (cells) {
+            for (var j = cells.length - 1; j >= 0; j--) {
+                if (predicate(cells[j], tr)) {
+                    foundCells.push(cells[j]);
+                }
+            }
+        }
+
+        return foundCells;
+    };
+};
+
+function _toConsumableArray(arr) {
+    if (Array.isArray(arr)) {
+        for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+            arr2[i] = arr[i];
+        }
+        return arr2;
+    } else {
+        return Array.from(arr);
+    }
+}
+
+// :: (selection: Selection) → boolean
+// Checks if current selection is a `NodeSelection`.
+//
+// ```javascript
+// if (isNodeSelection(tr.selection)) {
+//   // ...
+// }
+// ```
+var isNodeSelection = function isNodeSelection(selection) {
+    return selection instanceof NodeSelection;
+};
+
+// :: (cell: {pos: number, start: number, node: ProseMirrorNode}, attrs: Object) → (tr: Transaction) → Transaction
+// Returns a new transaction that sets given `attrs` to a given `cell`.
+//
+// ```javascript
+// dispatch(
+//   setCellAttrs(findCellClosestToPos($pos), { background: 'blue' })(tr);
+// );
+// ```
+var setCellAttrs = function setCellAttrs(cell, attrs) {
+    return function (tr) {
+        if (cell) {
+            tr.setNodeMarkup(cell.pos, null, Object.assign({}, cell.node.attrs, attrs));
+            return cloneTr(tr);
+        }
+        return tr;
+    };
+};
+// :: (content: union<ProseMirrorNode, ProseMirrorFragment>) → (tr: Transaction) → Transaction
+// Returns a new transaction that replaces selected node with a given `node`, keeping NodeSelection on the new `node`.
+// It will return the original transaction if either current selection is not a NodeSelection or replacing is not possible.
+//
+// ```javascript
+// const node = schema.nodes.paragraph.createChecked({}, schema.text('new'));
+// dispatch(
+//   replaceSelectedNode(node)(tr)
+// );
+// ```
+var replaceSelectedNode = function replaceSelectedNode(content) {
+    return function (tr) {
+        if (isNodeSelection(tr.selection)) {
+            var _tr$selection = tr.selection,
+                $from = _tr$selection.$from,
+                $to = _tr$selection.$to;
+
+            if (
+                (content instanceof Fragment &&
+                    $from.parent.canReplace($from.index(), $from.indexAfter(), content)) ||
+                $from.parent.canReplaceWith($from.index(), $from.indexAfter(), content.type)
+            ) {
+                return cloneTr(
+                    tr
+                        .replaceWith($from.pos, $to.pos, content)
+                        // restore node selection
+                        .setSelection(new NodeSelection(tr.doc.resolve($from.pos)))
+                );
+            }
+        }
+        return tr;
+    };
+};
+// (node: ProseMirrorNode) → boolean
+// Checks if a given `node` is an empty paragraph
+var isEmptyParagraph = function isEmptyParagraph(node) {
+    return !node || (node.type.name === 'paragraph' && node.nodeSize === 2);
+};
+
+// (nodeType: union<NodeType, [NodeType]>) → boolean
+// Checks if the type a given `node` equals to a given `nodeType`.
+var equalNodeType = function equalNodeType(nodeType, node) {
+    return (Array.isArray(nodeType) && nodeType.indexOf(node.type) > -1) || node.type === nodeType;
+};
+// :: (nodeType: union<NodeType, [NodeType]>) → (selection: Selection) → ?{pos: number, start: number, depth: number, node: ProseMirrorNode}
+// Iterates over parent nodes, returning closest node of a given `nodeType`. `start` points to the start position of the node, `pos` points directly before the node.
+//
+// ```javascript
+// const parent = findParentNodeOfType(schema.nodes.paragraph)(selection);
+// ```
+var findParentNodeOfType = function findParentNodeOfType(nodeType) {
+    return function (selection) {
+        return findParentNode(function (node) {
+            return equalNodeType(nodeType, node);
+        })(selection);
+    };
+};
+
+// :: (position: number, dir: ?number) → (tr: Transaction) → Transaction
+// Returns a new transaction that tries to find a valid cursor selection starting at the given `position`
+// and searching back if `dir` is negative, and forward if positive.
+// If a valid cursor position hasn't been found, it will return the original transaction.
+//
+// ```javascript
+// dispatch(
+//   setTextSelection(5)(tr)
+// );
+// ```
+var setTextSelection = function setTextSelection(position, position2?) {
+    var dir = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+    return function (tr) {
+        var nextSelection = Selection.findFrom(tr.doc.resolve(position), dir, true);
+        if (nextSelection) {
+            return tr.setSelection(nextSelection);
+        }
+        return tr;
+    };
+};
+
+// ($pos: ResolvedPos, doc: ProseMirrorNode, content: union<ProseMirrorNode, Fragment>, ) → boolean
+// Checks if replacing a node at a given `$pos` inside of the `doc` node with the given `content` is possible.
+var canReplace = function canReplace($pos, content) {
+    var node = $pos.node($pos.depth);
+    return (
+        node &&
+        node.type.validContent(content instanceof Fragment ? content : Fragment.from(content))
+    );
+};
+
+// (position: number, content: union<ProseMirrorNode, Fragment>) → (tr: Transaction) → Transaction
+// Returns a `replace` transaction that replaces a node at a given position with the given `content`.
+// It will return the original transaction if replacing is not possible.
+// `position` should point at the position immediately before the node.
+var replaceNodeAtPos = function replaceNodeAtPos(position, content) {
+    return function (tr) {
+        var node = tr.doc.nodeAt(position);
+        var $pos = tr.doc.resolve(position);
+        if (canReplace($pos, content)) {
+            tr = tr.replaceWith(position, position + node.nodeSize, content);
+            var start = tr.selection.$from.pos - 1;
+            // put cursor inside of the inserted node
+            tr = setTextSelection(Math.max(start, 0), -1)(tr);
+            // move cursor to the start of the node
+            tr = setTextSelection(tr.selection.$from.start())(tr);
+            return cloneTr(tr);
+        }
+        return tr;
+    };
+};
+
+// :: (nodeType: union<NodeType, [NodeType]>, content: union<ProseMirrorNode, Fragment>) → (tr: Transaction) → Transaction
+// Returns a new transaction that replaces parent node of a given `nodeType` with the given `content`. It will return an original transaction if either parent node hasn't been found or replacing is not possible.
+//
+// ```javascript
+// const node = schema.nodes.paragraph.createChecked({}, schema.text('new'));
+//
+// dispatch(
+//  replaceParentNodeOfType(schema.nodes.table, node)(tr)
+// );
+// ```
+var replaceParentNodeOfType = function replaceParentNodeOfType(nodeType, content) {
+    return function (tr) {
+        if (!Array.isArray(nodeType)) {
+            nodeType = [nodeType];
+        }
+        for (var i = 0, count = nodeType.length; i < count; i++) {
+            var parent = findParentNodeOfType(nodeType[i])(tr.selection);
+            if (parent) {
+                var newTr = replaceNodeAtPos(parent.pos, content)(tr);
+                if (newTr !== tr) {
+                    return newTr;
+                }
+            }
+        }
+        return tr;
+    };
+};
+
+var isSelectableNode = function isSelectableNode(node) {
+    return node.type && node.type.spec.selectable;
+};
+
+var shouldSelectNode = function shouldSelectNode(node) {
+    return isSelectableNode(node) && node.type.isLeaf;
+};
+
+var setSelection = function setSelection(node, pos, tr) {
+    if (shouldSelectNode(node)) {
+        return tr.setSelection(new NodeSelection(tr.doc.resolve(pos)));
+    }
+    return setTextSelection(pos)(tr);
+};
+
+// :: ($pos: ResolvedPos, content: union<ProseMirrorNode, Fragment>) → boolean
+// Checks if a given `content` can be inserted at the given `$pos`
+//
+// ```javascript
+// const { selection: { $from } } = state;
+// const node = state.schema.nodes.atom.createChecked();
+// if (canInsert($from, node)) {
+//   // ...
+// }
+// ```
+var canInsert = function canInsert($pos, content) {
+    var index = $pos.index();
+
+    if (content instanceof Fragment) {
+        return $pos.parent.canReplace(index, index, content);
+    } else if (content instanceof Node) {
+        return $pos.parent.canReplaceWith(index, index, content.type);
+    }
+    return false;
+};
+
+// :: (content: union<ProseMirrorNode, Fragment>, position: ?number, tryToReplace?: boolean) → (tr: Transaction) → Transaction
+// Returns a new transaction that inserts a given `content` at the current cursor position, or at a given `position`, if it is allowed by schema. If schema restricts such nesting, it will try to find an appropriate place for a given node in the document, looping through parent nodes up until the root document node.
+// If `tryToReplace` is true and current selection is a NodeSelection, it will replace selected node with inserted content if its allowed by schema.
+// If cursor is inside of an empty paragraph, it will try to replace that paragraph with the given content. If insertion is successful and inserted node has content, it will set cursor inside of that content.
+// It will return an original transaction if the place for insertion hasn't been found.
+//
+// ```javascript
+// const node = schema.nodes.extension.createChecked({});
+// dispatch(
+//   safeInsert(node)(tr)
+// );
+// ```
+var safeInsert = function safeInsert(content, position, tryToReplace) {
+    return function (tr) {
+        var hasPosition = typeof position === 'number';
+        var $from = tr.selection.$from;
+
+        var $insertPos = hasPosition
+            ? tr.doc.resolve(position)
+            : isNodeSelection(tr.selection)
+            ? tr.doc.resolve($from.pos + 1)
+            : $from;
+        var parent = $insertPos.parent;
+
+        // try to replace selected node
+
+        if (isNodeSelection(tr.selection) && tryToReplace) {
+            var oldTr = tr;
+            tr = replaceSelectedNode(content)(tr);
+            if (oldTr !== tr) {
+                return tr;
+            }
+        }
+
+        // try to replace an empty paragraph
+        if (isEmptyParagraph(parent)) {
+            var _oldTr = tr;
+            tr = replaceParentNodeOfType(parent.type, content)(tr);
+            if (_oldTr !== tr) {
+                var pos = isSelectableNode(content) // for selectable node, selection position would be the position of the replaced parent
+                    ? $insertPos.before($insertPos.depth)
+                    : $insertPos.pos;
+                return setSelection(content, pos, tr);
+            }
+        }
+
+        // given node is allowed at the current cursor position
+        if (canInsert($insertPos, content)) {
+            tr.insert($insertPos.pos, content);
+            var _pos = hasPosition
+                ? $insertPos.pos
+                : isSelectableNode(content) // for atom nodes selection position after insertion is the previous pos
+                ? tr.selection.$anchor.pos - 1
+                : tr.selection.$anchor.pos;
+            return cloneTr(setSelection(content, _pos, tr));
+        }
+
+        // looking for a place in the doc where the node is allowed
+        for (var i = $insertPos.depth; i > 0; i--) {
+            var _pos2 = $insertPos.after(i);
+            var $pos = tr.doc.resolve(_pos2);
+            if (canInsert($pos, content)) {
+                tr.insert(_pos2, content);
+                return cloneTr(setSelection(content, _pos2, tr));
+            }
+        }
+        return tr;
+    };
+};
+
+// :: (cloneRowIndex: number) → (tr: Transaction) → Transaction
+// Returns a new transaction that adds a new row after `cloneRowIndex`, cloning the row attributes at `cloneRowIndex`.
+//
+// ```javascript
+// dispatch(
+//   cloneRowAt(i)(state.tr)
+// );
+// ```
+var cloneRowAt = function cloneRowAt(rowIndex) {
+    return function (tr) {
+        var table = findTable(tr.selection);
+        if (table) {
+            var map = TableMap.get(table.node);
+
+            if (rowIndex >= 0 && rowIndex <= map.height) {
+                var tableNode = table.node;
+                var tableNodes = tableNodeTypes(tableNode.type.schema);
+
+                var rowPos = table.start;
+                for (var i = 0; i < rowIndex + 1; i++) {
+                    rowPos += tableNode.child(i).nodeSize;
+                }
+
+                var cloneRow = tableNode.child(rowIndex);
+                // Re-create the same nodes with same attrs, dropping the node content.
+                var cells = [];
+                var rowWidth = 0;
+                cloneRow.forEach(function (cell) {
+                    // If we're copying a row with rowspan somewhere, we dont want to copy that cell
+                    // We'll increment its span below.
+                    if (cell.attrs.rowspan === 1) {
+                        rowWidth += cell.attrs.colspan;
+                        cells.push(
+                            tableNodes[cell.type.spec.tableRole].createAndFill(
+                                cell.attrs,
+                                cell.marks
+                            )
+                        );
+                    }
+                });
+
+                // If a higher row spans past our clone row, bump the higher row to cover this new row too.
+                if (rowWidth < map.width) {
+                    var rowSpanCells = [];
+
+                    var _loop = function _loop(_i) {
+                        var foundCells = filterCellsInRow(_i, function (cell, tr) {
+                            var rowspan = cell.node.attrs.rowspan;
+                            var spanRange = _i + rowspan;
+                            return rowspan > 1 && spanRange > rowIndex;
+                        })(tr);
+                        rowSpanCells.push.apply(rowSpanCells, _toConsumableArray(foundCells));
+                    };
+
+                    for (var _i = rowIndex; _i >= 0; _i--) {
+                        _loop(_i);
+                    }
+
+                    if (rowSpanCells.length) {
+                        rowSpanCells.forEach(function (cell) {
+                            tr = setCellAttrs(cell, {
+                                rowspan: cell.node.attrs.rowspan + 1
+                            })(tr);
+                        });
+                    }
+                }
+
+                return safeInsert(tableNodes.row.create(cloneRow.attrs, cells), rowPos, false)(tr);
+            }
+        }
+        return tr;
+    };
+};
+
+export function addRowAt(rowIndex, clonePreviousRow) {
+    return function (tr) {
+        var table = findTable(tr.selection);
+        if (table) {
+            var map = TableMap.get(table.node);
+            var cloneRowIndex = rowIndex - 1;
+
+            if (clonePreviousRow && cloneRowIndex >= 0) {
+                return cloneTr(cloneRowAt(cloneRowIndex)(tr));
+            }
+
+            if (rowIndex >= 0 && rowIndex <= map.height) {
+                return cloneTr(
+                    addRow(
+                        tr,
+                        {
+                            map: map,
+                            tableStart: table.start,
+                            table: table.node
+                        },
+                        rowIndex
+                    )
+                );
+            }
+        }
+        return tr;
+    };
+}
+
+export function addRowAtLast(tableNode, tr) {
+    if (tableNode) {
+        const map = TableMap.get(tableNode);
+        addRowAt(map.height, false)(tr);
+    }
 }
 
 export function select(type) {

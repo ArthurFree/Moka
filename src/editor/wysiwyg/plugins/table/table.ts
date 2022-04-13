@@ -2,6 +2,7 @@ import { Emitter } from '@editorType/event';
 import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import throttle from 'tui-code-snippet/tricks/throttle';
+import { addRowAtLast } from './utils';
 
 type ElementWithEvent = HTMLElement & { hasScrollEvent?: boolean | null };
 /* interface ElementWithEvent extends HTMLElement {
@@ -36,7 +37,7 @@ function handleTableScroll(element) {
     }
 }
 
-export function tablePlugin(eventEmitter: Emitter) {
+export function tablePlugin(eventEmitter: Emitter, editor) {
     return new Plugin({
         props: {
             decorations: (state) => {
@@ -93,10 +94,15 @@ export function tablePlugin(eventEmitter: Emitter) {
                         Decoration.widget(pos + 1, () => {
                             const columnAddbtn = document.createElement('div');
                             columnAddbtn.className = 'scrollable-add-row';
-                            columnAddbtn.addEventListener('mousedown', () => {
-                                console.log('---- command ----');
-                                eventEmitter.emit('command', 'addRowToDown');
-                            }, false);
+                            columnAddbtn.addEventListener(
+                                'mousedown',
+                                () => {
+                                    console.log('---- command ----');
+                                    // eventEmitter.emit('command', 'addRowToDown');
+                                    editor.view.dispatch(addRowAtLast(node, state.tr));
+                                },
+                                false
+                            );
                             return columnAddbtn;
                         })
                     );
