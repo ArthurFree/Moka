@@ -9,8 +9,6 @@
 // compute the start position of the table and offset positions passed
 // to or gotten from this structure by that amount.
 
-import { Node } from "prosemirror-model";
-
 let readFromCache, addToCache;
 // Prefer using a weak map to cache table maps. Fall back on a
 // fixed-size cache if that's not supported.
@@ -40,6 +38,7 @@ export class Rect {
     top: any;
     right: any;
     bottom: any;
+
     constructor(left, top, right, bottom) {
         this.left = left;
         this.top = top;
@@ -57,6 +56,7 @@ export class TableMap {
     height: any;
     map: any;
     problems: any;
+
     constructor(width, height, map, problems) {
         // :: number The width of the table
         this.width = width;
@@ -181,22 +181,38 @@ export class TableMap {
     // :: (Node) → TableMap
     // Find the table map for the given table node.
     static get(table) {
+        // 这里缓存的 key 是一个 ProsemirrorNode 所以采取了 Array 的方式缓存, 而不是 Map
         return readFromCache(table) || addToCache(table, computeMap(table));
     }
 }
 
 // Compute a table map.
+// 计算 table 中的每一个位置, 应该是由单元格的起始点组成的数组
 function computeMap(table) {
     if (table.type.spec.tableRole != 'table')
         throw new RangeError('Not a table node: ' + table.type.name);
     let width = findWidth(table),
+        // TODO: 这里的高度不准，table 的 childCount 是 thead 和 tbody 永远最多只有两个
         height = table.childCount;
     let map = [],
         mapPos = 0,
         problems = null,
         colWidths = [];
+    // 初始化 map
     for (let i = 0, e = width * height; i < e; i++) map[i] = 0;
 
+    // 常规无合并表格
+    //  ____________________________
+    // |      |      |      |      |
+    // |  A1  |  B1  |  C1  |  D1  |   row: 0
+    // |______|______|______|______|
+    // |      |      |      |      |
+    // |  A2  |  B2  |  C2  |  D2  |   row: 1
+    // |______|______|______|______|
+    // |      |      |      |      |
+    // |  A3  |  B3  |  C3  |  D3  |   row: 2
+    // |______|______|______|______|
+    //
     for (let row = 0, pos = 0; row < height; row++) {
         let rowNode = table.child(row);
 
@@ -206,11 +222,34 @@ function computeMap(table) {
         }
         pos++;
         for (let i = 0; ; i++) {
-            while (mapPos < map.length && map[mapPos] != 0) mapPos++;
+            // map.length 是表格的 width * height
+            while (mapPos < map.length && map[mapPos] != 0) {
+                mapPos++;
+            }
+            // 当 i 是 rowNode.childCount 时，代表当前行中的单元格已经遍历完成了
             if (i == rowNode.childCount) break;
             let cellNode = rowNode.child(i),
                 { colspan = 0, rowspan = 0, colwidth } = cellNode.attrs;
+
             for (let h = 0; h < (rowspan || 1); h++) {
+                // row - 当前行的行号
+                // rowspan - 单元格横跨了几行
+                // ```
+                //  ____________________________
+                // |      |      |             |
+                // |  A1  |  B1  |     C1      |
+                // |______|______|______ ______|
+                // |      |             |      |
+                // |  A2  |     B2      |      |
+                // |______|______ ______|      |
+                // |      |      |      |  D1  |
+                // |  A3  |  B3  |  C2  |      |
+                // |______|______|______|______|
+                // ```
+                // map: width = 3, height = 3
+                // D1: rowspan = 2
+                // 当 row = 2, i = 3, h = 0 -> 不会触发条件
+                // 当 row = 2, i = 3, h = 1 -> 触发条件 pos: 3, n: 2
                 if (h + row >= height) {
                     (problems || (problems = [])).push({
                         type: 'overlong_rowspan',
@@ -221,14 +260,17 @@ function computeMap(table) {
                 }
                 let start = mapPos + h * width;
                 for (let w = 0; w < (colspan || 1); w++) {
-                    if (map[start + w] == 0) map[start + w] = pos;
-                    else
+                    if (map[start + w] == 0) {
+                        map[start + w] = pos;
+                    } else {
                         (problems || (problems = [])).push({
                             type: 'collision',
                             row,
                             pos,
                             n: (colspan || 1) - w
                         });
+                    }
+
                     let colW = colwidth && colwidth[w];
                     if (colW) {
                         let widthIndex = ((start + w) % width) * 2,
@@ -265,10 +307,14 @@ function computeMap(table) {
     return tableMap;
 }
 
+// 获取表格的宽度
+// 处理了行合并，列合并的情况
 function findWidth(table) {
     let width = -1,
         hasRowSpan = false;
+    // 这里 table 的 childCount 是 thead 和 tbody
     for (let row = 0; row < table.childCount; row++) {
+        // 这里 rowNode 取到的是 thead / tbody
         let rowNode = table.child(row),
             rowWidth = 0;
 
@@ -276,24 +322,36 @@ function findWidth(table) {
             // 如果 rowNode 是 thead 则向下查找一次
             rowNode = rowNode.child(0);
         }
-        if (hasRowSpan)
+        // 这里初始是 false
+        // 第二行有合并单元格的在这里执行
+        if (hasRowSpan) {
+            // 遍历当前行之前的行元素
+            // j 是行数
             for (let j = 0; j < row; j++) {
                 let prevRow = table.child(j);
                 if (prevRow.type.name === 'tableHead' || prevRow.type.name === 'tableBody') {
                     // 如果 prevRow 是 thead 则向下查找一次
                     prevRow = prevRow.child(0);
                 }
+
+                // 遍历 tr 中的 th 或者 td
                 for (let i = 0; i < prevRow.childCount; i++) {
                     let cell = prevRow.child(i);
-                    if (j + (cell.attrs.rowspan || 0) > row) rowWidth += cell.attrs.colspan || 0;
+                    if (j + (cell.attrs.rowspan || 0) > row) {
+                        // 这里宽度算上了合并之前的单元格的宽度
+                        rowWidth += cell.attrs.colspan || 0;
+                    }
                 }
             }
+        }
+
         for (let i = 0; i < rowNode.childCount; i++) {
             let cell = rowNode.child(i);
             rowWidth += cell.attrs.colspan || 0;
             if ((cell.attrs.rowspan || 0) > 1) hasRowSpan = true;
         }
         if (width == -1) width = rowWidth;
+        // 按行遍历，对比行中单元格数多的，即是表格的宽度
         else if (width != rowWidth) width = Math.max(width, rowWidth);
     }
     return width;
