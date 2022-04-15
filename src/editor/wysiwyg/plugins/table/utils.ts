@@ -281,9 +281,27 @@ export function setAttr(attrs, name, value) {
     return result;
 }
 
+/**
+ * 新增行
+ * @param tr
+ * @param param1
+ * @param row 新增的行数
+ * @returns
+ */
 export function addRow(tr, { map, tableStart, table }, row) {
     let rowPos = tableStart;
-    for (let i = 0; i < row; i++) rowPos += table.child(i).nodeSize;
+    const theadNode = table.child(0);
+    const tbodyNode = table.child(1);
+
+    for (let i = 0; i < row; i++) {
+        if (i === 0 && theadNode) {
+            rowPos += theadNode.child(0).nodeSize;
+        } else if (tbodyNode) {
+            rowPos += tbodyNode.child(i - 1).nodeSize;
+        }
+
+        // rowPos += table.child(i).nodeSize;
+    }
     let cells = [],
         refRow = row > 0 ? -1 : 0;
     if (rowIsHeader(map, table, row + refRow)) refRow = row == 0 || row == map.height ? null : 0;
