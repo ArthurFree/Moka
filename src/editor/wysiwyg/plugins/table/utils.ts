@@ -687,6 +687,7 @@ export function addRowAt(rowIndex, clonePreviousRow) {
             var map = TableMap.get(table.node);
             var cloneRowIndex = rowIndex - 1;
 
+            // 是否克隆上一行
             if (clonePreviousRow && cloneRowIndex >= 0) {
                 return cloneTr(cloneRowAt(cloneRowIndex)(tr));
             }
