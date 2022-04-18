@@ -201,7 +201,7 @@ function computeMap(table) {
     // 初始化 map
     for (let i = 0, e = width * height; i < e; i++) map[i] = 0;
 
-    // 常规无合并表格
+    // 常规无合并表格 width = 4, height = 3
     //  ____________________________
     // |      |      |      |      |
     // |  A1  |  B1  |  C1  |  D1  |   row: 0
@@ -213,6 +213,20 @@ function computeMap(table) {
     // |  A3  |  B3  |  C3  |  D3  |   row: 2
     // |______|______|______|______|
     //
+    // DOM:
+    // <table>
+    //     <thead>
+    //         <tr>
+    //             <td></td>
+    //         </tr>
+    //     </thead>
+    //     <tbody>
+    //         <tr>
+    //             <td></td>
+    //         </tr>
+    //     </tbody>
+    // </table>
+
     for (let row = 0, pos = 0; row < height; row++) {
         let rowNode = table.child(row);
 
@@ -223,6 +237,7 @@ function computeMap(table) {
         pos++;
         for (let i = 0; ; i++) {
             // map.length 是表格的 width * height
+            // 初始 map 中均是 0
             while (mapPos < map.length && map[mapPos] != 0) {
                 mapPos++;
             }

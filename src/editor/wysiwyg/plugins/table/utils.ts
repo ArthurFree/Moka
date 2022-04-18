@@ -1,6 +1,6 @@
 import { findParentNode } from 'prosemirror-utils';
 import { NodeSelection, Selection } from 'prosemirror-state';
-import { Fragment, Node } from 'prosemirror-model';
+import { Fragment, Node, NodeType, Schema } from 'prosemirror-model';
 import CellSelection from '../selection/cellSelection';
 import { TableMap } from './TableMap';
 
@@ -254,23 +254,43 @@ export function isRowSelected(rowIndex) {
     };
 }
 
-export function tableNodeTypes(schema) {
+type roleType = 'table' | 'table_head' | 'table_body' | 'row' | 'header_cell' | 'cell';
+/**
+ * 生成以 tableRole 的值为 Key，节点的 NodeType 为 Value 的对象
+ * @param schema
+ * @returns
+ */
+export function tableNodeTypes(schema: Schema) {
+    // cached: 一个用于计算和缓存每个 schema 中的任何类型值的对象。（如果你想要在其上储存一些东西，要保证属性名不会冲突）
     let result = schema.cached.tableNodeTypes;
     if (!result) {
+        // 创建一个 tableNodeTypes 的对象
         result = schema.cached.tableNodeTypes = {};
+        // schema.nodes (Object<NodeType>) : 一个 schema 中节点名和节点类型对象的键值对映射。
         for (let name in schema.nodes) {
-            let type = schema.nodes[name],
-                role = type.spec.tableRole;
+            let type: NodeType = schema.nodes[name],
+                // role 包括: table / table_head / table_body / row / header_cell / cell
+                role: roleType = type.spec.tableRole;
             if (role) result[role] = type;
         }
     }
     return result;
 }
 
+/**
+ * 判断当前行是否是 thead 中的 th
+ * @param map
+ * @param table
+ * @param row
+ * @returns
+ */
 export function rowIsHeader(map, table, row) {
-    let headerCell = tableNodeTypes(table.type.schema).header_cell;
-    for (let col = 0; col < map.width; col++)
+    let headerCell: NodeType = tableNodeTypes(table.type.schema).header_cell;
+
+    for (let col = 0; col < map.width; col++) {
         if (table.nodeAt(map.map[col + row * map.width]).type != headerCell) return false;
+    }
+
     return true;
 }
 
@@ -304,16 +324,23 @@ export function addRow(tr, { map, tableStart, table }, row) {
     }
     let cells = [],
         refRow = row > 0 ? -1 : 0;
-    if (rowIsHeader(map, table, row + refRow)) refRow = row == 0 || row == map.height ? null : 0;
+    // 判断上一行是否是 th
+    if (rowIsHeader(map, table, row + refRow)) {
+        // 重置 refRow
+        refRow = row == 0 || row == map.height ? null : 0;
+    }
+
+    // index 从第 row 行开始，数 map.width 个格子
     for (let col = 0, index = map.width * row; col < map.width; col++, index++) {
         // Covered by a rowspan cell
+        // 处理行合并的情况
         if (row > 0 && row < map.height && map.map[index] == map.map[index - map.width]) {
             let pos = map.map[index],
                 attrs = table.nodeAt(pos).attrs;
             tr.setNodeMarkup(tableStart + pos, null, setAttr(attrs, 'rowspan', attrs.rowspan + 1));
             col += attrs.colspan - 1;
         } else {
-            let type =
+            let type: NodeType =
                 refRow == null
                     ? tableNodeTypes(table.type.schema).cell
                     : table.nodeAt(map.map[index + refRow * map.width]).type;
