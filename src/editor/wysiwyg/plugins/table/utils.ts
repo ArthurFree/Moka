@@ -288,7 +288,10 @@ export function rowIsHeader(map, table, row) {
     let headerCell: NodeType = tableNodeTypes(table.type.schema).header_cell;
 
     for (let col = 0; col < map.width; col++) {
-        if (table.nodeAt(map.map[col + row * map.width]).type != headerCell) return false;
+        const node = table.nodeAt(map.map[col + row * map.width]);
+        if (node && node.type != headerCell) {
+            return false;
+        }
     }
 
     return true;

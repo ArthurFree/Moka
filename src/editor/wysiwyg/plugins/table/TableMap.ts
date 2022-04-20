@@ -124,7 +124,7 @@ export class TableMap {
         const aRect = this.findCell(a);
         const bRect = this.findCell(b);
 
-        if (!aRect && !bRect) return null;
+        if (!aRect || !bRect) return null;
 
         let { left: leftA, right: rightA, top: topA, bottom: bottomA } = aRect;
         let { left: leftB, right: rightB, top: topB, bottom: bottomB } = bRect;
