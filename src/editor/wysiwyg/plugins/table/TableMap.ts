@@ -199,7 +199,9 @@ function computeMap(table) {
         problems = null,
         colWidths = [];
     // 初始化 map
-    for (let i = 0, e = width * height; i < e; i++) map[i] = 0;
+    for (let i = 0, e = width * height; i < e; i++) {
+        map[i] = 0;
+    }
 
     // 常规无合并表格 width = 4, height = 3
     //  ____________________________
