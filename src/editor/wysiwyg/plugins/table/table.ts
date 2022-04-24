@@ -99,6 +99,7 @@ export function tablePlugin(eventEmitter: Emitter, editor) {
                                 () => {
                                     console.log('---- command ----');
                                     // eventEmitter.emit('command', 'addRowToDown');
+                                    // debugger;
                                     editor.view.dispatch(addRowAtLast(node, state.tr));
                                 },
                                 false

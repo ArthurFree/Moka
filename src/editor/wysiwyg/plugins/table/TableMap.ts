@@ -189,6 +189,7 @@ export class TableMap {
 // Compute a table map.
 // 计算 table 中的每一个位置, 应该是由单元格的起始点组成的数组
 function computeMap(table) {
+    // debugger;
     if (table.type.spec.tableRole != 'table')
         throw new RangeError('Not a table node: ' + table.type.name);
     let width = findWidth(table),
@@ -217,14 +218,16 @@ function computeMap(table) {
     //
     // DOM:
     // <table>
-    //     <thead>
-    //         <tr>
-    //             <td></td>
+    //     0<thead>
+    //         1<tr>
+    //             2<th>3<p>4n5a6m7e8</p>9</th>
+    //             10<th>11<p>12t13y14p15e16</p>17</th>
+    //             18<th>19<p>20d21e22s23c24r25i26p27t28i29o30n31</p>32</th>
     //         </tr>
     //     </thead>
-    //     <tbody>
-    //         <tr>
-    //             <td></td>
+    //     110<tbody>
+    //         111<tr>
+    //             112<td>113<p>114e115l116</p>117</td>
     //         </tr>
     //     </tbody>
     // </table>
@@ -233,6 +236,14 @@ function computeMap(table) {
         let rowNode = table.child(row);
 
         if (rowNode.type.name === 'tableHead' || rowNode.type.name === 'tableBody') {
+            if (rowNode.type.name === 'tableHead') {
+                pos++;
+            }
+
+            if (rowNode.type.name === 'tableBody') {
+                pos += 2;
+            }
+
             // 如果 rowNode 是 thead 则向下查找一次
             rowNode = rowNode.child(0);
         }
@@ -311,6 +322,7 @@ function computeMap(table) {
         pos++;
     }
 
+    console.log('--- tablemap ---', map);
     let tableMap = new TableMap(width, height, map, problems),
         badWidths = false;
 

@@ -333,6 +333,8 @@ export function addRow(tr, { map, tableStart, table }, row) {
         refRow = row == 0 || row == map.height ? null : 0;
     }
 
+    // debugger;
+
     // index 从第 row 行开始，数 map.width 个格子
     for (let col = 0, index = map.width * row; col < map.width; col++, index++) {
         // Covered by a rowspan cell
@@ -762,7 +764,7 @@ export function addRowAt(rowIndex, clonePreviousRow) {
 export function addRowAtLast(tableNode, tr) {
     if (tableNode) {
         const map = TableMap.get(tableNode);
-        addRowAt(map.height, false)(tr);
+        return addRowAt(map.height, false)(tr);
     }
 }
 
