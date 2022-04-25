@@ -3,6 +3,7 @@ import { NodeSelection, Selection } from 'prosemirror-state';
 import { Fragment, Node, NodeType, Schema } from 'prosemirror-model';
 import CellSelection from '../selection/cellSelection';
 import { TableMap } from './TableMap';
+import { Table } from '@/markdown/marks/table';
 
 // :: (selection: Selection) → ?{pos: number, start: number, node: ProseMirrorNode}
 // Iterates over parent nodes, returning the closest table node.
@@ -764,6 +765,7 @@ export function addRowAt(rowIndex, clonePreviousRow) {
 export function addRowAtLast(tableNode, tr) {
     if (tableNode) {
         const map = TableMap.get(tableNode);
+        debugger;
         return addRowAt(map.height, false)(tr);
     }
 }

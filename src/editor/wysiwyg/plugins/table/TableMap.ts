@@ -184,17 +184,40 @@ export class TableMap {
         // 这里缓存的 key 是一个 ProsemirrorNode 所以采取了 Array 的方式缓存, 而不是 Map
         return readFromCache(table) || addToCache(table, computeMap(table));
     }
+
+    // :: (Node) -> TableMap
+    // 在新增/编辑行列时，更新 TableMap
+    static update(table) {
+        return addToCache(table, computeMap(table));
+    }
+}
+
+function findHeight(table) {
+    let height = 0;
+    for (let row = 0; row < table.childCount; row++) {
+        let rowNode = table.child(row);
+
+        if (rowNode.type.name === 'tableHead' && rowNode.childCount > 0) {
+            height++;
+        } else if (rowNode.type.name === 'tableBody') {
+            height += rowNode.childCount;
+        }
+    }
+
+    return height;
 }
 
 // Compute a table map.
 // 计算 table 中的每一个位置, 应该是由单元格的起始点组成的数组
 function computeMap(table) {
-    // debugger;
     if (table.type.spec.tableRole != 'table')
         throw new RangeError('Not a table node: ' + table.type.name);
     let width = findWidth(table),
-        // TODO: 这里的高度不准，table 的 childCount 是 thead 和 tbody 永远最多只有两个
-        height = table.childCount;
+        // ✅ TODO: 这里的高度不准，table 的 childCount 是 thead 和 tbody 永远最多只有两个
+        // height = table.childCount;
+        // TODO: 这里也许能与 findWidth 合并来减少循环
+        height = findHeight(table);
+    console.log('--- height ---', findHeight(table), height);
     let map = [],
         mapPos = 0,
         problems = null,
@@ -233,13 +256,20 @@ function computeMap(table) {
     // </table>
 
     for (let row = 0, pos = 0; row < height; row++) {
+        // 这里当行数大于2行时，table.childCount 永远是 2
         let rowNode = table.child(row);
 
+        if (row > 1) {
+            rowNode = table.child(1).child(row - 1);
+        }
+
         if (rowNode.type.name === 'tableHead' || rowNode.type.name === 'tableBody') {
+            // 多了一层 thead 标签, pos 需递增
             if (rowNode.type.name === 'tableHead') {
                 pos++;
             }
 
+            // 多了一个 thead 和 tbody，pos 递增
             if (rowNode.type.name === 'tableBody') {
                 pos += 2;
             }

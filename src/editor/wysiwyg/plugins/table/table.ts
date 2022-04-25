@@ -2,6 +2,7 @@ import { Emitter } from '@editorType/event';
 import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import throttle from 'tui-code-snippet/tricks/throttle';
+import { TableMap } from './TableMap';
 import { addRowAtLast } from './utils';
 
 type ElementWithEvent = HTMLElement & { hasScrollEvent?: boolean | null };
@@ -101,6 +102,7 @@ export function tablePlugin(eventEmitter: Emitter, editor) {
                                     // eventEmitter.emit('command', 'addRowToDown');
                                     // debugger;
                                     editor.view.dispatch(addRowAtLast(node, state.tr));
+                                    // TableMap.update(node);
                                 },
                                 false
                             );
