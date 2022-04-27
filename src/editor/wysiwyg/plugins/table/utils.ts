@@ -346,14 +346,16 @@ export function addRow(tr, { map, tableStart, table }, row) {
             tr.setNodeMarkup(tableStart + pos, null, setAttr(attrs, 'rowspan', attrs.rowspan + 1));
             col += attrs.colspan - 1;
         } else {
+            // debugger
             let type: NodeType =
                 refRow == null
                     ? tableNodeTypes(table.type.schema).cell
                     : table.nodeAt(map.map[index + refRow * map.width]).type;
-            cells.push(type.createAndFill());
+            cells.push(type.createAndFill({}, Fragment.empty));
         }
     }
-    tr.insert(rowPos, tableNodeTypes(table.type.schema).row.create(null, cells));
+    // debugger
+    tr.insert(rowPos, tableNodeTypes(table.type.schema).row.createAndFill(null, cells));
     return tr;
 }
 
@@ -765,7 +767,7 @@ export function addRowAt(rowIndex, clonePreviousRow) {
 export function addRowAtLast(tableNode, tr) {
     if (tableNode) {
         const map = TableMap.get(tableNode);
-        debugger;
+        // debugger;
         return addRowAt(map.height, false)(tr);
     }
 }

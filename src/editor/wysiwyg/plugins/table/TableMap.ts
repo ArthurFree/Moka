@@ -259,15 +259,13 @@ function computeMap(table) {
         // 这里当行数大于2行时，table.childCount 永远是 2
         let rowNode = table.child(row);
 
-        if (row > 1) {
-            rowNode = table.child(1).child(row - 1);
-        }
-
         if (rowNode.type.name === 'tableHead' || rowNode.type.name === 'tableBody') {
             // 多了一层 thead 标签, pos 需递增
             if (rowNode.type.name === 'tableHead') {
                 pos++;
             }
+
+            console.log('--- rowNode type name ---', rowNode.type.name);
 
             // 多了一个 thead 和 tbody，pos 递增
             if (rowNode.type.name === 'tableBody') {
@@ -276,6 +274,10 @@ function computeMap(table) {
 
             // 如果 rowNode 是 thead 则向下查找一次
             rowNode = rowNode.child(0);
+
+            if (row >= 1) {
+                rowNode = table.child(1).child(row - 1);
+            }
         }
         pos++;
         for (let i = 0; ; i++) {
