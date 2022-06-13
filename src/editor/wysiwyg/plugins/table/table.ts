@@ -3,7 +3,7 @@ import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import throttle from 'tui-code-snippet/tricks/throttle';
 import { TableMap } from './TableMap';
-import { addRowAtLast } from './utils';
+import { addRowAtLast, addRowAfter } from './utils';
 
 type ElementWithEvent = HTMLElement & { hasScrollEvent?: boolean | null };
 /* interface ElementWithEvent extends HTMLElement {
@@ -101,7 +101,8 @@ export function tablePlugin(eventEmitter: Emitter, editor) {
                                     console.log('---- command ----');
                                     // eventEmitter.emit('command', 'addRowToDown');
                                     // debugger;
-                                    editor.view.dispatch(addRowAtLast(node, state.tr));
+                                    // editor.view.dispatch(addRowAtLast(node, state.tr));
+                                    addRowAfter(state, editor.view.dispatch);
                                     // TableMap.update(node);
                                 },
                                 false

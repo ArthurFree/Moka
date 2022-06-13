@@ -772,6 +772,89 @@ export function addRowAtLast(tableNode, tr) {
     }
 }
 
+export function isInTable(state) {
+    const $head = state.selection.$head;
+    for (let d = $head.depth; d > 0; d--) {
+        if ($head.node(d).type.spec.tableRole === 'row') {
+            return true;
+        }
+    }
+    return false;
+}
+
+export function cellAround($pos) {
+    for (let d = $pos.depth - 1; d > 0; d--) {
+        if ($pos.node(d).type.spec.tableRole == 'row') {
+            return $pos.node(0).resolve($pos.before(d + 1));
+        }
+    }
+
+    return null;
+}
+
+export function cellNear($pos) {
+    for (let after = $pos.nodeAfter, pos = $pos.pos; after; after = after.firstChild, pos++) {
+        let role = after.type.spec.tableRole;
+
+        if (role == 'cell' || role == 'header_cell') {
+            return $pos.doc.resolve(pos);
+        }
+    }
+
+    for (let before = $pos.nodeBefore, pos = $pos.pos; before; before = before.lastChild, pos--) {
+        let role = before.type.spec.tableRole;
+
+        if (role == 'cell' || role == 'header_cell') {
+            return $pos.doc.resolve(pos - before.nodeSize);
+        }
+    }
+}
+
+export function selectionCell(state) {
+    let sel = state.selection;
+    if (sel.startCell) {
+        return sel.startCell.pos > sel.endCell.pos ? sel.startCell : sel.endCell;
+    } else if (sel.node && sel.node.type.spec.tableRole == 'cell') {
+        return sel.$anchor;
+    }
+
+    return cellAround(sel.$head) || cellNear(sel.$head);
+}
+
+export function selectedRect(state) {
+    let sel = state.selection;
+    let $pos = selectionCell(state);
+    let table = $pos.node(-1);
+    let tableStart = $pos.state(-1);
+    let map = TableMap.get(table);
+    let rect;
+
+    if (sel instanceof CellSelection) {
+        rect = map.rectBetween(sel.startCell.pos - tableStart, sel.endCell.pos - tableStart);
+    } else {
+        rect = map.findCell($pos.pos - tableStart);
+    }
+
+    rect.tableStart = tableStart;
+    rect.map = map;
+    rect.table = table;
+
+    return rect;
+}
+
+export function addRowAfter(state, dispatch) {
+    if (!isInTable(state)) {
+        return false;
+    }
+
+    if (dispatch) {
+        const rect = selectedRect(state);
+        dispatch(addRow(state.tr, rect, rect.bottom));
+    }
+
+    return true;
+}
+
 export function select(type) {
     return function (index, expand) {
         return function (tr) {
