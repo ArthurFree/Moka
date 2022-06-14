@@ -38,12 +38,18 @@ export class Rect {
     top: any;
     right: any;
     bottom: any;
+    table: any;
+    map: any;
+    tableStart: any;
 
     constructor(left, top, right, bottom) {
         this.left = left;
         this.top = top;
         this.right = right;
         this.bottom = bottom;
+        this.table = null;
+        this.map = null;
+        this.tableStart = null;
     }
 }
 

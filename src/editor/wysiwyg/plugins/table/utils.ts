@@ -1,6 +1,6 @@
 import { findParentNode } from 'prosemirror-utils';
 import { NodeSelection, Selection } from 'prosemirror-state';
-import { Fragment, Node, NodeType, Schema } from 'prosemirror-model';
+import { Fragment, Node as pmNode, NodeType, Schema } from 'prosemirror-model';
 import CellSelection from '../selection/cellSelection';
 import { TableMap } from './TableMap';
 import { Table } from '@/markdown/marks/table';
@@ -824,8 +824,8 @@ export function selectionCell(state) {
 export function selectedRect(state) {
     let sel = state.selection;
     let $pos = selectionCell(state);
-    let table = $pos.node(-1);
-    let tableStart = $pos.state(-1);
+    let table = $pos.node(-2);
+    let tableStart = $pos.start(-2);
     let map = TableMap.get(table);
     let rect;
 
@@ -846,6 +846,8 @@ export function addRowAfter(state, dispatch) {
     if (!isInTable(state)) {
         return false;
     }
+
+    debugger;
 
     if (dispatch) {
         const rect = selectedRect(state);
