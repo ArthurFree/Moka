@@ -584,7 +584,7 @@ function canInsert($pos, content) {
 
     if (content instanceof Fragment) {
         return $pos.parent.canReplace(index, index, content);
-    } else if (content instanceof Node) {
+    } else if (content instanceof pmNode) {
         return $pos.parent.canReplaceWith(index, index, content.type);
     }
     return false;
