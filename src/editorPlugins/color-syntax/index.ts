@@ -137,7 +137,7 @@ export default function colorSyntaxPlugin(
                     const mark = schema.marks.span.create(attrs);
 
                     tr.addMark(from, to, mark);
-                    dispatch!(tr);
+                    dispatch(tr);
 
                     return true;
                 }
