@@ -98,9 +98,7 @@ export function tablePlugin(eventEmitter: Emitter, editor) {
                             columnAddbtn.addEventListener(
                                 'mousedown',
                                 () => {
-                                    console.log('---- command ----');
                                     // eventEmitter.emit('command', 'addRowToDown');
-                                    // debugger;
                                     // editor.view.dispatch(addRowAtLast(node, state.tr));
                                     addRowAfter(state, editor.view.dispatch);
                                     // TableMap.update(node);

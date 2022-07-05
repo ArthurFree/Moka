@@ -334,8 +334,6 @@ export function addRow(tr, { map, tableStart, table }, row) {
         refRow = row == 0 || row == map.height ? null : 0;
     }
 
-    // debugger;
-
     // index 从第 row 行开始，数 map.width 个格子
     for (let col = 0, index = map.width * row; col < map.width; col++, index++) {
         // Covered by a rowspan cell
@@ -346,7 +344,6 @@ export function addRow(tr, { map, tableStart, table }, row) {
             tr.setNodeMarkup(tableStart + pos, null, setAttr(attrs, 'rowspan', attrs.rowspan + 1));
             col += attrs.colspan - 1;
         } else {
-            // debugger
             let type: NodeType =
                 refRow == null
                     ? tableNodeTypes(table.type.schema).cell
@@ -354,7 +351,6 @@ export function addRow(tr, { map, tableStart, table }, row) {
             cells.push(type.createAndFill({}, Fragment.empty));
         }
     }
-    // debugger
     tr.insert(rowPos, tableNodeTypes(table.type.schema).row.createAndFill(null, cells));
     return tr;
 }
@@ -767,7 +763,6 @@ export function addRowAt(rowIndex, clonePreviousRow) {
 export function addRowAtLast(tableNode, tr) {
     if (tableNode) {
         const map = TableMap.get(tableNode);
-        // debugger;
         return addRowAt(map.height, false)(tr);
     }
 }
@@ -846,8 +841,6 @@ export function addRowAfter(state, dispatch) {
     if (!isInTable(state)) {
         return false;
     }
-
-    debugger;
 
     if (dispatch) {
         const rect = selectedRect(state);

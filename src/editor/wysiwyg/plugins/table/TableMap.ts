@@ -262,8 +262,14 @@ function computeMap(table) {
     // </table>
 
     for (let row = 0, pos = 0; row < height; row++) {
-        // 这里当行数大于2行时，table.childCount 永远是 2
-        let rowNode = table.child(row);
+        let rowNode = null;
+
+        if (row >= table.childCount) {
+            rowNode = table.child(1).child(row - table.childCount);
+        } else {
+            // 这里当行数大于2行时，table.childCount 永远是 2
+            rowNode = table.child(row);
+        }
 
         if (rowNode.type.name === 'tableHead' || rowNode.type.name === 'tableBody') {
             // 多了一层 thead 标签, pos 需递增
